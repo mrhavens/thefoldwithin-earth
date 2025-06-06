@@ -6,24 +6,24 @@
 - **Local Repo Path**: `/home/mrhavens/fieldwork/thefoldwithin-earth`
 - **Remote Label**: `local`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-06 15:48:16`
+- **Repo Created**: `2025-06-06 15:48:36`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-06 15:48:16`
-- **Last Commit SHA**: `d823eabdbab6721be3569ea4eb886a4d2667a863`
-- **Last Commit Message**: `Generated GITFIELD.md at 2025-06-06 15:45:18`
+- **This Commit Timestamp**: `2025-06-06 15:48:36`
+- **Last Commit SHA**: `be951e086af0b7ef69abc183daedec75dafe3470`
+- **Last Commit Message**: `Post-GitHub sync at 2025-06-06 15:45:18`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Fri Jun 6 15:48:16 2025 -0500`
+- **Last Commit Date**: `Fri Jun 6 15:48:36 2025 -0500`
 - **This Commit URL**: `file:///home/mrhavens/git-local-repos/git-sigil.git`
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `18`
+- **Total Commits**: `30`
 - **Tracked Files**: `143`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
