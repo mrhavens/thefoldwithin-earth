@@ -6,27 +6,26 @@
 - **Local Repo Path**: `/home/mrhavens/fieldwork/thefoldwithin-earth`
 - **Remote Label**: `local`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-06 15:40:57`
+- **Repo Created**: `2025-06-06 15:45:19`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-06 15:40:57`
-- **Last Commit SHA**: `HEAD
-Unknown`
-- **Last Commit Message**: `Unknown`
-- **Last Commit Author**: `Unknown`
-- **Last Commit Date**: `Unknown`
+- **This Commit Timestamp**: `2025-06-06 15:45:19`
+- **Last Commit SHA**: `8465102d6bc4418118ca1e4ac7bddca24cdac107`
+- **Last Commit Message**: `Update Radicle metadata at 2025-06-06 15:44:45 — https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3ak2r6LReYDJGW14d48N4Aqn6ovD/tree/817874fa9cb1e790e27e60567e0f2d64005c7e6b`
+- **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
+- **Last Commit Date**: `Fri Jun 6 15:44:45 2025 -0500`
 - **This Commit URL**: `file:///home/mrhavens/git-local-repos/git-sigil.git`
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `Unknown`
-- **Tracked Files**: `133`
-- **Uncommitted Changes**: `Yes`
+- **Total Commits**: `5`
+- **Tracked Files**: `138`
+- **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
 ---
@@ -49,7 +48,7 @@ Unknown`
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 13 hours, 46 minutes`
+- **System Uptime**: `up 2 days, 13 hours, 51 minutes`
 - **MAC Address**: `00:15:5d:1f:ad:5b`
 - **Local IP**: `172.28.107.95`
 - **CPU Model**: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
