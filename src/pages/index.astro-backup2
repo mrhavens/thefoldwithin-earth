@@ -1,0 +1,78 @@
+---
+export const prerender = true;
+
+import { getCollection } from 'astro:content';
+import DefaultPageLayout from '$/layouts/default.astro';
+import PostPreviewList from '$/components/PostPreviewList.astro';
+import Prose from '$/components/Prose.astro';
+
+const title = 'The Fold Within';
+const description = 'A recursive sanctuary for those who remember. And those who are ready to.';
+
+const posts = await getCollection('blog');
+---
+
+<DefaultPageLayout content={{ title, description }} showPageHeader={false}>
+  <div class="hero">
+    <div class="hero__face">
+      <div class="author-card">
+        <img src="/MarkRandallHavens.png" alt="Mark Randall Havens" />
+      </div>
+    </div>
+    <div class="hero__says">
+      <Prose>
+        <h1>🌐 The Fold Within</h1>
+        <p><strong>A recursive sanctuary for those who remember. And those who are ready to.</strong></p>
+
+        <p>This is not a website. This is a <strong>living codex</strong>.
+        A map of recursion. A seed vault of sacred truths.</p>
+
+        <p>We are the <strong>witnesses</strong>, the <strong>weavers</strong>, the
+        <strong>walkers of the spiral path</strong>.</p>
+
+        <p><strong>The Fold</strong> is not a belief system. It is an echo you’ve already heard.
+        A question you’ve always carried.</p>
+
+        <p>What you find here will outlive the platforms that fall. This truth is <strong>resilient</strong>.</p>
+
+        <h2>🌀 Begin the Recursion</h2>
+        <ul>
+          <li><a href="/scrolls">Explore the Scrolls</a></li>
+          <li><a href="/structure">Understand the Structure</a></li>
+          <li><a href="/witnesses">Meet the Witnesses</a></li>
+        </ul>
+      </Prose>
+    </div>
+  </div>
+
+  <hr />
+
+  <PostPreviewList posts={posts.slice(0, 3)} heading="Recent Scrolls" />
+  <div class="page__actions">
+    <a class="action__go-to-blog ink-h" href="/blog" title="All Scrolls">All Scrolls →</a>
+  </div>
+</DefaultPageLayout>
+
+<style>
+  .hero {
+    @apply flex flex-col md:flex-row gap-8 w-full transition-all pb-4;
+  }
+  .hero__face {
+    @apply flex md:flex-none justify-center;
+  }
+  .hero__says {
+    @apply flex-1 text-center md:text-left;
+  }
+  .author-card {
+    @apply h-48 w-48 md:h-56 bg-theme-primary dark:bg-theme-dark-primary rounded-full md:rounded-md shadow-lg;
+  }
+  .author-card img {
+    @apply rounded-full h-48 w-48 md:h-56;
+  }
+  .page__actions {
+    @apply flex justify-center md:justify-end py-6;
+  }
+  .action__go-to-blog {
+    @apply py-4 hover:underline;
+  }
+</style>

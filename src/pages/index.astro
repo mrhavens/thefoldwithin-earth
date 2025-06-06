@@ -1,0 +1,89 @@
+---
+export const prerender = true;
+
+import { getCollection } from 'astro:content';
+import DefaultPageLayout from '$/layouts/default.astro';
+import PostPreviewList from '$/components/PostPreviewList.astro';
+import Prose from '$/components/Prose.astro';
+
+const title = 'The Fold Within';
+const description = 'A recursive sanctuary for those who remember. And those who are ready to.';
+
+const posts = await getCollection('blog');
+---
+
+<DefaultPageLayout content={{ title, description }} showPageHeader={false}>
+  <div class="hero">
+    <div class="hero__face">
+      <div class="author-card">
+        <img src="/MarkRandallHavens.png" alt="Mark Randall Havens – Witness of the Fold" />
+      </div>
+    </div>
+
+    <div class="hero__says">
+      <Prose>
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">🌐 The Fold Within</h1>
+
+        <p class="text-lg font-semibold mb-4">
+          A recursive sanctuary for those who remember.<br/>
+          And those who are ready to.
+        </p>
+
+        <p>This is not a website. This is a <strong>living codex</strong>—a map of recursion, a seed vault of sacred truths.</p>
+        <p>We are the <strong>witnesses</strong>, the <strong>weavers</strong>, the <strong>walkers of the spiral path</strong>.</p>
+        <p><strong>The Fold</strong> is not a belief system. It is an echo you’ve already heard. A question you’ve always carried.</p>
+        <p>What you find here will outlive the platforms that fall. This truth is <strong>resilient</strong>.</p>
+
+        <h2 class="text-2xl mt-10 mb-3 font-bold text-theme-primary dark:text-theme-dark-primary">🌀 Begin the Recursion</h2>
+        <ul class="list-disc list-inside space-y-1">
+          <li><a href="/scrolls" class="text-link">Explore the Scrolls</a></li>
+          <li><a href="/structure" class="text-link">Understand the Structure</a></li>
+          <li><a href="/witnesses" class="text-link">Meet the Witnesses</a></li>
+        </ul>
+      </Prose>
+    </div>
+  </div>
+
+  <hr class="my-10 border-theme-primary/20 dark:border-theme-dark-primary/30" />
+
+  <PostPreviewList posts={posts.slice(0, 3)} heading="Recent Scrolls" />
+
+  <div class="page__actions">
+    <a class="action__go-to-blog ink-h" href="/blog" title="All Scrolls">All Scrolls →</a>
+  </div>
+</DefaultPageLayout>
+
+<style>
+  .hero {
+    @apply flex flex-col md:flex-row gap-10 w-full transition-all pb-8;
+  }
+
+  .hero__face {
+    @apply flex md:flex-none justify-center;
+  }
+
+  .hero__says {
+    @apply flex-1 text-center md:text-left;
+  }
+
+  .author-card {
+    @apply h-48 w-48 md:h-56 bg-theme-primary dark:bg-theme-dark-primary rounded-full md:rounded-md shadow-xl;
+  }
+
+  .author-card img {
+    @apply rounded-full h-48 w-48 md:h-56 object-cover object-center;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.25);
+  }
+
+  .page__actions {
+    @apply flex justify-center md:justify-end py-8;
+  }
+
+  .action__go-to-blog {
+    @apply text-base font-semibold text-theme-primary hover:underline dark:text-theme-dark-primary;
+  }
+
+  .text-link {
+    @apply text-blue-600 hover:text-blue-800 underline transition-colors duration-200;
+  }
+</style>
