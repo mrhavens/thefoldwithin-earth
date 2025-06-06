@@ -6,25 +6,25 @@
 - **Local Repo Path**: `/home/mrhavens/fieldwork/thefoldwithin-earth`
 - **Remote Label**: `github`
 - **Default Branch**: `master`
-- **This Commit Date**: `2025-06-06 15:41:09`
+- **This Commit Date**: `2025-06-06 15:48:15`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-06 15:41:09`
-- **Last Commit SHA**: `b548318725c344dde5a54c417305c2d798adf587`
-- **Last Commit Message**: `Local metadata link commit at 2025-06-06 15:40:57 — file:///home/mrhavens/git-local-repos/git-sigil.git`
+- **This Commit Timestamp**: `2025-06-06 15:48:15`
+- **Last Commit SHA**: `37d641b6a91823f4f621d07ea42cde62db25959e`
+- **Last Commit Message**: `Post-Bitbucket sync at 2025-06-06 15:45:18`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Fri Jun 6 15:40:57 2025 -0500`
-- **This Commit URL**: [https://github.com/mrhavens/thefoldwithin-earth/commit/b548318725c344dde5a54c417305c2d798adf587](https://github.com/mrhavens/thefoldwithin-earth/commit/b548318725c344dde5a54c417305c2d798adf587)
+- **Last Commit Date**: `Fri Jun 6 15:48:12 2025 -0500`
+- **This Commit URL**: [https://github.com/mrhavens/thefoldwithin-earth/commit/37d641b6a91823f4f621d07ea42cde62db25959e](https://github.com/mrhavens/thefoldwithin-earth/commit/37d641b6a91823f4f621d07ea42cde62db25959e)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `1`
-- **Tracked Files**: `134`
+- **Total Commits**: `15`
+- **Tracked Files**: `142`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
@@ -48,7 +48,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 13 hours, 47 minutes`
+- **System Uptime**: `up 2 days, 13 hours, 54 minutes`
 - **MAC Address**: `00:15:5d:1f:ad:5b`
 - **Local IP**: `172.28.107.95`
 - **CPU Model**: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
