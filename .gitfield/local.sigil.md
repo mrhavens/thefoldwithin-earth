@@ -6,26 +6,26 @@
 - **Local Repo Path**: `/home/mrhavens/fieldwork/thefoldwithin-earth`
 - **Remote Label**: `local`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-06 15:48:36`
+- **Repo Created**: `2025-06-06 16:06:02`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-06 15:48:36`
-- **Last Commit SHA**: `be951e086af0b7ef69abc183daedec75dafe3470`
-- **Last Commit Message**: `Post-GitHub sync at 2025-06-06 15:45:18`
+- **This Commit Timestamp**: `2025-06-06 16:06:02`
+- **Last Commit SHA**: `aab094a6946ffb46aab30c7934430d7315cecf64`
+- **Last Commit Message**: `GitHub metadata link commit at 2025-06-06 15:59:17 — https://github.com/mrhavens/thefoldwithin-earth/commit/c365fdb54c9f53d2b687341fb45adac000cefa3f`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Fri Jun 6 15:48:36 2025 -0500`
+- **Last Commit Date**: `Fri Jun 6 15:59:17 2025 -0500`
 - **This Commit URL**: `file:///home/mrhavens/git-local-repos/git-sigil.git`
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `30`
+- **Total Commits**: `43`
 - **Tracked Files**: `143`
-- **Uncommitted Changes**: `No`
+- **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
 
 ---
@@ -48,7 +48,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 13 hours, 54 minutes`
+- **System Uptime**: `up 2 days, 14 hours, 12 minutes`
 - **MAC Address**: `00:15:5d:1f:ad:5b`
 - **Local IP**: `172.28.107.95`
 - **CPU Model**: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
