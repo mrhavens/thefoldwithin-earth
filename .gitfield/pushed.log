@@ -34,3 +34,6 @@
 [2025-06-06 16:06:18] Bitbucket: https://bitbucket.org/thefoldwithin/thefoldwithin-earth
 [2025-06-06 16:06:23] GitHub: https://github.com/mrhavens/thefoldwithin-earth
 [2025-06-06 16:06:24] Local: 
+[2025-06-06 16:06:24] Radicle: RID=rad:z3FEj7rF8gZw9eFksCuiN43qjzrex, Peer ID=z6Mkw5s3ppo26C7y7tGK5MD8n2GqTHS582PPpeX5Xqbu2Mpz
+  CLI: rad inspect rad:z3FEj7rF8gZw9eFksCuiN43qjzrex # View project details
+  CLI: git ls-tree -r --name-only HEAD # View file structure
