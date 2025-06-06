@@ -6,25 +6,25 @@
 - **Local Repo Path**: `/home/mrhavens/fieldwork/thefoldwithin-earth`
 - **Remote Label**: `gitlab`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-06 15:41:54`
+- **Repo Created**: `2025-06-06 15:48:02`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-06 15:41:54`
-- **This Commit SHA**: `e5bedf0ce3708bb1422dc26e350f6345743c608a`
-- **Last Commit Message**: `GitHub metadata link commit at 2025-06-06 15:41:09 — https://github.com/mrhavens/thefoldwithin-earth/commit/b548318725c344dde5a54c417305c2d798adf587`
+- **This Commit Timestamp**: `2025-06-06 15:48:02`
+- **This Commit SHA**: `557f97e8b99c19d381d33f12635806e93630e47e`
+- **Last Commit Message**: `Post-Forgejo sync at 2025-06-06 15:45:18`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Fri Jun 6 15:41:09 2025 -0500`
-- **This Commit URL**: [https://gitlab.com/mrhavens/thefoldwithin-earth/-/commit/e5bedf0ce3708bb1422dc26e350f6345743c608a](https://gitlab.com/mrhavens/thefoldwithin-earth/-/commit/e5bedf0ce3708bb1422dc26e350f6345743c608a)
+- **Last Commit Date**: `Fri Jun 6 15:47:58 2025 -0500`
+- **This Commit URL**: [https://gitlab.com/mrhavens/thefoldwithin-earth/-/commit/557f97e8b99c19d381d33f12635806e93630e47e](https://gitlab.com/mrhavens/thefoldwithin-earth/-/commit/557f97e8b99c19d381d33f12635806e93630e47e)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `2`
-- **Tracked Files**: `135`
+- **Total Commits**: `11`
+- **Tracked Files**: `142`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
@@ -48,7 +48,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 13 hours, 47 minutes`
+- **System Uptime**: `up 2 days, 13 hours, 54 minutes`
 - **MAC Address**: `00:15:5d:1f:ad:5b`
 - **Local IP**: `172.28.107.95`
 - **CPU Model**: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
