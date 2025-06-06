@@ -2,27 +2,27 @@
 
 - **Project Name**: `thefoldwithin-earth`
 - **Radicle URN**: `rad://z3ak2r6LReYDJGW14d48N4Aqn6ovD`
-- **Public Gateway**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3ak2r6LReYDJGW14d48N4Aqn6ovD/tree/d86c782b2fb37b576ed272716a06e771d584de77](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3ak2r6LReYDJGW14d48N4Aqn6ovD/tree/d86c782b2fb37b576ed272716a06e771d584de77)
+- **Public Gateway**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3ak2r6LReYDJGW14d48N4Aqn6ovD/tree/b51eeac065740e1d339c801f27d866de980d3730](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3ak2r6LReYDJGW14d48N4Aqn6ovD/tree/b51eeac065740e1d339c801f27d866de980d3730)
 - **Local Repo Path**: `/home/mrhavens/fieldwork/thefoldwithin-earth`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-06 16:06:24`
+- **Repo Created**: `2025-06-06 16:06:44`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-06 16:06:24`
-- **Last Commit SHA**: `d86c782b2fb37b576ed272716a06e771d584de77`
+- **This Commit Timestamp**: `2025-06-06 16:06:44`
+- **Last Commit SHA**: `b51eeac065740e1d339c801f27d866de980d3730`
 - **Last Commit Message**: `Post-Local sync at 2025-06-06 16:06:02`
 - **Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Commit Date**: `Fri Jun 6 16:06:24 2025 -0500`
-- **This Commit URL**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3ak2r6LReYDJGW14d48N4Aqn6ovD/tree/d86c782b2fb37b576ed272716a06e771d584de77](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3ak2r6LReYDJGW14d48N4Aqn6ovD/tree/d86c782b2fb37b576ed272716a06e771d584de77)
+- **Commit Date**: `Fri Jun 6 16:06:44 2025 -0500`
+- **This Commit URL**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3ak2r6LReYDJGW14d48N4Aqn6ovD/tree/b51eeac065740e1d339c801f27d866de980d3730](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3ak2r6LReYDJGW14d48N4Aqn6ovD/tree/b51eeac065740e1d339c801f27d866de980d3730)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `58`
+- **Total Commits**: `70`
 - **Tracked Files**: `143`
 - **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
