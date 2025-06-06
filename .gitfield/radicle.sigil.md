@@ -2,27 +2,27 @@
 
 - **Project Name**: `thefoldwithin-earth`
 - **Radicle URN**: `rad://z3ak2r6LReYDJGW14d48N4Aqn6ovD`
-- **Public Gateway**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3ak2r6LReYDJGW14d48N4Aqn6ovD/tree/c3a23a0a1a30f6cce1bc9a7e6ab81277e46ec3fe](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3ak2r6LReYDJGW14d48N4Aqn6ovD/tree/c3a23a0a1a30f6cce1bc9a7e6ab81277e46ec3fe)
+- **Public Gateway**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3ak2r6LReYDJGW14d48N4Aqn6ovD/tree/baeff595a9d339a2d586914694b2f0fc36a56d8a](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3ak2r6LReYDJGW14d48N4Aqn6ovD/tree/baeff595a9d339a2d586914694b2f0fc36a56d8a)
 - **Local Repo Path**: `/home/mrhavens/fieldwork/thefoldwithin-earth`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-06 15:48:36`
+- **Repo Created**: `2025-06-06 16:06:02`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-06 15:48:36`
-- **Last Commit SHA**: `c3a23a0a1a30f6cce1bc9a7e6ab81277e46ec3fe`
-- **Last Commit Message**: `Post-Local sync at 2025-06-06 15:45:18`
+- **This Commit Timestamp**: `2025-06-06 16:06:02`
+- **Last Commit SHA**: `baeff595a9d339a2d586914694b2f0fc36a56d8a`
+- **Last Commit Message**: `Post-Local sync at 2025-06-06 16:06:02`
 - **Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Commit Date**: `Fri Jun 6 15:48:36 2025 -0500`
-- **This Commit URL**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3ak2r6LReYDJGW14d48N4Aqn6ovD/tree/c3a23a0a1a30f6cce1bc9a7e6ab81277e46ec3fe](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3ak2r6LReYDJGW14d48N4Aqn6ovD/tree/c3a23a0a1a30f6cce1bc9a7e6ab81277e46ec3fe)
+- **Commit Date**: `Fri Jun 6 16:06:02 2025 -0500`
+- **This Commit URL**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3ak2r6LReYDJGW14d48N4Aqn6ovD/tree/baeff595a9d339a2d586914694b2f0fc36a56d8a](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3ak2r6LReYDJGW14d48N4Aqn6ovD/tree/baeff595a9d339a2d586914694b2f0fc36a56d8a)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `32`
+- **Total Commits**: `45`
 - **Tracked Files**: `143`
 - **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
@@ -47,7 +47,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 13 hours, 54 minutes`
+- **System Uptime**: `up 2 days, 14 hours, 12 minutes`
 - **MAC Address**: `00:15:5d:1f:ad:5b`
 - **Local IP**: `172.28.107.95`
 - **CPU Model**: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
