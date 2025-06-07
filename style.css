@@ -1,0 +1,64 @@
+:root {
+  --bg: #0e0e0e;
+  --fg: #f9f9f9;
+  --gold: #d4af37;
+  --muted: #999;
+  font-size: 16px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Segoe UI', sans-serif;
+  line-height: 1.7;
+  padding: 2rem;
+  max-width: 70ch;
+  margin: auto;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.logo {
+  font-size: 2rem;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+}
+
+.tagline {
+  font-style: italic;
+  color: var(--muted);
+  margin-top: 0.3rem;
+}
+
+.intro {
+  margin-bottom: 3rem;
+  font-size: 1.1rem;
+  color: var(--muted);
+}
+
+.entries article {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--muted);
+}
+
+.entries article h2 {
+  color: var(--gold);
+  margin-bottom: 0.3rem;
+}
+
+footer {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-top: 4rem;
+}
