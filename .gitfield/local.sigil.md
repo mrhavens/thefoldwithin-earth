@@ -6,25 +6,25 @@
 - **Local Repo Path**: `/home/mrhavens/fieldwork/thefoldwithin-earth`
 - **Remote Label**: `local`
 - **Default Branch**: `master`
-- **Repo Created**: `2025-06-06 20:16:12`
+- **Repo Created**: `2025-06-06 20:16:13`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-06 20:16:12`
-- **Last Commit SHA**: `5401ac287ab32ff969b3429a37b79ad02cdc62d0`
-- **Last Commit Message**: `💥 Wipe old stack, replace with clean static blog engine`
+- **This Commit Timestamp**: `2025-06-06 20:16:13`
+- **Last Commit SHA**: `55236fbb2a3f465f4c045d77aa89325c29d339e5`
+- **Last Commit Message**: `Local metadata link commit at 2025-06-06 20:16:12 — file:///home/mrhavens/git-local-repos/git-sigil.git`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Fri Jun 6 20:15:48 2025 -0500`
+- **Last Commit Date**: `Fri Jun 6 20:16:12 2025 -0500`
 - **This Commit URL**: `file:///home/mrhavens/git-local-repos/git-sigil.git`
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `1`
-- **Tracked Files**: `27`
+- **Total Commits**: `2`
+- **Tracked Files**: `28`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
