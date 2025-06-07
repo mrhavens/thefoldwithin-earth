@@ -5,26 +5,26 @@
 - **Remote URL**: [https://github.com/mrhavens/thefoldwithin-earth](https://github.com/mrhavens/thefoldwithin-earth)
 - **Local Repo Path**: `/home/mrhavens/fieldwork/thefoldwithin-earth`
 - **Remote Label**: `github`
-- **Default Branch**: `master`
-- **This Commit Date**: `2025-06-06 20:16:45`
+- **Default Branch**: `main`
+- **This Commit Date**: `2025-06-06 20:19:30`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-06 20:16:45`
-- **Last Commit SHA**: `046347be1979eefc21f8c65c37d42895b1e1b464`
-- **Last Commit Message**: `Local metadata link commit at 2025-06-06 20:16:13 — file:///home/mrhavens/git-local-repos/git-sigil.git`
+- **This Commit Timestamp**: `2025-06-06 20:19:30`
+- **Last Commit SHA**: `612cf28f407101678a543bb40620cb1331467745`
+- **Last Commit Message**: `Bitbucket metadata link commit at 2025-06-06 20:19:13 — https://bitbucket.org/thefoldwithin/thefoldwithin-earth/commits/3748761b7c10856a8d6f28428c8d01da8de946e1`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Fri Jun 6 20:16:13 2025 -0500`
-- **This Commit URL**: [https://github.com/mrhavens/thefoldwithin-earth/commit/046347be1979eefc21f8c65c37d42895b1e1b464](https://github.com/mrhavens/thefoldwithin-earth/commit/046347be1979eefc21f8c65c37d42895b1e1b464)
+- **Last Commit Date**: `Fri Jun 6 20:19:13 2025 -0500`
+- **This Commit URL**: [https://github.com/mrhavens/thefoldwithin-earth/commit/612cf28f407101678a543bb40620cb1331467745](https://github.com/mrhavens/thefoldwithin-earth/commit/612cf28f407101678a543bb40620cb1331467745)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `3`
-- **Tracked Files**: `28`
+- **Total Commits**: `5`
+- **Tracked Files**: `30`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
@@ -48,7 +48,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 18 hours, 22 minutes`
+- **System Uptime**: `up 2 days, 18 hours, 25 minutes`
 - **MAC Address**: `00:15:5d:1f:ad:5b`
 - **Local IP**: `172.28.107.95`
 - **CPU Model**: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
