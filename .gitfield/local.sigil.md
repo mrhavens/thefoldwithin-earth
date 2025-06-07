@@ -5,26 +5,26 @@
 - **Remote URL**: `file:///home/mrhavens/git-local-repos/git-sigil.git`
 - **Local Repo Path**: `/home/mrhavens/fieldwork/thefoldwithin-earth`
 - **Remote Label**: `local`
-- **Default Branch**: `master`
-- **Repo Created**: `2025-06-06 20:16:13`
+- **Default Branch**: `main`
+- **Repo Created**: `2025-06-06 20:19:45`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-06 20:16:13`
-- **Last Commit SHA**: `55236fbb2a3f465f4c045d77aa89325c29d339e5`
-- **Last Commit Message**: `Local metadata link commit at 2025-06-06 20:16:12 — file:///home/mrhavens/git-local-repos/git-sigil.git`
+- **This Commit Timestamp**: `2025-06-06 20:19:45`
+- **Last Commit SHA**: `4c3c020a9da47979b557a40925b1120ea9041b06`
+- **Last Commit Message**: `GitLab metadata link commit at 2025-06-06 20:19:38 — https://gitlab.com/mrhavens/thefoldwithin-earth/-/commit/bba30272dd4a69d240290affcc2bca876a2a060f`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Fri Jun 6 20:16:12 2025 -0500`
+- **Last Commit Date**: `Fri Jun 6 20:19:38 2025 -0500`
 - **This Commit URL**: `file:///home/mrhavens/git-local-repos/git-sigil.git`
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `2`
-- **Tracked Files**: `28`
+- **Total Commits**: `7`
+- **Tracked Files**: `31`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
@@ -48,7 +48,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 18 hours, 22 minutes`
+- **System Uptime**: `up 2 days, 18 hours, 25 minutes`
 - **MAC Address**: `00:15:5d:1f:ad:5b`
 - **Local IP**: `172.28.107.95`
 - **CPU Model**: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
