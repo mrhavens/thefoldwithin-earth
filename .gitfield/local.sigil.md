@@ -3,36 +3,36 @@
 - **Repo Name**: `thefoldwithin-earth`
 - **Local User**: `mrhavens`
 - **Remote URL**: `file:///home/mrhavens/git-local-repos/git-sigil.git`
-- **Local Repo Path**: `/home/mrhavens/fieldwork/thefoldwithin-earth`
+- **Local Repo Path**: `/home/mrhavens/thefoldwithin-earth`
 - **Remote Label**: `local`
 - **Default Branch**: `main`
-- **Repo Created**: `2025-06-06 20:19:45`
+- **Repo Created**: `2025-06-08 05:45:25`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-06 20:19:45`
-- **Last Commit SHA**: `4c3c020a9da47979b557a40925b1120ea9041b06`
-- **Last Commit Message**: `GitLab metadata link commit at 2025-06-06 20:19:38 — https://gitlab.com/mrhavens/thefoldwithin-earth/-/commit/bba30272dd4a69d240290affcc2bca876a2a060f`
+- **This Commit Timestamp**: `2025-06-08 05:45:25`
+- **Last Commit SHA**: `65bd76ba6f4cd200898fc2b61d6583782ad0f568`
+- **Last Commit Message**: `GitHub metadata link commit at 2025-06-06 20:39:12 — https://github.com/mrhavens/thefoldwithin-earth/commit/cb7e2d38be01e5c5e9dd0aa48ebbac43c141c5eb`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Fri Jun 6 20:19:38 2025 -0500`
+- **Last Commit Date**: `Fri Jun 6 20:39:12 2025 -0500`
 - **This Commit URL**: `file:///home/mrhavens/git-local-repos/git-sigil.git`
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `7`
-- **Tracked Files**: `31`
-- **Uncommitted Changes**: `No`
+- **Total Commits**: `12`
+- **Tracked Files**: `35`
+- **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
 
 ---
 
 ## 🧭 Environment
 
-- **Host Machine**: `samson`
+- **Host Machine**: `DESKTOP-E5SGI58`
 - **Current User**: `mrhavens`
 - **Time Zone**: `CDT`
 - **Script Version**: `v1.0`
@@ -42,17 +42,17 @@
 ## 🧬 Hardware & OS Fingerprint
 
 - **OS Name**: `Linux`
-- **OS Version**: `Ubuntu 22.04.5 LTS`
-- **Kernel Version**: `6.6.87.1-microsoft-standard-WSL2`
+- **OS Version**: `Ubuntu 24.04.2 LTS`
+- **Kernel Version**: `5.15.167.4-microsoft-standard-WSL2`
 - **Architecture**: `x86_64`
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 18 hours, 25 minutes`
-- **MAC Address**: `00:15:5d:1f:ad:5b`
-- **Local IP**: `172.28.107.95`
-- **CPU Model**: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
-- **Total RAM (GB)**: `23.44`
+- **System Uptime**: `up 2 days, 2 hours, 58 minutes`
+- **MAC Address**: `00:15:5d:86:d8:cc`
+- **Local IP**: `172.18.207.124`
+- **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
+- **Total RAM (GB)**: `3.63`
 
 ---
 
