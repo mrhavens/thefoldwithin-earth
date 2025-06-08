@@ -1,0 +1,138 @@
+/* styles.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #0f0d0e; /* near-black */
+  color: #d4af37; /* gold */
+  font-family: 'Georgia', serif;
+  line-height: 1.6;
+}
+
+a {
+  color: #d4af37;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  text-shadow: 0 0 5px #d4af37;
+}
+
+header {
+  padding: 2rem;
+  text-align: center;
+  border-bottom: 1px solid #333;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+nav .logo {
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  padding: 0;
+  margin: 0;
+}
+
+nav li {
+  font-size: 0.9rem;
+}
+
+.hero {
+  margin: 3rem auto;
+  text-align: center;
+}
+
+.glyph {
+  margin: 0 auto 1.5rem;
+  width: 100px;
+  height: 100px;
+  border: 2px solid #d4af37;
+  border-radius: 50%;
+  position: relative;
+}
+
+.glyph::before {
+  content: '';
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  width: 50px;
+  height: 50px;
+  border: 2px solid #d4af37;
+  transform: rotate(45deg);
+}
+
+.hero h1 {
+  font-size: 2rem;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.cta {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1.5rem;
+  border: 1px solid #d4af37;
+  font-size: 1rem;
+}
+
+main {
+  padding: 2rem;
+}
+
+.latest h2 {
+  text-align: left;
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  border-top: 1px solid #333;
+  padding-top: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+article {
+  background-color: #1a1618;
+  padding: 1rem;
+  border: 1px solid #333;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+article:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.thumb {
+  width: 100%;
+  height: 140px;
+  background-color: #333;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+.date {
+  font-size: 0.8rem;
+  color: #b89f50;
+  margin-bottom: 0.5rem;
+}
