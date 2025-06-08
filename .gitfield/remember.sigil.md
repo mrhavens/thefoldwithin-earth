@@ -3,28 +3,28 @@
 - **Repo Name**: `thefoldwithin-earth`
 - **Forgejo User**: `mrhavens`
 - **Remote URL**: [https://remember.thefoldwithin.earth/mrhavens/thefoldwithin-earth](https://remember.thefoldwithin.earth/mrhavens/thefoldwithin-earth)
-- **Local Repo Path**: `/home/mrhavens/fieldwork/thefoldwithin-earth`
+- **Local Repo Path**: `/home/mrhavens/thefoldwithin-earth`
 - **Remote Label**: `remember`
 - **Default Branch**: `main`
-- **Repo Created**: `2025-06-06 20:20:46`
+- **Repo Created**: `2025-06-08 05:45:30`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-06 20:20:46`
-- **Last Commit SHA**: `7af230d8a751d94ccd5755eff509f49bfabc113a`
-- **Last Commit Message**: `Update Radicle metadata at 2025-06-06 20:20:13 — https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z3axHit8RE7o13nPNYdyug3TEeQ1Y/tree/286fbc691af974ed868f3b0442c1d0da7a406d2b`
+- **This Commit Timestamp**: `2025-06-08 05:45:30`
+- **Last Commit SHA**: `62bed6ee9612b95c2730ad68e58be83831eee4ac`
+- **Last Commit Message**: `Post-Radicle sync at 2025-06-08 05:45:25`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Fri Jun 6 20:20:13 2025 -0500`
-- **This Commit URL**: [https://remember.thefoldwithin.earth/mrhavens/thefoldwithin-earth/commit/7af230d8a751d94ccd5755eff509f49bfabc113a](https://remember.thefoldwithin.earth/mrhavens/thefoldwithin-earth/commit/7af230d8a751d94ccd5755eff509f49bfabc113a)
+- **Last Commit Date**: `Sun Jun 8 05:45:29 2025 -0500`
+- **This Commit URL**: [https://remember.thefoldwithin.earth/mrhavens/thefoldwithin-earth/commit/62bed6ee9612b95c2730ad68e58be83831eee4ac](https://remember.thefoldwithin.earth/mrhavens/thefoldwithin-earth/commit/62bed6ee9612b95c2730ad68e58be83831eee4ac)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `9`
-- **Tracked Files**: `32`
+- **Total Commits**: `15`
+- **Tracked Files**: `36`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
@@ -32,7 +32,7 @@
 
 ## 🧭 Environment
 
-- **Host Machine**: `samson`
+- **Host Machine**: `DESKTOP-E5SGI58`
 - **Current User**: `mrhavens`
 - **Time Zone**: `CDT`
 - **Script Version**: `1.0`
@@ -42,17 +42,17 @@
 ## 🧬 Hardware & OS Fingerprint
 
 - **OS Name**: `Linux`
-- **OS Version**: `Ubuntu 22.04.5 LTS`
-- **Kernel Version**: `6.6.87.1-microsoft-standard-WSL2`
+- **OS Version**: `Ubuntu 24.04.2 LTS`
+- **Kernel Version**: `5.15.167.4-microsoft-standard-WSL2`
 - **Architecture**: `x86_64`
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 18 hours, 26 minutes`
-- **MAC Address**: `00:15:5d:1f:ad:5b`
-- **Local IP**: `172.28.107.95`
-- **CPU Model**: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
-- **Total RAM (GB)**: `23.44`
+- **System Uptime**: `up 2 days, 2 hours, 58 minutes`
+- **MAC Address**: `00:15:5d:86:d8:cc`
+- **Local IP**: `172.18.207.124`
+- **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
+- **Total RAM (GB)**: `3.63`
 
 ---
 
