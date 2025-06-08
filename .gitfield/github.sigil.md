@@ -3,28 +3,28 @@
 - **Repo Name**: `thefoldwithin-earth`
 - **GitHub User**: `mrhavens`
 - **Remote URL**: [https://github.com/mrhavens/thefoldwithin-earth](https://github.com/mrhavens/thefoldwithin-earth)
-- **Local Repo Path**: `/home/mrhavens/fieldwork/thefoldwithin-earth`
+- **Local Repo Path**: `/home/mrhavens/thefoldwithin-earth`
 - **Remote Label**: `github`
 - **Default Branch**: `main`
-- **This Commit Date**: `2025-06-06 20:39:12`
+- **This Commit Date**: `2025-06-08 05:46:08`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-06 20:39:12`
-- **Last Commit SHA**: `cb7e2d38be01e5c5e9dd0aa48ebbac43c141c5eb`
-- **Last Commit Message**: `begining fresh with our own everything`
+- **This Commit Timestamp**: `2025-06-08 05:46:08`
+- **Last Commit SHA**: `4fa1665ba4e2b60a075d061bb200f2be03e8b4fa`
+- **Last Commit Message**: `Post-Bitbucket sync at 2025-06-08 05:45:25`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Fri Jun 6 20:38:51 2025 -0500`
-- **This Commit URL**: [https://github.com/mrhavens/thefoldwithin-earth/commit/cb7e2d38be01e5c5e9dd0aa48ebbac43c141c5eb](https://github.com/mrhavens/thefoldwithin-earth/commit/cb7e2d38be01e5c5e9dd0aa48ebbac43c141c5eb)
+- **Last Commit Date**: `Sun Jun 8 05:45:56 2025 -0500`
+- **This Commit URL**: [https://github.com/mrhavens/thefoldwithin-earth/commit/4fa1665ba4e2b60a075d061bb200f2be03e8b4fa](https://github.com/mrhavens/thefoldwithin-earth/commit/4fa1665ba4e2b60a075d061bb200f2be03e8b4fa)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `11`
-- **Tracked Files**: `35`
+- **Total Commits**: `21`
+- **Tracked Files**: `36`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
@@ -32,7 +32,7 @@
 
 ## 🧭 Environment
 
-- **Host Machine**: `samson`
+- **Host Machine**: `DESKTOP-E5SGI58`
 - **Current User**: `mrhavens`
 - **Time Zone**: `CDT`
 - **Script Version**: `v1.0`
@@ -42,17 +42,17 @@
 ## 🧬 Hardware & OS Fingerprint
 
 - **OS Name**: `Linux`
-- **OS Version**: `Ubuntu 22.04.5 LTS`
-- **Kernel Version**: `6.6.87.1-microsoft-standard-WSL2`
+- **OS Version**: `Ubuntu 24.04.2 LTS`
+- **Kernel Version**: `5.15.167.4-microsoft-standard-WSL2`
 - **Architecture**: `x86_64`
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 18 hours, 45 minutes`
-- **MAC Address**: `00:15:5d:1f:ad:5b`
-- **Local IP**: `172.28.107.95`
-- **CPU Model**: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
-- **Total RAM (GB)**: `23.44`
+- **System Uptime**: `up 2 days, 2 hours, 59 minutes`
+- **MAC Address**: `00:15:5d:86:d8:cc`
+- **Local IP**: `172.18.207.124`
+- **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
+- **Total RAM (GB)**: `3.63`
 
 ---
 
