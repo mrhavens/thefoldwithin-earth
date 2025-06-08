@@ -3,28 +3,28 @@
 - **Repo Name**: `thefoldwithin-earth`
 - **Bitbucket Workspace**: `thefoldwithin`
 - **Remote URL**: [https://bitbucket.org/thefoldwithin/thefoldwithin-earth](https://bitbucket.org/thefoldwithin/thefoldwithin-earth)
-- **Local Repo Path**: `/home/mrhavens/fieldwork/thefoldwithin-earth`
+- **Local Repo Path**: `/home/mrhavens/thefoldwithin-earth`
 - **Remote Label**: `bitbucket`
 - **Default Branch**: `main`
-- **This Commit Date**: `2025-06-06 20:19:13`
+- **This Commit Date**: `2025-06-08 05:45:55`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-06 20:19:13`
-- **Last Commit SHA**: `3748761b7c10856a8d6f28428c8d01da8de946e1`
-- **Last Commit Message**: `GitHub metadata link commit at 2025-06-06 20:16:45 — https://github.com/mrhavens/thefoldwithin-earth/commit/046347be1979eefc21f8c65c37d42895b1e1b464`
+- **This Commit Timestamp**: `2025-06-08 05:45:55`
+- **Last Commit SHA**: `17ae3a1c33fc027f992d9391f16d7cd32e7d909f`
+- **Last Commit Message**: `Post-GitLab sync at 2025-06-08 05:45:25`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Fri Jun 6 20:16:45 2025 -0500`
-- **This Commit URL**: [https://bitbucket.org/thefoldwithin/thefoldwithin-earth/commits/3748761b7c10856a8d6f28428c8d01da8de946e1](https://bitbucket.org/thefoldwithin/thefoldwithin-earth/commits/3748761b7c10856a8d6f28428c8d01da8de946e1)
+- **Last Commit Date**: `Sun Jun 8 05:45:44 2025 -0500`
+- **This Commit URL**: [https://bitbucket.org/thefoldwithin/thefoldwithin-earth/commits/17ae3a1c33fc027f992d9391f16d7cd32e7d909f](https://bitbucket.org/thefoldwithin/thefoldwithin-earth/commits/17ae3a1c33fc027f992d9391f16d7cd32e7d909f)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `4`
-- **Tracked Files**: `29`
+- **Total Commits**: `19`
+- **Tracked Files**: `36`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
@@ -32,7 +32,7 @@
 
 ## 🧭 Environment
 
-- **Host Machine**: `samson`
+- **Host Machine**: `DESKTOP-E5SGI58`
 - **Current User**: `mrhavens`
 - **Time Zone**: `CDT`
 - **Script Version**: `v1.0`
@@ -42,17 +42,17 @@
 ## 🧬 Hardware & OS Fingerprint
 
 - **OS Name**: `Linux`
-- **OS Version**: `Ubuntu 22.04.5 LTS`
-- **Kernel Version**: `6.6.87.1-microsoft-standard-WSL2`
+- **OS Version**: `Ubuntu 24.04.2 LTS`
+- **Kernel Version**: `5.15.167.4-microsoft-standard-WSL2`
 - **Architecture**: `x86_64`
-- **CPU Model**: `Intel(R) Core(TM) i7-7700K CPU @ 4.20GHz`
-- **Total RAM (GB)**: `23.44`
-- **MAC Address**: `00:15:5d:1f:ad:5b`
-- **Local IP**: `172.28.107.95`
+- **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
+- **Total RAM (GB)**: `3.63`
+- **MAC Address**: `00:15:5d:86:d8:cc`
+- **Local IP**: `172.18.207.124`
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 18 hours, 25 minutes`
+- **System Uptime**: `up 2 days, 2 hours, 59 minutes`
 
 ---
 
