@@ -6,24 +6,24 @@
 - **Local Repo Path**: `/home/mrhavens/fieldcraft/thefoldwithin-earth`
 - **Remote Label**: `local`
 - **Default Branch**: `main`
-- **Repo Created**: `2025-06-09 15:11:24`
+- **Repo Created**: `2025-06-09 15:16:22`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-09 15:11:24`
-- **Last Commit SHA**: `0c60734e1c598a804a85b362d92b8ea8d4413944`
-- **Last Commit Message**: `Generated GITFIELD.md at 2025-06-09 15:10:06`
+- **This Commit Timestamp**: `2025-06-09 15:16:22`
+- **Last Commit SHA**: `33ebb52c8442cbb5c743bf3d279a7d3d6cab5a53`
+- **Last Commit Message**: `Post-GitHub sync at 2025-06-09 15:10:06`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Mon Jun 9 15:11:24 2025 -0500`
+- **Last Commit Date**: `Mon Jun 9 15:16:22 2025 -0500`
 - **This Commit URL**: `file:///home/mrhavens/git-local-repos/git-sigil.git`
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `141`
+- **Total Commits**: `156`
 - **Tracked Files**: `39`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
@@ -48,7 +48,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 53 minutes`
+- **System Uptime**: `up 58 minutes`
 - **MAC Address**: `00:15:5d:70:e2:68`
 - **Local IP**: `172.18.207.124`
 - **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
