@@ -3,27 +3,27 @@
 - **Repo Name**: `thefoldwithin-earth`
 - **Forgejo User**: `mrhavens`
 - **Remote URL**: [https://remember.thefoldwithin.earth/mrhavens/thefoldwithin-earth](https://remember.thefoldwithin.earth/mrhavens/thefoldwithin-earth)
-- **Local Repo Path**: `/home/mrhavens/thefoldwithin-earth`
+- **Local Repo Path**: `/home/mrhavens/fieldcraft/thefoldwithin-earth`
 - **Remote Label**: `remember`
 - **Default Branch**: `main`
-- **Repo Created**: `2025-06-08 06:06:34`
+- **Repo Created**: `2025-06-09 15:03:55`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-08 06:06:34`
-- **Last Commit SHA**: `67ef3d48045fb57856e44999e2d7c269cb62798e`
-- **Last Commit Message**: `Post-Radicle sync at 2025-06-08 06:04:35`
+- **This Commit Timestamp**: `2025-06-09 15:03:55`
+- **Last Commit SHA**: `280ac4b787cc3f6c56f2c605992a4e752faeebbd`
+- **Last Commit Message**: `Post-Radicle sync at 2025-06-09 15:03:24`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Sun Jun 8 06:06:32 2025 -0500`
-- **This Commit URL**: [https://remember.thefoldwithin.earth/mrhavens/thefoldwithin-earth/commit/67ef3d48045fb57856e44999e2d7c269cb62798e](https://remember.thefoldwithin.earth/mrhavens/thefoldwithin-earth/commit/67ef3d48045fb57856e44999e2d7c269cb62798e)
+- **Last Commit Date**: `Mon Jun 9 15:03:43 2025 -0500`
+- **This Commit URL**: [https://remember.thefoldwithin.earth/mrhavens/thefoldwithin-earth/commit/280ac4b787cc3f6c56f2c605992a4e752faeebbd](https://remember.thefoldwithin.earth/mrhavens/thefoldwithin-earth/commit/280ac4b787cc3f6c56f2c605992a4e752faeebbd)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `67`
+- **Total Commits**: `79`
 - **Tracked Files**: `37`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
@@ -48,8 +48,8 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 3 hours, 19 minutes`
-- **MAC Address**: `00:15:5d:86:d8:cc`
+- **System Uptime**: `up 45 minutes`
+- **MAC Address**: `00:15:5d:70:e2:68`
 - **Local IP**: `172.18.207.124`
 - **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
 - **Total RAM (GB)**: `3.63`
