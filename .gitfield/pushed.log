@@ -80,3 +80,4 @@
   CLI: rad inspect rad:z3FEj7rF8gZw9eFksCuiN43qjzrex # View project details
   CLI: git ls-tree -r --name-only HEAD # View file structure
 [2025-06-09 15:10:30] Forgejo: https://remember.thefoldwithin.earth/mrhavens/thefoldwithin-earth
+[2025-06-09 15:10:38] Codeberg: https://codeberg.org/mrhavens/thefoldwithin-earth
