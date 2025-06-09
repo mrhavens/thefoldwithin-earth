@@ -2,27 +2,27 @@
 
 - **Project Name**: `thefoldwithin-earth`
 - **Radicle URN**: `rad://z2AYCTxoxtVoirgozxH8qLpWBUyAs`
-- **Public Gateway**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z2AYCTxoxtVoirgozxH8qLpWBUyAs/tree/232d8663104638f75334f2697a6fd6ecffc35f0d](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z2AYCTxoxtVoirgozxH8qLpWBUyAs/tree/232d8663104638f75334f2697a6fd6ecffc35f0d)
+- **Public Gateway**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z2AYCTxoxtVoirgozxH8qLpWBUyAs/tree/83ad123855161d6d09bdab68c3468f74e7e510d3](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z2AYCTxoxtVoirgozxH8qLpWBUyAs/tree/83ad123855161d6d09bdab68c3468f74e7e510d3)
 - **Local Repo Path**: `/home/mrhavens/fieldcraft/thefoldwithin-earth`
 - **Default Branch**: `main`
-- **Repo Created**: `2025-06-09 15:07:14`
+- **Repo Created**: `2025-06-09 15:10:16`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-09 15:07:14`
-- **Last Commit SHA**: `232d8663104638f75334f2697a6fd6ecffc35f0d`
-- **Last Commit Message**: `Post-Local sync at 2025-06-09 15:03:24`
+- **This Commit Timestamp**: `2025-06-09 15:10:16`
+- **Last Commit SHA**: `83ad123855161d6d09bdab68c3468f74e7e510d3`
+- **Last Commit Message**: `Post-Local sync at 2025-06-09 15:10:06`
 - **Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Commit Date**: `Mon Jun 9 15:07:05 2025 -0500`
-- **This Commit URL**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z2AYCTxoxtVoirgozxH8qLpWBUyAs/tree/232d8663104638f75334f2697a6fd6ecffc35f0d](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z2AYCTxoxtVoirgozxH8qLpWBUyAs/tree/232d8663104638f75334f2697a6fd6ecffc35f0d)
+- **Commit Date**: `Mon Jun 9 15:10:07 2025 -0500`
+- **This Commit URL**: [https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z2AYCTxoxtVoirgozxH8qLpWBUyAs/tree/83ad123855161d6d09bdab68c3468f74e7e510d3](https://app.radicle.xyz/nodes/ash.radicle.garden/rad:z2AYCTxoxtVoirgozxH8qLpWBUyAs/tree/83ad123855161d6d09bdab68c3468f74e7e510d3)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `110`
+- **Total Commits**: `126`
 - **Tracked Files**: `39`
 - **Uncommitted Changes**: `Yes`
 - **Latest Tag**: `None`
@@ -47,7 +47,7 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 48 minutes`
+- **System Uptime**: `up 52 minutes`
 - **MAC Address**: `00:15:5d:70:e2:68`
 - **Local IP**: `172.18.207.124`
 - **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
