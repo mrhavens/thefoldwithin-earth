@@ -3,28 +3,28 @@
 - **Repo Name**: `thefoldwithin-earth`
 - **GitHub User**: `mrhavens`
 - **Remote URL**: [https://github.com/mrhavens/thefoldwithin-earth](https://github.com/mrhavens/thefoldwithin-earth)
-- **Local Repo Path**: `/home/mrhavens/thefoldwithin-earth`
+- **Local Repo Path**: `/home/mrhavens/fieldcraft/thefoldwithin-earth`
 - **Remote Label**: `github`
 - **Default Branch**: `main`
-- **This Commit Date**: `2025-06-08 06:07:12`
+- **This Commit Date**: `2025-06-09 15:05:40`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-08 06:07:12`
-- **Last Commit SHA**: `d0a37ecf225720390dcf5d0d7e69ed7f3241cc11`
-- **Last Commit Message**: `Post-Bitbucket sync at 2025-06-08 06:04:35`
+- **This Commit Timestamp**: `2025-06-09 15:05:40`
+- **Last Commit SHA**: `43fcfb6af6de0b2f776aacb63800b5c3c4364a03`
+- **Last Commit Message**: `Post-Bitbucket sync at 2025-06-09 15:03:24`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Sun Jun 8 06:07:02 2025 -0500`
-- **This Commit URL**: [https://github.com/mrhavens/thefoldwithin-earth/commit/d0a37ecf225720390dcf5d0d7e69ed7f3241cc11](https://github.com/mrhavens/thefoldwithin-earth/commit/d0a37ecf225720390dcf5d0d7e69ed7f3241cc11)
+- **Last Commit Date**: `Mon Jun 9 15:05:21 2025 -0500`
+- **This Commit URL**: [https://github.com/mrhavens/thefoldwithin-earth/commit/43fcfb6af6de0b2f776aacb63800b5c3c4364a03](https://github.com/mrhavens/thefoldwithin-earth/commit/43fcfb6af6de0b2f776aacb63800b5c3c4364a03)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `73`
-- **Tracked Files**: `37`
+- **Total Commits**: `89`
+- **Tracked Files**: `39`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
@@ -48,8 +48,8 @@
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 3 hours, 20 minutes`
-- **MAC Address**: `00:15:5d:86:d8:cc`
+- **System Uptime**: `up 47 minutes`
+- **MAC Address**: `00:15:5d:70:e2:68`
 - **Local IP**: `172.18.207.124`
 - **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
 - **Total RAM (GB)**: `3.63`
