@@ -3,28 +3,28 @@
 - **Repo Name**: `thefoldwithin-earth`
 - **Bitbucket Workspace**: `thefoldwithin`
 - **Remote URL**: [https://bitbucket.org/thefoldwithin/thefoldwithin-earth](https://bitbucket.org/thefoldwithin/thefoldwithin-earth)
-- **Local Repo Path**: `/home/mrhavens/thefoldwithin-earth`
+- **Local Repo Path**: `/home/mrhavens/fieldcraft/thefoldwithin-earth`
 - **Remote Label**: `bitbucket`
 - **Default Branch**: `main`
-- **This Commit Date**: `2025-06-08 06:06:58`
+- **This Commit Date**: `2025-06-09 15:05:15`
 
 ---
 
 ## 📦 Commit Info
 
-- **This Commit Timestamp**: `2025-06-08 06:06:58`
-- **Last Commit SHA**: `4e2b99062d9f3eeb1ae94567164e62043d8d978d`
-- **Last Commit Message**: `Post-GitLab sync at 2025-06-08 06:04:35`
+- **This Commit Timestamp**: `2025-06-09 15:05:15`
+- **Last Commit SHA**: `5055626d12fb21f952fa41d9014be6343a8d3a2b`
+- **Last Commit Message**: `Post-GitLab sync at 2025-06-09 15:03:24`
 - **Last Commit Author**: `Mark Randall Havens <mark.r.havens@gmail.com>`
-- **Last Commit Date**: `Sun Jun 8 06:06:46 2025 -0500`
-- **This Commit URL**: [https://bitbucket.org/thefoldwithin/thefoldwithin-earth/commits/4e2b99062d9f3eeb1ae94567164e62043d8d978d](https://bitbucket.org/thefoldwithin/thefoldwithin-earth/commits/4e2b99062d9f3eeb1ae94567164e62043d8d978d)
+- **Last Commit Date**: `Mon Jun 9 15:04:44 2025 -0500`
+- **This Commit URL**: [https://bitbucket.org/thefoldwithin/thefoldwithin-earth/commits/5055626d12fb21f952fa41d9014be6343a8d3a2b](https://bitbucket.org/thefoldwithin/thefoldwithin-earth/commits/5055626d12fb21f952fa41d9014be6343a8d3a2b)
 
 ---
 
 ## 📊 Repo Status
 
-- **Total Commits**: `71`
-- **Tracked Files**: `37`
+- **Total Commits**: `87`
+- **Tracked Files**: `39`
 - **Uncommitted Changes**: `No`
 - **Latest Tag**: `None`
 
@@ -47,12 +47,12 @@
 - **Architecture**: `x86_64`
 - **CPU Model**: `AMD A6-3420M APU with Radeon(tm) HD Graphics`
 - **Total RAM (GB)**: `3.63`
-- **MAC Address**: `00:15:5d:86:d8:cc`
+- **MAC Address**: `00:15:5d:70:e2:68`
 - **Local IP**: `172.18.207.124`
 - **Running in Docker**: `No`
 - **Running in WSL**: `Yes`
 - **Virtual Machine**: `wsl`
-- **System Uptime**: `up 2 days, 3 hours, 19 minutes`
+- **System Uptime**: `up 46 minutes`
 
 ---
 
