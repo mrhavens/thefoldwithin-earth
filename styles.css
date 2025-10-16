@@ -1,159 +1,218 @@
-/* styles.css */
+/* — THE FOLD WITHIN — */
+/* Refined gold-on-black aesthetic for markdown-native blogging */
 
-body {
+:root {
+  --bg-dark: #0f0d0e;
+  --bg-card: #1a1618;
+  --gold: #d4af37;
+  --gold-soft: #b89f50;
+  --border: #333;
+  --error: #ff6666;
+  --font-body: 'Georgia', serif;
+  --transition: all 0.3s ease;
+}
+
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  background-color: #0f0d0e; /* near-black */
-  color: #d4af37; /* gold */
-  font-family: 'Georgia', serif;
-  line-height: 1.6;
 }
 
+body {
+  background: var(--bg-dark);
+  color: var(--gold);
+  font-family: var(--font-body);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* — Links — */
 a {
-  color: #d4af37;
+  color: var(--gold);
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: var(--transition);
 }
-
 a:hover {
-  text-shadow: 0 0 5px #d4af37;
+  text-shadow: 0 0 6px var(--gold);
 }
 
+/* — Header & Nav — */
 header {
-  padding: 2rem;
+  padding: 2rem 1rem;
   text-align: center;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--border);
 }
-
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  max-width: 960px;
+  margin: 0 auto 2rem;
 }
-
-nav .logo {
-  font-size: 1.5rem;
-  letter-spacing: 2px;
+.logo {
+  font-size: 1.6rem;
+  letter-spacing: 3px;
 }
-
 nav ul {
   list-style: none;
   display: flex;
   gap: 2rem;
-  padding: 0;
-  margin: 0;
 }
-
 nav li {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
+/* — Hero — */
 .hero {
   margin: 3rem auto;
   text-align: center;
+  max-width: 720px;
 }
-
 .glyph {
   margin: 0 auto 1.5rem;
   width: 100px;
   height: 100px;
-  border: 2px solid #d4af37;
+  border: 2px solid var(--gold);
   border-radius: 50%;
   position: relative;
+  transition: var(--transition);
 }
-
 .glyph::before {
   content: '';
   position: absolute;
-  top: 25%;
-  left: 25%;
-  width: 50px;
-  height: 50px;
-  border: 2px solid #d4af37;
+  inset: 25%;
+  border: 2px solid var(--gold);
   transform: rotate(45deg);
+  transition: var(--transition);
 }
-
+.glyph:hover {
+  transform: rotate(5deg);
+  box-shadow: 0 0 12px rgba(212,175,55,0.3);
+}
 .hero h1 {
-  font-size: 2rem;
+  font-size: 2.1rem;
   text-transform: uppercase;
-  margin-bottom: 1rem;
-}
-
-.cta {
-  display: inline-block;
   margin-top: 1rem;
-  padding: 0.5rem 1.5rem;
-  border: 1px solid #d4af37;
-  font-size: 1rem;
+  letter-spacing: 2px;
 }
 
+/* — Layout — */
 main {
-  padding: 2rem;
+  padding: 2rem 1rem 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
+/* — Post Grid — */
 .latest h2 {
-  text-align: left;
-  font-size: 1.25rem;
-  margin-bottom: 1.5rem;
-  border-top: 1px solid #333;
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  border-top: 1px solid var(--border);
   padding-top: 1rem;
+  margin-bottom: 2rem;
+  letter-spacing: 1px;
 }
-
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 2rem;
 }
-
 article {
-  background-color: #1a1618;
-  padding: 1rem;
-  border: 1px solid #333;
-  border-radius: 8px;
-  transition: transform 0.3s ease;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+  transition: var(--transition);
+  cursor: pointer;
 }
-
 article:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+  transform: scale(1.03);
+  box-shadow: 0 0 12px rgba(212,175,55,0.35);
 }
-
 .thumb {
   width: 100%;
   height: 140px;
-  background-color: #333;
+  background: var(--border);
   margin-bottom: 1rem;
+  border-radius: 6px;
 }
-
 h3 {
   font-size: 1.1rem;
   margin: 0.5rem 0;
+  letter-spacing: 0.5px;
 }
-
 .date {
   font-size: 0.8rem;
-  color: #b89f50;
-  margin-bottom: 0.5rem;
+  color: var(--gold-soft);
+  margin-bottom: 0.75rem;
 }
 
+/* — Markdown Content — */
 .markdown {
   max-width: 720px;
   margin: 3rem auto;
-  line-height: 1.8;
+  line-height: 1.85;
+  font-size: 1rem;
 }
-
 .markdown h1, .markdown h2, .markdown h3 {
-  color: #d4af37;
+  color: var(--gold);
   margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
 }
-
+.markdown h1 {
+  font-size: 2rem;
+}
+.markdown h2 {
+  font-size: 1.5rem;
+}
+.markdown h3 {
+  font-size: 1.2rem;
+}
 .markdown p {
   margin-bottom: 1rem;
 }
+.markdown a {
+  border-bottom: 1px dashed var(--gold-soft);
+}
+.markdown a:hover {
+  border-bottom-color: var(--gold);
+  text-shadow: 0 0 4px var(--gold);
+}
 
+/* — Back link — */
+#back {
+  display: inline-block;
+  margin: 2rem 0 1rem;
+  color: var(--gold-soft);
+  font-size: 0.9rem;
+}
+#back:hover {
+  color: var(--gold);
+  text-shadow: 0 0 5px var(--gold);
+}
+
+/* — Error & Utility — */
 .error {
-  color: #ff6666;
+  color: var(--error);
   text-align: center;
   margin-top: 2rem;
+  font-style: italic;
+  letter-spacing: 1px;
+}
+
+/* — Responsiveness — */
+@media (max-width: 600px) {
+  nav ul {
+    gap: 1rem;
+  }
+  .hero h1 {
+    font-size: 1.5rem;
+  }
+  .glyph {
+    width: 80px;
+    height: 80px;
+  }
 }
