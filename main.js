@@ -1,46 +1,88 @@
-// main.js — dynamic markdown loader for The Fold Within
+// main.js — client router + markdown renderer
+// Routes:
+//   #/          -> index
+//   #/post/:id  -> render that post
 
-console.log("Main.js loaded");
+const state = {
+  posts: [],
+  bySlug: new Map()
+};
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const postsContainer = document.getElementById("posts");
-  const main = document.querySelector("main");
+function $(sel) { return document.querySelector(sel); }
 
-  // Load post metadata from posts.json
-  const response = await fetch("posts/posts.json");
-  const posts = await response.json();
+window.addEventListener("hashchange", router);
+document.addEventListener("DOMContentLoaded", init);
 
-  // Render index of posts
-  posts.forEach(post => {
+async function init() {
+  try {
+    const res = await fetch("posts/posts.json", { cache: "no-cache" });
+    if (!res.ok) throw new Error("Could not load posts index.");
+    state.posts = await res.json();
+    state.bySlug = new Map(state.posts.map(p => [p.slug, p]));
+
+    // render index initially, or route if hash present
+    router();
+  } catch (err) {
+    const container = $("#posts");
+    if (container) container.innerHTML = `<p class="error">⚠️ ${err.message}</p>`;
+  }
+}
+
+function router() {
+  const hash = location.hash.replace(/^#/, "");
+  const parts = hash.split("/").filter(Boolean);
+
+  if (parts[0] === "post" && parts[1]) {
+    renderPost(parts[1]);
+  } else {
+    renderIndex();
+  }
+}
+
+function renderIndex() {
+  const postsContainer = $("#posts");
+  if (!postsContainer) return;
+  postsContainer.innerHTML = "";
+
+  state.posts.forEach(post => {
     const article = document.createElement("article");
     article.innerHTML = `
       <div class="thumb"></div>
       <h3>${post.title}</h3>
-      <p class="date">${post.date}</p>
+      <p class="date">${new Date(post.date).toLocaleDateString()}</p>
       <p>${post.excerpt}</p>
     `;
-    article.addEventListener("click", () => loadPost(post.file));
+    article.addEventListener("click", () => {
+      location.hash = `/post/${post.slug}`;
+    });
     postsContainer.appendChild(article);
   });
+}
 
-  // Load a markdown post dynamically
-  async function loadPost(filename) {
-    try {
-      const res = await fetch(`posts/${filename}`);
-      if (!res.ok) throw new Error("Post not found.");
-      const md = await res.text();
-      const html = marked.parse(md);
+async function renderPost(slug) {
+  const main = document.querySelector("main");
+  const meta = state.bySlug.get(slug);
 
-      main.innerHTML = `
-        <section class="post">
-          <a href="#" id="back">← Back to Archive</a>
-          <div class="markdown">${html}</div>
-        </section>
-      `;
-
-      document.getElementById("back").addEventListener("click", () => location.reload());
-    } catch (err) {
-      main.innerHTML = `<p class="error">⚠️ ${err.message}</p>`;
-    }
+  if (!meta) {
+    main.innerHTML = `<p class="error">⚠️ Post not found.</p>`;
+    return;
   }
-});
+
+  try {
+    const res = await fetch(`posts/${meta.file}`, { cache: "no-cache" });
+    if (!res.ok) throw new Error("Post file missing.");
+    const md = await res.text();
+    const html = marked.parse(md);
+
+    main.innerHTML = `
+      <section class="post">
+        <a href="#/" id="back">← Back to Archive</a>
+        <div class="markdown">${html}</div>
+      </section>
+    `;
+
+    $("#back").addEventListener("click", () => (location.hash = "/"));
+  } catch (err) {
+    main.innerHTML = `<p class="error">⚠️ ${err.message}</p>`;
+  }
+}
