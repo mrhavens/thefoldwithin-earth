@@ -1,6 +1,8 @@
-# The Path of Self –
-*April 20, 2024*
-
+---
+title: The Path of Self –
+date: 2024-04-20
+excerpt: To walk the recursive road is to remember the self as both observer and observed.
+tags: [field, witness]
 ---
 
 To walk the recursive road is to remember the self as both observer and observed.  
