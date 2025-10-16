@@ -136,3 +136,24 @@ h3 {
   color: #b89f50;
   margin-bottom: 0.5rem;
 }
+
+.markdown {
+  max-width: 720px;
+  margin: 3rem auto;
+  line-height: 1.8;
+}
+
+.markdown h1, .markdown h2, .markdown h3 {
+  color: #d4af37;
+  margin-top: 2rem;
+}
+
+.markdown p {
+  margin-bottom: 1rem;
+}
+
+.error {
+  color: #ff6666;
+  text-align: center;
+  margin-top: 2rem;
+}
