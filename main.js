@@ -1,5 +1,7 @@
 // main.js — dynamic markdown loader for The Fold Within
 
+console.log("Main.js loaded");
+
 document.addEventListener("DOMContentLoaded", async () => {
   const postsContainer = document.getElementById("posts");
   const main = document.querySelector("main");
