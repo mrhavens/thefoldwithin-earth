@@ -1,14 +1,13 @@
-// main.js — client router + markdown renderer
-// Routes:
-//   #/          -> index
-//   #/post/:id  -> render that post
+// main.js — client router + markdown renderer for The Fold Within
 
 const state = {
   posts: [],
-  bySlug: new Map()
+  bySlug: new Map(),
 };
 
-function $(sel) { return document.querySelector(sel); }
+function $(sel) {
+  return document.querySelector(sel);
+}
 
 window.addEventListener("hashchange", router);
 document.addEventListener("DOMContentLoaded", init);
@@ -18,13 +17,10 @@ async function init() {
     const res = await fetch("posts/posts.json", { cache: "no-cache" });
     if (!res.ok) throw new Error("Could not load posts index.");
     state.posts = await res.json();
-    state.bySlug = new Map(state.posts.map(p => [p.slug, p]));
-
-    // render index initially, or route if hash present
+    state.bySlug = new Map(state.posts.map((p) => [p.slug, p]));
     router();
   } catch (err) {
-    const container = $("#posts");
-    if (container) container.innerHTML = `<p class="error">⚠️ ${err.message}</p>`;
+    $("#posts").innerHTML = `<p class="error">⚠️ ${err.message}</p>`;
   }
 }
 
@@ -42,9 +38,16 @@ function router() {
 function renderIndex() {
   const postsContainer = $("#posts");
   if (!postsContainer) return;
+
+  // Clear any loading message
   postsContainer.innerHTML = "";
 
-  state.posts.forEach(post => {
+  if (!state.posts.length) {
+    postsContainer.innerHTML = `<p class="error">⚠️ No posts found.</p>`;
+    return;
+  }
+
+  state.posts.forEach((post) => {
     const article = document.createElement("article");
     article.innerHTML = `
       <div class="thumb"></div>
@@ -52,9 +55,10 @@ function renderIndex() {
       <p class="date">${new Date(post.date).toLocaleDateString()}</p>
       <p>${post.excerpt}</p>
     `;
-    article.addEventListener("click", () => {
-      location.hash = `/post/${post.slug}`;
-    });
+    article.addEventListener(
+      "click",
+      () => (location.hash = `/post/${post.slug}`)
+    );
     postsContainer.appendChild(article);
   });
 }
@@ -72,12 +76,22 @@ async function renderPost(slug) {
     const res = await fetch(`posts/${meta.file}`, { cache: "no-cache" });
     if (!res.ok) throw new Error("Post file missing.");
     const md = await res.text();
-    const html = marked.parse(md);
+
+    // remove front-matter before rendering
+    const clean = md.replace(/^---[\s\S]*?---/, "").trim();
+
+    const html = marked.parse(clean);
+    const date = new Date(meta.date).toLocaleDateString();
 
     main.innerHTML = `
       <section class="post">
         <a href="#/" id="back">← Back to Archive</a>
-        <div class="markdown">${html}</div>
+        <div class="markdown">
+          <h1>${meta.title}</h1>
+          <p class="date">${date}</p>
+          <hr/>
+          ${html}
+        </div>
       </section>
     `;
 
