@@ -1,0 +1,1 @@
+std::iter::Map<std::vec::IntoIter<PostMeta>, for<'a> fn(&'a PostMeta) -> std::string::String {card_html}>

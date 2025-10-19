@@ -1,3 +1,7 @@
-node_modules/
-public/
-.buildcache.json
+node_modules
+dist
+*.log
+*.tmp
+*.tmp.*
+.witnesskey
+scribe/*.tmp

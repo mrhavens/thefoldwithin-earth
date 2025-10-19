@@ -1,0 +1,37 @@
+[package]
+name = "thefoldwithin-wasm"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "WASM frontend for The Fold Within Earth"
+repository = "https://github.com/mrhavens/thefoldwithin-earth"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+# wasm glue
+wasm-bindgen = "0.2.104"
+js-sys = "0.3.81"
+web-sys = { version = "0.3.81", features = [
+  "Window","Document","Location","HtmlElement","Element","Node","Event",
+  "EventTarget","HtmlAnchorElement","HtmlDivElement","HtmlHeadingElement",
+  "HtmlButtonElement","HtmlInputElement","console"
+]}
+
+# http + async
+gloo-net = { version = "0.6.0", features = ["http"] }
+
+# parsing / rendering
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+pulldown-cmark = "0.10"
+
+# panic hook for readable errors in console
+console_error_panic_hook = "0.1"
+
+# optional small utils
+once_cell = "1.21"
+
+[features]
+default = []

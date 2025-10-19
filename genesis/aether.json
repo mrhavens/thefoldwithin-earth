@@ -1,0 +1,12 @@
+{
+  "version": "2.3",
+  "peers": [
+    {
+      "pubkey": "example-pubkey-Qm123",
+      "endpoint": "wss://example-relay.com",
+      "last_seen": "2025-10-19T00:00:00Z"
+    }
+  ],
+  "signature": "example-ed25519-multisig",
+  "valid_until": "2026-01-01T00:00:00Z"
+}

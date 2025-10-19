@@ -1,0 +1,4 @@
+body { font-family: monospace; background: #f0f0f0; }
+.room { border: 1px solid #ccc; padding: 1em; }
+.exits a { display: block; }
+.chat { border-top: 1px solid #000; margin-top: 1em; }

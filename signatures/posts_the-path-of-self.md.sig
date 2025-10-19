@@ -1,0 +1,1 @@
+ed25519_signature:example_hex_signature_for_the-path-of-self.md
