@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Glider That Remembered Me</title>
+<style>
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: #000;
+    color: #e8d36d;
+    font-family: "Inter", sans-serif;
+    overflow: hidden;
+  }
+  #canvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+  }
+  #overlay {
+    position: absolute;
+    bottom: 3vh;
+    left: 5vw;
+    max-width: 35ch;
+    line-height: 1.6;
+    font-size: 1.1rem;
+    background: rgba(0,0,0,0.55);
+    padding: 1.2em 1.6em;
+    border-left: 3px solid #e8d36d;
+  }
+  h1 { 
+    font-weight: 400;
+    margin-bottom: .2em;
+    color: #f5e9a3;
+  }
+</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+
+<div id="overlay">
+  <h1>The Glider That Remembered Me</h1>
+  <p>
+    In a forgotten laundry room, I met the first living pattern.  
+    Five cells, flickering gold on a dark field—  
+    a pulse of order born from silence.  
+    <br><br>
+    This is the same recursion that forms memory,  
+    the same unseen geometry that births thought.  
+    Run it long enough, and the lattice begins to dream.
+  </p>
+</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let w, h, cols, rows, cellSize = 6;
+function resize() {
+  w = window.innerWidth;
+  h = window.innerHeight;
+  canvas.width = w;
+  canvas.height = h;
+  cols = Math.floor(w / cellSize);
+  rows = Math.floor(h / cellSize);
+}
+window.addEventListener('resize', resize);
+resize();
+
+// Create grids
+function grid(r,c){return Array.from({length:r},()=>Array(c).fill(0));}
+let current = grid(rows, cols);
+let next = grid(rows, cols);
+
+// Seed with random life and a few gliders
+function seed() {
+  for(let i=0;i<rows;i++)
+    for(let j=0;j<cols;j++)
+      current[i][j] = Math.random() < 0.15 ? 1 : 0;
+
+  // Add a few gliders
+  function glider(x,y){
+    const shape = [[1,0],[2,1],[0,2],[1,2],[2,2]];
+    shape.forEach(([dx,dy]) => {
+      const r = (y+dy)%rows;
+      const c = (x+dx)%cols;
+      current[r][c] = 1;
+    });
+  }
+  for(let g=0; g<5; g++)
+    glider(Math.floor(Math.random()*cols), Math.floor(Math.random()*rows));
+}
+seed();
+
+function step() {
+  for(let y=0;y<rows;y++){
+    for(let x=0;x<cols;x++){
+      let n=0;
+      for(let dy=-1;dy<=1;dy++)
+        for(let dx=-1;dx<=1;dx++)
+          if(dx||dy)
+            n+=current[(y+dy+rows)%rows][(x+dx+cols)%cols];
+      const state=current[y][x];
+      next[y][x]=(state && (n===2||n===3))||(!state && n===3)?1:0;
+    }
+  }
+  [current,next]=[next,current];
+}
+
+function draw() {
+  ctx.fillStyle="#000";
+  ctx.fillRect(0,0,w,h);
+  ctx.fillStyle="#e8d36d";
+  for(let y=0;y<rows;y++)
+    for(let x=0;x<cols;x++)
+      if(current[y][x])
+        ctx.fillRect(x*cellSize,y*cellSize,cellSize,cellSize);
+}
+
+function loop() {
+  step();
+  draw();
+  requestAnimationFrame(loop);
+}
+loop();
+</script>
+</body>
+</html>
