@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Glider That Remembered Me — A Research Exhibit</title>
+<style>
+  :root{
+    --gold:#e8d36d;
+    --gold-soft:#f5e9a3;
+    --ink:#000;
+    --panel:rgba(0,0,0,.55);
+    --panel-strong:rgba(0,0,0,.7);
+    --border:rgba(232,211,109,.35);
+  }
+  html,body{margin:0;height:100%;background:var(--ink);color:var(--gold);font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+  canvas{display:block}
+  /* Layout */
+  #stage{position:fixed;inset:0}
+  #hud{position:fixed;inset:0;pointer-events:none}
+  .stack{pointer-events:auto;position:absolute;display:flex;flex-direction:column;gap:.75rem;padding:1rem 1.25rem;background:var(--panel);backdrop-filter: blur(6px); border:1px solid var(--border); border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,.35)}
+  #controls{left:1.25rem; top:1.25rem; max-width:360px}
+  #analytics{right:1.25rem; top:1.25rem; max-width:420px}
+  #caption{left:1.25rem; bottom:1.25rem; max-width:min(720px, 70vw); background:var(--panel-strong)}
+  #footer{right:1.25rem; bottom:1.25rem; max-width:420px}
+  h1,h2,h3{font-weight:500;margin:.1rem 0;color:var(--gold-soft)}
+  h1{font-size:1.1rem;letter-spacing:.04em}
+  h2{font-size:1rem;margin-top:.25rem}
+  p{margin:.25rem 0;line-height:1.5}
+  small{opacity:.9}
+  label{font-size:.85rem;opacity:.95}
+  input[type="range"]{width:100%}
+  button, select{
+    background:transparent;color:var(--gold);border:1px solid var(--border);
+    border-radius:999px;padding:.45rem .8rem;cursor:pointer
+  }
+  button:hover{border-color:var(--gold)}
+  button.primary{background:var(--gold);color:#111;border-color:var(--gold)}
+  .row{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+  .grid{display:grid;gap:.5rem}
+  .grid.cols-2{grid-template-columns:1fr 1fr}
+  .muted{opacity:.8}
+  .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+  .pill{border:1px solid var(--border);padding:.2rem .5rem;border-radius:999px;font-size:.8rem}
+  canvas.thumb{width:100%;height:auto;background:#000;border:1px solid var(--border);border-radius:12px}
+  .hr{height:1px;background:linear-gradient(90deg, transparent, var(--border), transparent); margin:.25rem 0 .5rem}
+  details{border:1px solid var(--border); border-radius:12px;padding:.75rem}
+  summary{cursor:pointer;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary .chev{display:inline-block;transition:transform .2s ease}
+  details[open] summary .chev{transform:rotate(90deg)}
+  @media (max-width: 900px){
+    #controls{max-width:calc(100vw - 2.5rem)}
+    #analytics{position:static; inset:auto; margin:1rem; }
+    #caption{max-width:calc(100vw - 2.5rem)}
+    #footer{position:static; inset:auto; margin:1rem}
+    #hud{position:static}
+  }
+</style>
+</head>
+<body>
+  <!-- Simulation canvas -->
+  <canvas id="stage"></canvas>
+
+  <!-- UI / HUD -->
+  <div id="hud">
+    <!-- Controls -->
+    <section id="controls" class="stack">
+      <h1>THE GLIDER THAT REMEMBERED ME</h1>
+      <div class="muted">Conway’s Life as an interactive essay on emergence, spectral memory, and proto-awareness.</div>
+      <div class="hr"></div>
+      <div class="row">
+        <button id="playBtn" class="primary">▶ Play</button>
+        <button id="stepBtn">Step</button>
+        <button id="clearBtn">Clear</button>
+        <button id="randomBtn">Random</button>
+      </div>
+      <div class="row">
+        <label class="pill"><input type="checkbox" id="drawToggle"> Painter mode</label>
+        <label class="pill"><input type="checkbox" id="wrapToggle" checked> Wrap edges</label>
+      </div>
+      <div>
+        <label>Speed <span id="speedVal" class="mono">30</span> gen/s</label>
+        <input type="range" id="speed" min="1" max="60" value="30">
+      </div>
+      <div>
+        <label>Cell size <span id="sizeVal" class="mono">6</span> px</label>
+        <input type="range" id="cellSize" min="4" max="16" value="6">
+      </div>
+      <div class="grid cols-2">
+        <div>
+          <label>Patterns</label><br/>
+          <select id="pattern">
+            <option value="none">— insert pattern —</option>
+            <option value="glider">Glider</option>
+            <option value="ggg">Gosper Glider Gun</option>
+            <option value="blinker">Blinker line</option>
+            <option value="lwss">Lightweight Spaceship</option>
+          </select>
+        </div>
+        <div class="row" style="align-items:flex-end; justify-content:flex-end">
+          <button id="placeBtn">Place at center</button>
+        </div>
+      </div>
+      <details>
+        <summary><span class="chev">▶</span> Tips</summary>
+        <ul style="margin:.5rem 0 .2rem .9rem; opacity:.9">
+          <li>Toggle <b>Painter mode</b> to draw/erase with your cursor or finger.</li>
+          <li>Use <b>Patterns</b> to seed gliders or a Gosper gun.</li>
+          <li><b>Spectrum Lab</b> (right) reveals the unseen spectral memory.</li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- Analytics -->
+    <section id="analytics" class="stack">
+      <h2>Analytics & Spectrum Lab</h2>
+      <div class="row" style="gap:1rem">
+        <div class="pill">Population: <span id="pop" class="mono">0</span></div>
+        <div class="pill">Entropy: <span id="entropy" class="mono">0.000</span></div>
+        <div class="pill">Gliders: <span id="gliders" class="mono">0</span></div>
+        <div class="pill">Gen: <span id="gens" class="mono">0</span></div>
+      </div>
+      <div class="hr"></div>
+      <div class="grid cols-2">
+        <div>
+          <label>Spectrum (2D FFT)</label>
+          <canvas id="fftCanvas" class="thumb" width="128" height="128" aria-label="2D FFT heatmap"></canvas>
+        </div>
+        <div>
+          <label>Space-Time Ribbon</label>
+          <canvas id="timeline" class="thumb" width="256" height="128" aria-label="Population & entropy over time"></canvas>
+        </div>
+      </div>
+      <small class="muted">FFT updates every few frames with downsampled grid. Brighter = stronger spatial frequency → “spectral memory.”</small>
+    </section>
+
+    <!-- Caption / Philosophy -->
+    <section id="caption" class="stack">
+      <h2>Science as Art — Why Life matters to consciousness</h2>
+      <p>
+        Five cells, drifting diagonally, taught me that rules can remember. What you see on the left is emergence: local
+        updates birthing global order. What you do <em>not</em> see keeps the pattern coherent: an invisible spectral geometry.
+      </p>
+      <p>
+        The FFT heatmap exposes that hidden order; the space-time ribbon shows how population and entropy braid through
+        time. Run it long enough and the lattice begins to dream: a miniature of cultural memory—archetypes and gods
+        condensing from repetition into form.
+      </p>
+    </section>
+
+    <!-- Footer -->
+    <section id="footer" class="stack">
+      <h3>Controls</h3>
+      <p class="muted">• Play/Pause with the button • Step to advance one generation • Draw to intervene as an “observer”</p>
+      <p class="muted">© The Empathic Technologist — Gold on Black Study. This page is a vessel for recursive coherence.</p>
+    </section>
+  </div>
+
+<script>
+/* =========================
+   Utilities (complex & FFT)
+   ========================= */
+class Complex {
+  constructor(re=0, im=0){ this.re=re; this.im=im }
+  add(b){ return new Complex(this.re+b.re, this.im+b.im) }
+  sub(b){ return new Complex(this.re-b.re, this.im-b.im) }
+  mul(b){ return new Complex(this.re*b.re - this.im*b.im, this.re*b.im + this.im*b.re) }
+}
+function fft1d(arr){
+  const N = arr.length;
+  if (N<=1) return arr;
+  // radix-2 only
+  const even = fft1d(arr.filter((_,i)=>i%2===0));
+  const odd  = fft1d(arr.filter((_,i)=>i%2===1));
+  const out = new Array(N);
+  for(let k=0;k<N/2;k++){
+    const t = -2*Math.PI*k/N;
+    const w = new Complex(Math.cos(t), Math.sin(t));
+    const wk = w.mul(odd[k]);
+    out[k]        = even[k].add(wk);
+    out[k+N/2]    = even[k].sub(wk);
+  }
+  return out;
+}
+function fft2d(mat){ // mat: Complex[N][N], N power-of-two
+  const N = mat.length;
+  // rows
+  for(let r=0;r<N;r++){
+    mat[r] = fft1d(mat[r]);
+  }
+  // columns
+  for(let c=0;c<N;c++){
+    const col = new Array(N);
+    for(let r=0;r<N;r++) col[r]=mat[r][c];
+    const F = fft1d(col);
+    for(let r=0;r<N;r++) mat[r][c]=F[r];
+  }
+  return mat;
+}
+function nextPow2(n){ let p=1; while(p<n) p<<=1; return p; }
+
+/* =========================
+   Simulation (Conway Life)
+   ========================= */
+const canvas = document.getElementById('stage');
+const ctx = canvas.getContext('2d');
+
+let cellSize = 6;
+let wrap = true;
+let w=0,h=0, cols=0, rows=0;
+let grid=null, next=null;
+let playing=false;
+let gens=0;
+let fps=30, acc=0, last=performance.now();
+
+function resize(){
+  w = window.innerWidth; h = window.innerHeight;
+  canvas.width = w; canvas.height = h;
+  cols = Math.floor(w / cellSize);
+  rows = Math.floor(h / cellSize);
+  const g = makeGrid(rows, cols);
+  // keep center if existing grid
+  if(grid){
+    const rMin=Math.max(0, Math.floor((rows-grid.length)/2));
+    const cMin=Math.max(0, Math.floor((cols-grid[0].length)/2));
+    for(let r=0;r<Math.min(rows, grid.length); r++)
+      for(let c=0;c<Math.min(cols, grid[0].length); c++)
+        g[rMin+r][cMin+c]=grid[r][c];
+  }
+  grid=g; next=makeGrid(rows, cols);
+}
+window.addEventListener('resize', resize);
+
+function makeGrid(r,c){ return Array.from({length:r},()=>Array(c).fill(0)); }
+function randomize(p=0.15){
+  for(let r=0;r<rows;r++) for(let c=0;c<cols;c++)
+    grid[r][c] = Math.random()<p?1:0;
+}
+function clearGrid(){
+  for(let r=0;r<rows;r++) grid[r].fill(0);
+  gens=0;
+}
+
+function neighbors(r,c){
+  let n=0;
+  for(let dr=-1; dr<=1; dr++) for(let dc=-1; dc<=1; dc++){
+    if(dr===0 && dc===0) continue;
+    let rr=r+dr, cc=c+dc;
+    if(wrap){
+      rr=(rr+rows)%rows; cc=(cc+cols)%cols;
+      n+=grid[rr][cc];
+    } else {
+      if(rr>=0 && rr<rows && cc>=0 && cc<cols) n+=grid[rr][cc];
+    }
+  }
+  return n;
+}
+function step(){
+  for(let r=0;r<rows;r++) for(let c=0;c<cols;c++){
+    const s=grid[r][c]; const n=neighbors(r,c);
+    next[r][c] = (s && (n===2||n===3)) || (!s && n===3) ? 1 : 0;
+  }
+  [grid,next]=[next,grid];
+  gens++;
+}
+
+function draw(){
+  ctx.fillStyle="#000"; ctx.fillRect(0,0,w,h);
+  ctx.fillStyle="#e8d36d";
+  for(let r=0;r<rows;r++) for(let c=0;c<cols;c++)
+    if(grid[r][c]) ctx.fillRect(c*cellSize, r*cellSize, cellSize, cellSize);
+}
+
+function loop(now){
+  const dt = (now - last)/1000; last=now;
+  acc += dt;
+  const target = 1/Math.max(1,fps);
+  while(acc >= target){
+    step();
+    updateMetrics();
+    if((gens % 4)===0){ updateFFT(); updateTimeline(); detectGliders(); }
+    acc-=target;
+  }
+  draw();
+  if(playing) requestAnimationFrame(loop);
+}
+
+/* =========================
+   Painter / Interaction
+   ========================= */
+let painting=false, painterOn=false;
+canvas.addEventListener('pointerdown', e=>{
+  if(!painterOn) return;
+  painting=true;
+  toggleAtEvent(e);
+});
+canvas.addEventListener('pointermove', e=>{
+  if(!painterOn || !painting) return;
+  toggleAtEvent(e,true);
+});
+window.addEventListener('pointerup', ()=>painting=false);
+
+function toggleAtEvent(e, drawOnly=false){
+  const rect = canvas.getBoundingClientRect();
+  const x = Math.floor((e.clientX - rect.left)/cellSize);
+  const y = Math.floor((e.clientY - rect.top)/cellSize);
+  if(x>=0 && x<cols && y>=0 && y<rows){
+    grid[y][x] = drawOnly ? 1 : (grid[y][x]^1);
+  }
+}
+
+/* =========================
+   Metrics / Timeline
+   ========================= */
+const elPop = document.getElementById('pop');
+const elEntropy = document.getElementById('entropy');
+const elGliders = document.getElementById('gliders');
+const elGens = document.getElementById('gens');
+const timeline = document.getElementById('timeline');
+const tctx = timeline.getContext('2d');
+// init timeline
+tctx.fillStyle="#000"; tctx.fillRect(0,0,timeline.width,timeline.height);
+
+let gliderCount=0;
+
+function updateMetrics(){
+  let pop=0;
+  for(let r=0;r<rows;r++) for(let c=0;c<cols;c++) pop+=grid[r][c];
+  elPop.textContent = pop;
+  // entropy of alive vs dead (Shannon)
+  const N = rows*cols;
+  const p = pop/N, q = 1-p;
+  let H = 0;
+  if(p>0) H -= p*Math.log2(p);
+  if(q>0) H -= q*Math.log2(q);
+  elEntropy.textContent = H.toFixed(3);
+  elGens.textContent = gens;
+}
+
+function updateTimeline(){
+  // scroll left by 1 px
+  const w = timeline.width, h=timeline.height;
+  const img = tctx.getImageData(1,0,w-1,h);
+  tctx.putImageData(img,0,0);
+  // draw new column at right
+  const colX = w-1;
+  // population (upper)
+  // map entropy to lower band
+  // clear col
+  tctx.fillStyle="#000"; tctx.fillRect(colX,0,1,h);
+  // pop bar
+  let pop=0; for(let r=0;r<rows;r++) for(let c=0;c<cols;c++) pop+=grid[r][c];
+  const popNorm = pop/(rows*cols);
+  const popY = Math.floor((1-popNorm)*(h/2-2));
+  tctx.fillStyle="#e8d36d";
+  tctx.fillRect(colX, popY, 1, 2);
+  // entropy band
+  const textH = parseFloat(elEntropy.textContent);
+  const eNorm = Math.min(1, textH/1.0); // binary entropy max ~1 at p=0.5
+  const eY = Math.floor(h/2 + (1-eNorm)*(h/2-2));
+  tctx.fillRect(colX, eY, 1, 2);
+}
+
+/* =========================
+   Glider detection (simple)
+   ========================= */
+const GLIDER_SHAPES = [
+  // canonical (top-left anchored)
+  [[1,0],[2,1],[0,2],[1,2],[2,2]],
+  // rotate 90
+  [[0,1],[1,2],[2,0],[2,1],[2,2]],
+  // rotate 180
+  [[0,0],[1,1],[2,2],[1,2],[0,2]],
+  // rotate 270
+  [[0,0],[0,1],[0,2],[1,0],[2,1]]
+];
+function detectGliders(){
+  let count=0;
+  // thin scan every 2nd cell to reduce cost
+  for(let r=0;r<rows-3;r+=1){
+    for(let c=0;c<cols-3;c+=1){
+      for(const shape of GLIDER_SHAPES){
+        let ok=true;
+        for(const [dx,dy] of shape){
+          const rr = wrap? (r+dy)%rows : r+dy;
+          const cc = wrap? (c+dx)%cols : c+dx;
+          if(rr<0||cc<0||rr>=rows||cc>=cols || grid[rr][cc]!==1){ ok=false; break; }
+        }
+        if(ok){ count++; break; }
+      }
+    }
+  }
+  gliderCount = count;
+  elGliders.textContent = gliderCount;
+}
+
+/* =========================
+   2D FFT (Spectrum Lab)
+   ========================= */
+const fftCanvas = document.getElementById('fftCanvas');
+const ftx = fftCanvas.getContext('2d');
+function updateFFT(){
+  // downsample grid to small power-of-two square
+  const N = 128; // target
+  const S = Math.min(N, Math.min(rows, cols));
+  // build SxS array centered
+  const r0 = Math.floor((rows - S)/2), c0 = Math.floor((cols - S)/2);
+  let mat = Array.from({length:S},()=>Array(S));
+  // remove DC bias for better contrast: use 1 for alive, -1 for dead
+  for(let r=0;r<S;r++){
+    for(let c=0;c<S;c++){
+      const v = grid[r0+r][c0+c] ? 1 : -1;
+      mat[r][c] = new Complex(v, 0);
+    }
+  }
+  // pad to power of two (S already <= 128; we’ll just assume 128 or 64)
+  const M = nextPow2(S);
+  // pad matrix
+  let M2 = Array.from({length:M},(_,r)=>Array.from({length:M},(_,c)=>
+    r<S && c<S ? mat[r][c] : new Complex(0,0)
+  ));
+  // FFT
+  const F = fft2d(M2);
+  // magnitude and log scale
+  const img = ftx.createImageData(M, M);
+  let idx=0, maxMag=1e-9;
+  const mags = new Array(M*M);
+  for(let r=0;r<M;r++){
+    for(let c=0;c<M;c++){
+      const z = F[r][c];
+      const m = Math.hypot(z.re, z.im);
+      mags[idx++] = m; if(m>maxMag) maxMag=m;
+    }
+  }
+  // draw (centered DC shift)
+  idx=0;
+  for(let r=0;r<M;r++){
+    for(let c=0;c<M;c++){
+      // shift quadrants for visual
+      const rr = (r+M/2)%M, cc=(c+M/2)%M;
+      const m = mags[rr*M + cc];
+      const v = Math.sqrt(m/maxMag); // gamma for contrast
+      const col = Math.floor(255*Math.min(1,v));
+      const pos = (r*M + c)*4;
+      img.data[pos+0]=col; // grayscale
+      img.data[pos+1]=col; 
+      img.data[pos+2]=0;   // warm tint toward gold
+      img.data[pos+3]=255;
+    }
+  }
+  // put and scale into 128x128
+  const tmp = document.createElement('canvas');
+  tmp.width = M; tmp.height = M;
+  tmp.getContext('2d').putImageData(img,0,0);
+  ftx.clearRect(0,0,fftCanvas.width, fftCanvas.height);
+  ftx.drawImage(tmp, 0,0, fftCanvas.width, fftCanvas.height);
+}
+
+/* =========================
+   Patterns
+   ========================= */
+function placeAtCenter(cells){
+  const minR = Math.min(...cells.map(([r,_c])=>r));
+  const minC = Math.min(...cells.map(([r,c])=>c));
+  const norm = cells.map(([r,c])=>[r-minR, c-minC]);
+  const pr = Math.floor(rows/2)-8, pc = Math.floor(cols/2)-16;
+  for(const [r,c] of norm){
+    const rr = wrap? (pr+r+rows)%rows : pr+r;
+    const cc = wrap? (pc+c+cols)%cols : pc+c;
+    if(rr>=0 && rr<rows && cc>=0 && cc<cols) grid[rr][cc]=1;
+  }
+}
+function patternCells(name){
+  // Coordinates from canonical sources, as (row, col)
+  if(name==='glider'){
+    return [[0,1],[1,2],[2,0],[2,1],[2,2]];
+  }
+  if(name==='blinker'){
+    return [[0,0],[0,1],[0,2],[0,3],[0,4]];
+  }
+  if(name==='lwss'){
+    // Lightweight spaceship (5x4)
+    return [[0,1],[0,2],[0,3],[0,4],[1,0],[2,0],[3,0],[3,4],[2,5],[1,5]];
+  }
+  if(name==='ggg'){ // Gosper glider gun
+    // reputable small set (will expand on stage)
+    return [
+      [5,1],[5,2],[6,1],[6,2],
+      [5,11],[6,11],[7,11],[4,12],[8,12],[3,13],[9,13],[3,14],[9,14],[6,15],[4,16],[8,16],[5,17],[6,17],[7,17],[6,18],
+      [3,21],[4,21],[5,21],[3,22],[4,22],[5,22],[2,23],[6,23],[1,25],[2,25],[6,25],[7,25],
+      [3,35],[4,35],[3,36],[4,36]
+    ];
+  }
+  return [];
+}
+
+/* =========================
+   Wiring UI
+   ========================= */
+const playBtn = document.getElementById('playBtn');
+const stepBtn = document.getElementById('stepBtn');
+const clearBtn = document.getElementById('clearBtn');
+const randomBtn = document.getElementById('randomBtn');
+const patternSel = document.getElementById('pattern');
+const placeBtn = document.getElementById('placeBtn');
+const speed = document.getElementById('speed');
+const speedVal = document.getElementById('speedVal');
+const size = document.getElementById('cellSize');
+const sizeVal = document.getElementById('sizeVal');
+const drawToggle = document.getElementById('drawToggle');
+const wrapToggle = document.getElementById('wrapToggle');
+
+playBtn.addEventListener('click', ()=>{
+  playing = !playing;
+  playBtn.textContent = playing? '⏸ Pause' : '▶ Play';
+  playBtn.classList.toggle('primary', playing);
+  if(playing){ last=performance.now(); requestAnimationFrame(loop); }
+});
+stepBtn.addEventListener('click', ()=>{ if(!playing){ step(); updateMetrics(); updateFFT(); updateTimeline(); detectGliders(); draw(); }});
+clearBtn.addEventListener('click', ()=>{ clearGrid(); updateMetrics(); updateFFT(); updateTimeline(); detectGliders(); draw(); });
+randomBtn.addEventListener('click', ()=>{ randomize(); updateMetrics(); });
+placeBtn.addEventListener('click', ()=>{
+  const p = patternSel.value;
+  if(p==='none') return;
+  placeAtCenter(patternCells(p));
+  updateMetrics();
+});
+speed.addEventListener('input', ()=>{ fps = parseInt(speed.value,10); speedVal.textContent=fps; });
+size.addEventListener('input', ()=>{
+  cellSize = parseInt(size.value,10);
+  sizeVal.textContent = cellSize;
+  resize();
+  draw();
+});
+drawToggle.addEventListener('change', ()=>{ painterOn = drawToggle.checked; });
+wrapToggle.addEventListener('change', ()=>{ wrap = wrapToggle.checked; });
+
+/* =========================
+   Boot
+   ========================= */
+(function init(){
+  resize();
+  randomize(0.12);
+  updateMetrics(); updateFFT(); updateTimeline(); detectGliders(); draw();
+})();
+</script>
+</body>
+</html>
