@@ -1,18 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>FoldWithin</title>
 
+  <!-- Tight baseline CSP (CDNs whitelisted via jsDelivr). 
+       NOTE: Add SRI attributes later to lock these further. -->
   <meta http-equiv="Content-Security-Policy"
         content="default-src 'self';
                  script-src 'self' https://cdn.jsdelivr.net;
                  style-src 'self' 'unsafe-inline';
                  img-src 'self' data:;
-                 frame-src 'self';" />
+                 frame-src 'self';
+                 connect-src 'self'">
 
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- TODO: add SRI hashes once pinned -->
   <script src="https://cdn.jsdelivr.net/npm/marked@14.1.2/marked.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js" defer></script>
   <script src="app.js" defer></script>
@@ -20,9 +25,12 @@
 
 <body>
   <button id="navToggle" class="nav-toggle" aria-label="Toggle navigation">☰</button>
+  <div class="overlay" id="backdrop"></div>
+
   <div id="app">
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
       <h1>FoldWithin</h1>
+
       <div class="controls">
         <label>Sort:
           <select id="sortSel">
@@ -31,6 +39,7 @@
             <option value="alpha">Title (A → Z)</option>
           </select>
         </label>
+
         <label>Filter:
           <select id="filterSel">
             <option value="all">All</option>
@@ -38,8 +47,11 @@
             <option value="posts">Posts</option>
           </select>
         </label>
+
+        <input id="searchBox" class="search" type="search" placeholder="Search…" />
       </div>
-      <nav id="tree" role="tree"></nav>
+
+      <nav id="tree" role="tree" aria-label="Document tree"></nav>
     </aside>
 
     <main class="content">
@@ -47,6 +59,7 @@
         <div id="meta"></div>
         <iframe id="htmlView" sandbox="allow-scripts allow-forms allow-popups allow-modals allow-downloads"></iframe>
         <div id="mdView" class="md"></div>
+        <div id="errorBox" class="error" hidden></div>
       </div>
     </main>
   </div>
