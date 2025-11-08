@@ -1,5 +1,5 @@
 /* ============================================================
-   Self-Organizing Static Site Framework  v2.4  (Local Libs)
+   The Fold Within – Static Framework v2.4.1 (Layout fix)
    ============================================================ */
 
 let INDEX, CURRENT_PATH = null, PATH_TO_EL = new Map();
@@ -24,7 +24,6 @@ overlay.addEventListener("click",  () => sidebar.classList.remove("open"));
 
 /* Load index */
 async function loadIndex() {
-  // No CDN race now; libs are local. Still, surface diagnostics:
   if (!window.marked) console.warn("⚠️ marked.js not detected.");
   if (!window.DOMPurify) console.warn("⚠️ DOMPurify not detected.");
 
@@ -54,6 +53,7 @@ function populateFilters() {
   }
 }
 
+/* Tree rendering */
 function rebuildTree() {
   treeEl.innerHTML = "";
   PATH_TO_EL.clear();
@@ -147,7 +147,7 @@ async function openPath(path){
   if(window.innerWidth<900) sidebar.classList.remove("open");
 }
 
-/* ---------- Markdown (robust) ---------- */
+/* Markdown */
 async function renderMarkdown(path){
   mdWarn.style.display = "none";
   mdView.innerHTML="<p class='loading-note'>Loading…</p>";
@@ -165,7 +165,6 @@ async function renderMarkdown(path){
     if (window.marked) {
       html = window.marked.parse(text);
     } else {
-      // explicit, visible signal
       usedFallback = true;
       html = text.replace(/&/g,"&amp;").replace(/</g,"&lt;");
     }
@@ -185,14 +184,14 @@ async function renderMarkdown(path){
   }
 }
 
-/* ---------- HTML ---------- */
+/* HTML */
 function renderHTML(path){
   htmlView.src="/"+path;
   htmlView.style.display="block";
   mdView.style.display="none";
 }
 
-/* ---------- Active + Pager ---------- */
+/* Active + Pager */
 function setActive(path){
   document.querySelectorAll(".file.active").forEach(el=>el.classList.remove("active"));
   const el=PATH_TO_EL.get(path);
@@ -231,7 +230,7 @@ searchBox.addEventListener("input",()=>{
 sortSel.addEventListener("change",rebuildTree);
 filterSel.addEventListener("change",rebuildTree);
 
-/* Internal link interception */
+/* Internal links */
 document.body.addEventListener("click",e=>{
   const a=e.target.closest("a[href]");
   if(!a) return;
@@ -242,5 +241,11 @@ document.body.addEventListener("click",e=>{
   }
 });
 
-window.addEventListener("resize",()=>{ if(window.innerWidth<900) sidebar.classList.remove("open"); });
+/* Resize listener (mobile full screen fix) */
+window.addEventListener("resize", () => {
+  const vh = window.innerHeight;
+  const content = document.querySelector(".content");
+  if (content) content.style.minHeight = `${vh - 48}px`;
+});
+
 window.addEventListener("DOMContentLoaded",loadIndex);
