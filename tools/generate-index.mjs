@@ -24,4 +24,49 @@ function parseTitle(raw, ext) {
 }
 
 async function walk(relBase = "") {
-  const abs = path.join
+  const abs = path.join(ROOT, relBase);
+  const entries = await fs.readdir(abs, { withFileTypes: true });
+  const dir = { type: "dir", name: path.posix.basename(relBase) || "", path: relBase, children: [] };
+  for (const e of entries) {
+    if (e.name.startsWith(".")) continue;
+    const rel = path.posix.join(relBase, e.name);
+    const absPath = path.join(ROOT, rel);
+    if (e.isDirectory()) {
+      const top = rel.split("/")[0];
+      if (STATIC_TOPLEVEL.has(top)) continue;
+      const child = await walk(rel);
+      dir.children.push(child);
+      continue;
+    }
+    const ext = path.posix.extname(e.name).toLowerCase();
+    if (![".md", ".html"].includes(ext)) continue;
+    const st = await fs.stat(absPath);
+    const raw = await readHead(absPath);
+    const title = parseTitle(raw, ext) || e.name;
+    const mtime = dateFromName(e.name) ?? st.mtimeMs;
+    dir.children.push({
+      type: "file",
+      name: e.name,
+      title,
+      path: rel,
+      ext,
+      pinned: rel.startsWith("pinned/"),
+      mtime
+    });
+  }
+  return dir;
+}
+
+(async () => {
+  try {
+    const tree = await walk();
+    const flat = [];
+    (function flatten(n) { for (const c of n.children) { if (c.type === "file") flat.push(c); else flatten(c); } })(tree);
+    const sections = [...new Set(flat.map(f => f.path.split("/")[0]))];
+    await fs.writeFile(OUT, JSON.stringify({ tree: tree.children, flat, sections }, null, 2));
+    console.log("index.json built with", flat.length, "files across", sections.length, "sections.");
+  } catch (e) {
+    console.error("Build failed:", e);
+    process.exit(1);
+  }
+})();
