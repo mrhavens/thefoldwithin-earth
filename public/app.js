@@ -3,19 +3,17 @@ const els = {
   menuBtn: document.getElementById("menuBtn"),
   primaryNav: document.getElementById("primaryNav"),
   sectionSelect: document.getElementById("sectionSelect"),
+  tagSelect: document.getElementById("tagSelect"),
   sortSelect: document.getElementById("sortSelect"),
+  searchMode: document.getElementById("searchMode"),
   searchBox: document.getElementById("searchBox"),
   postList: document.getElementById("postList"),
   viewer: document.getElementById("viewer"),
   content: document.getElementById("content")
 };
 
-const staticPages = new Set(["about", "contact", "legal"]);
-const sectionIcons = { // Optional: Add icons per section (e.g., 'essays': '✍️')
-  essays: '✍️',
-  fieldnotes: '📓',
-  pinned: '📌'
-};
+const sectionIcons = { essays: '✍️', fieldnotes: '📓', pinned: '📌' };
+const tagIcons = { /* Optional: e.g., 'tech': '🔧' */ };
 
 let indexData = null;
 let sidebarOpen = false;
@@ -25,6 +23,7 @@ async function init() {
     indexData = await (await fetch("index.json")).json();
     populateNav();
     populateSections();
+    populateTags();
     wireUI();
     renderList();
     handleHash();
@@ -36,22 +35,31 @@ async function init() {
 
 function populateNav() {
   els.primaryNav.innerHTML = '<a href="#/">Home</a>';
-  staticPages.forEach(p => {
-    els.primaryNav.innerHTML += `<a href="#/${p}/">${p.charAt(0).toUpperCase() + p.slice(1)}</a>`;
-  });
   indexData.sections.forEach(s => {
-    els.primaryNav.innerHTML += `<a href="#/${s}/">${s.charAt(0).toUpperCase() + s.slice(1)}</a>`;
+    els.primaryNav.innerHTML += `<a href="#/${s.name}/">${s.name.charAt(0).toUpperCase() + s.name.slice(1)}</a>`;
   });
 }
 
 function populateSections() {
-  els.sectionSelect.innerHTML = "";
-  indexData.sections.forEach(s => {
-    const icon = sectionIcons[s] ? `${sectionIcons[s]} ` : '';
+  els.sectionSelect.innerHTML = '<option value="all">All Sections</option>';
+  indexData.sections.filter(s => !s.isStatic).forEach(s => { // Only dynamic in drop-down
+    const icon = sectionIcons[s.name] ? `${sectionIcons[s.name]} ` : '';
     const opt = document.createElement("option");
-    opt.value = s;
-    opt.textContent = `${icon}${s}`;
+    opt.value = s.name;
+    opt.textContent = `${icon}${s.name}`;
     els.sectionSelect.appendChild(opt);
+  });
+}
+
+function populateTags() {
+  els.tagSelect.innerHTML = '';
+  indexData.tags.forEach(t => {
+    const icon = tagIcons[t] ? `${tagIcons[t]} ` : '';
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = `${icon}${t}`;
+    opt.title = `Filter by ${t}`; // Tooltip for elegance
+    els.tagSelect.appendChild(opt);
   });
 }
 
@@ -60,9 +68,7 @@ function wireUI() {
     sidebarOpen = !sidebarOpen;
     document.body.classList.toggle("sidebar-open", sidebarOpen);
   });
-  els.sectionSelect.addEventListener("change", renderList);
-  els.sortSelect.addEventListener("change", renderList);
-  els.searchBox.addEventListener("input", renderList);
+  [els.sectionSelect, els.tagSelect, els.sortSelect, els.searchMode, els.searchBox].forEach(el => el.addEventListener("change", renderList) || el.addEventListener("input", renderList));
   els.content.addEventListener("click", () => {
     if (window.matchMedia("(max-width:1024px)").matches && document.body.classList.contains("sidebar-open")) {
       document.body.classList.remove("sidebar-open");
@@ -73,14 +79,23 @@ function wireUI() {
 
 function renderList() {
   const section = els.sectionSelect.value;
+  const tags = Array.from(els.tagSelect.selectedOptions).map(o => o.value.toLowerCase());
   const sort = els.sortSelect.value;
+  const mode = els.searchMode.value;
   const query = els.searchBox.value.toLowerCase();
 
-  let posts = indexData.flat.filter(p => p.path.split('/')[0] === section);
-  if (query) posts = posts.filter(p => p.title.toLowerCase().includes(query));
+  let posts = indexData.flat;
+  if (section !== "all") posts = posts.filter(p => p.path.split('/')[0] === section);
+  if (tags.length > 0) posts = posts.filter(p => tags.every(t => p.tags.includes(t))); // AND for coherence
+  if (query) {
+    posts = posts.filter(p => {
+      const searchText = mode === "content" ? (p.title + ' ' + p.excerpt).toLowerCase() : p.title.toLowerCase();
+      return searchText.includes(query);
+    });
+  }
   posts.sort((a, b) => sort === "newest" ? b.mtime - a.mtime : a.mtime - b.mtime);
 
-  els.postList.innerHTML = "";
+  els.postList.innerHTML = posts.length ? "" : "<li>No matching posts found. Try adjusting filters.</li>";
   for (const p of posts) {
     const li = document.createElement("li");
     const pin = p.pinned ? "&#9733; " : "";
@@ -90,31 +105,37 @@ function renderList() {
 }
 
 async function handleHash() {
+  els.viewer.classList.remove("fade-in"); // Reset for animation
   els.viewer.innerHTML = "";
+  void els.viewer.offsetWidth; // Trigger reflow
+  els.viewer.classList.add("fade-in");
   const rel = location.hash.replace(/^#\//, "");
   if (!rel) return renderDefault();
 
   if (rel.endsWith('/')) {
-    const section = rel.replace(/\/$/, '');
-    if (staticPages.has(section)) {
-      renderIframe(`${section}/index.html`);
-    } else if (indexData.sections.includes(section)) {
-      els.sectionSelect.value = section;
-      renderList();
-      const sectionPosts = indexData.flat.filter(p => p.path.split('/')[0] === section);
-      if (sectionPosts.length === 0) {
-        els.viewer.innerHTML = `<h1>${section.charAt(0).toUpperCase() + section.slice(1)}</h1><p>No content in this section yet. Check back soon!</p>`;
+    const sectionName = rel.replace(/\/$/, '');
+    const section = indexData.sections.find(s => s.name === sectionName);
+    if (section) {
+      if (section.isStatic) {
+        renderIframe(`${sectionName}/index.html`);
       } else {
-        const latest = sectionPosts.sort((a, b) => b.mtime - a.mtime)[0];
-        location.hash = '#/' + latest.path;
+        els.sectionSelect.value = sectionName;
+        renderList();
+        const sectionPosts = indexData.flat.filter(p => p.path.split('/')[0] === sectionName);
+        if (sectionPosts.length === 0) {
+          els.viewer.innerHTML = `<h1>${sectionName.charAt(0).toUpperCase() + sectionName.slice(1)}</h1><p>No content yet. Add files and redeploy!</p>`;
+        } else {
+          const latest = sectionPosts.sort((a, b) => b.mtime - a.mtime)[0];
+          location.hash = '#/' + latest.path;
+        }
       }
     } else {
-      els.viewer.innerHTML = '<h1>404: Section Not Found</h1><p>The requested section does not exist.</p>';
+      els.viewer.innerHTML = '<h1>404: Section Not Found</h1><p>Try navigating from the menu.</p>';
     }
   } else {
     const file = indexData.flat.find(f => f.path === rel);
     if (!file) {
-      els.viewer.innerHTML = '<h1>404: File Not Found</h1><p>The requested file could not be located.</p>';
+      els.viewer.innerHTML = '<h1>404: File Not Found</h1><p>Check the URL or search again.</p>';
       return;
     }
     try {
@@ -124,7 +145,7 @@ async function handleHash() {
         renderIframe(file.path);
       }
     } catch (e) {
-      els.viewer.innerHTML = '<h1>Error Loading Content</h1><p>Unable to load the file. It may be corrupted or inaccessible.</p>';
+      els.viewer.innerHTML = '<h1>Error Loading Content</h1><p>Unable to load. File may be invalid.</p>';
     }
   }
 }
@@ -160,7 +181,7 @@ function renderDefault() {
   if (latest) {
     location.hash = "#/" + latest.path;
   } else {
-    els.viewer.innerHTML = '<h1>Welcome</h1><p>No content yet. Add files to sections and redeploy!</p>';
+    els.viewer.innerHTML = '<h1>Welcome to The Fold Within</h1><p>Add content to sections and redeploy to get started.</p>';
   }
 }
 
