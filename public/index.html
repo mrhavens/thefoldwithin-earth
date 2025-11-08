@@ -9,11 +9,8 @@
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
-  <!-- Global Shell -->
   <header class="topbar" role="banner" aria-label="Primary">
-    <button class="icon-btn" id="navToggle" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
-      ☰
-    </button>
+    <button class="icon-btn" id="navToggle" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">☰</button>
 
     <nav class="primary-nav" aria-label="Main">
       <a class="brand" href="#/">Home</a>
@@ -23,14 +20,9 @@
     </nav>
 
     <div class="spacer"></div>
-
-    <div class="view-controls" aria-hidden="true">
-      <span id="routeHint"></span>
-    </div>
   </header>
 
   <div id="appLayout">
-    <!-- Sidebar -->
     <aside id="sidebar" class="sidebar" aria-label="Content navigation">
       <div class="side-head">
         <div class="filters">
@@ -54,7 +46,6 @@
       <nav id="tree" class="tree" aria-label="Posts"></nav>
     </aside>
 
-    <!-- Main viewer -->
     <main id="content" class="content" role="main">
       <article id="viewer" class="viewer" aria-live="polite">
         <div class="empty">
@@ -65,7 +56,7 @@
     </main>
   </div>
 
-  <!-- Local, vendored libs (more reliable than CDN) -->
+  <!-- Vendored locally for reliability -->
   <script src="/lib/marked.min.js"></script>
   <script src="/lib/purify.min.js"></script>
 
