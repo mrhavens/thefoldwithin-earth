@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { promises as fs } from "fs";
 import path from "path";
+import pdf from "pdf-parse";
 
 const ROOT = "public";
 const OUT = path.join(ROOT, "index.json");
@@ -42,10 +43,17 @@ async function collectFiles(relBase = "", flat = []) {
     }
 
     const ext = path.posix.extname(e.name).toLowerCase();
-    if (![".md", ".html"].includes(ext)) continue;
+    if (![".md", ".html", ".pdf"].includes(ext)) continue;
     const st = await fs.stat(absPath);
-    const raw = await readHead(absPath);
-    const title = parseTitle(raw, ext) || e.name;
+    let title;
+    if (ext === ".pdf") {
+      const buffer = await fs.readFile(absPath);
+      const pdfData = await pdf(buffer);
+      title = pdfData.info.Title || e.name.replace(/\.pdf$/, "").trim();
+    } else {
+      const raw = await readHead(absPath);
+      title = parseTitle(raw, ext) || e.name.replace(new RegExp(`\\${ext}$`), "").trim();
+    }
     const mtime = dateFromName(e.name) ?? st.mtimeMs;
 
     flat.push({
