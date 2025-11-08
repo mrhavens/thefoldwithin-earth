@@ -116,4 +116,50 @@ async function renderMarkdown(path) {
   const text = await res.text();
   const html = window.marked ? window.marked.parse(text) : text.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   const safe = window.DOMPurify ? window.DOMPurify.sanitize(html) : html;
-  mdView.innerHTML = safe
+  mdView.innerHTML = safe;
+  mdView.style.display = "block";
+  htmlView.style.display = "none";
+}
+function renderHTML(path) {
+  htmlView.src = "/" + path;
+  htmlView.style.display = "block";
+  mdView.style.display = "none";
+}
+function setActive(path) {
+  document.querySelectorAll(".file.active").forEach(el => el.classList.remove("active"));
+  const el = PATH_TO_EL.get(path);
+  if (el) {
+    el.classList.add("active");
+    let p = el.parentElement;
+    while (p && p !== treeEl) {
+      if (p.classList.contains("children")) p.parentElement.classList.add("open");
+      p = p.parentElement;
+    }
+  }
+}
+function updatePager() {
+  const query = searchBox.value.trim().toLowerCase();
+  const list = INDEX.flat.filter(f => (filterSel.value === "all" || f.path.split("/")[0] === filterSel.value) && (!query || f.title.toLowerCase().includes(query)));
+  const cmp = sortSel.value === "name" ? (a, b) => a.name.localeCompare(b.name) :
+              sortSel.value === "old" ? (a, b) => a.mtime - b.mtime : (a, b) => b.mtime - a.mtime;
+  list.sort(cmp);
+  const i = list.findIndex(x => x.path === CURRENT_PATH);
+  prevBtn.disabled = i <= 0;
+  nextBtn.disabled = i >= list.length - 1 || i < 0;
+  prevBtn.onclick = () => i > 0 && openPath(list[i - 1].path);
+  nextBtn.onclick = () => i < list.length - 1 && openPath(list[i + 1].path);
+}
+let searchTimer;
+searchBox.addEventListener("input", () => { clearTimeout(searchTimer); searchTimer = setTimeout(rebuildTree, 300); });
+sortSel.addEventListener("change", rebuildTree);
+filterSel.addEventListener("change", rebuildTree);
+document.body.addEventListener("click", e => {
+  const a = e.target.closest("a[href]");
+  if (!a) return;
+  const href = a.getAttribute("href");
+  if (href.startsWith("/") && !href.startsWith("//") && !a.target) {
+    e.preventDefault();
+    openPath(href.replace(/^\//, ""));
+  }
+});
+window.addEventListener("DOMContentLoaded", loadIndex);
