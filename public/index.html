@@ -1,65 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>The Fold Within</title>
-  <meta name="color-scheme" content="dark light" />
-  <link rel="preload" href="/styles.css" as="style" />
-  <link rel="stylesheet" href="/styles.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>The Fold Within</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script defer src="app.js"></script>
 </head>
 <body>
-  <header class="topbar" role="banner" aria-label="Primary">
-    <button class="icon-btn" id="navToggle" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">☰</button>
+<header class="topbar">
+  <button id="menuBtn" aria-label="Toggle menu">☰</button>
+  <nav class="primary-nav">
+    <a href="#/">Home</a>
+    <a href="#/about/">About</a>
+    <a href="#/essays/">Essays</a>
+    <a href="#/fieldnotes/">Fieldnotes</a>
+  </nav>
+</header>
 
-    <nav class="primary-nav" aria-label="Main">
-      <a class="brand" href="#/">Home</a>
-      <a href="#/about">About</a>
-      <a href="#/essays">Essays</a>
-      <a href="#/fieldnotes">Fieldnotes</a>
-    </nav>
-
-    <div class="spacer"></div>
-  </header>
-
-  <div id="appLayout">
-    <aside id="sidebar" class="sidebar" aria-label="Content navigation">
-      <div class="side-head">
-        <div class="filters">
-          <label class="visually-hidden" for="filterSection">Section</label>
-          <select id="filterSection">
-            <option value="all">All</option>
-          </select>
-
-          <label class="visually-hidden" for="sortOrder">Sort</label>
-          <select id="sortOrder">
-            <option value="newest">Newest</option>
-            <option value="oldest">Oldest</option>
-            <option value="title">Title</option>
-          </select>
-        </div>
-        <div class="search">
-          <input id="searchBox" type="search" placeholder="Search titles…" aria-label="Search titles" />
-        </div>
-      </div>
-
-      <nav id="tree" class="tree" aria-label="Posts"></nav>
-    </aside>
-
-    <main id="content" class="content" role="main">
-      <article id="viewer" class="viewer" aria-live="polite">
-        <div class="empty">
-          <h1>The Fold Within</h1>
-          <p>Select a note on the left, or open a direct link.</p>
-        </div>
-      </article>
-    </main>
+<aside id="sidebar">
+  <div class="sidebar-controls">
+    <select id="sectionSelect"></select>
+    <select id="sortSelect">
+      <option value="newest">Newest</option>
+      <option value="oldest">Oldest</option>
+    </select>
+    <input id="searchBox" placeholder="Search titles...">
   </div>
+  <ul id="postList"></ul>
+</aside>
 
-  <!-- Vendored locally for reliability -->
-  <script src="/lib/marked.min.js"></script>
-  <script src="/lib/purify.min.js"></script>
-
-  <script src="/app.js" type="module"></script>
+<main id="content" class="content">
+  <div id="viewer" class="viewer"></div>
+</main>
 </body>
 </html>
