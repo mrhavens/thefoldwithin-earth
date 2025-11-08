@@ -1,67 +1,27 @@
 #!/usr/bin/env node
-import fs from "fs/promises";
+import { promises as fs } from "fs";
 import path from "path";
 const ROOT = "public";
 const OUT = path.join(ROOT, "index.json");
-const STATIC_TOPLEVEL = new Set(["about","contact","legal"]);
+const STATIC_TOPLEVEL = new Set(["about", "contact", "legal"]);
 const MAX_BYTES = 64 * 1024;
 
-function dateFromName(name){
-  const m=name.match(/^(\d{4}-\d{2}-\d{2})/);
-  return m?new Date(m[1]).getTime():null;
+function dateFromName(name) {
+  const m = name.match(/^(\d{4}-\d{2}-\d{2})/);
+  return m ? new Date(m[0]).getTime() : null;
 }
-async function readHead(abs){
-  const fh=await fs.open(abs,"r");
-  const buf=Buffer.alloc(MAX_BYTES);
-  const {bytesRead}=await fh.read(buf,0,MAX_BYTES,0);
+async function readHead(abs) {
+  const fh = await fs.open(abs, "r");
+  const buf = Buffer.alloc(MAX_BYTES);
+  const { bytesRead } = await fh.read(buf, 0, MAX_BYTES, 0);
   await fh.close();
-  return buf.slice(0,bytesRead).toString("utf8");
+  return buf.slice(0, bytesRead).toString("utf8");
 }
-function parseTitle(raw,ext){
-  if(ext===".md") return raw.match(/^\s*#\s+(.+?)\s*$/m)?.[1].trim();
-  if(ext===".html") return raw.match(/<title[^>]*>([^<]+)<\/title>/i)?.[1].trim();
+function parseTitle(raw, ext) {
+  if (ext === ".md") return raw.match(/^\s*#\s+(.+?)\s*$/m)?.[1].trim();
+  if (ext === ".html") return raw.match(/<title[^>]*>([^<]+)<\/title>/i)?.[1].trim();
   return null;
 }
 
-async function walk(relBase=""){
-  const abs=path.join(ROOT,relBase);
-  const entries=await fs.readdir(abs,{withFileTypes:true});
-  const dir={type:"dir",name:path.basename(relBase)||"",path:relBase,children:[]};
-  for(const e of entries){
-    if(e.name.startsWith(".")) continue;
-    const rel=path.posix.join(relBase,e.name);
-    const absPath=path.join(ROOT,rel);
-    if(e.isDirectory()){
-      const top=rel.split("/")[0];
-      if(STATIC_TOPLEVEL.has(top)){continue;}
-      const child=await walk(rel);
-      dir.children.push(child);
-      continue;
-    }
-    const ext=path.extname(e.name);
-    if(![".md",".html"].includes(ext)) continue;
-    const st=await fs.stat(absPath);
-    const raw=await readHead(absPath);
-    const title=parseTitle(raw,ext)||e.name;
-    const date=dateFromName(e.name);
-    dir.children.push({
-      type:"file",
-      name:e.name,
-      title,
-      path:rel,
-      ext,
-      pinned:rel.startsWith("pinned/"),
-      mtime:date||st.mtimeMs
-    });
-  }
-  return dir;
-}
-
-(async()=>{
-  const tree=await walk();
-  const flat=[];
-  (function flatten(n){for(const c of n.children){if(c.type==="file")flat.push(c);else flatten(c);}})(tree);
-  const sections=[...new Set(flat.map(f=>f.path.split("/")[0]))];
-  await fs.writeFile(OUT,JSON.stringify({tree:tree.children,flat,sections},null,2));
-  console.log("index.json built:",OUT);
-})();
+async function walk(relBase = "") {
+  const abs = path.join
