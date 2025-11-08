@@ -15,24 +15,33 @@
 <header class="topbar">
   <button id="menuBtn" aria-label="Toggle menu">☰</button>
   <nav id="primaryNav" class="primary-nav">
-    <!-- Dynamically populated in app.js -->
+    <!-- Dynamically populated -->
   </nav>
 </header>
 
 <aside id="sidebar">
   <div class="sidebar-controls">
+    <label for="sectionSelect">Section:</label>
     <select id="sectionSelect"></select>
+    <label for="tagSelect">Tags (multi-select):</label>
+    <select id="tagSelect" multiple aria-label="Filter by tags"></select>
+    <label for="sortSelect">Sort:</label>
     <select id="sortSelect">
       <option value="newest">Newest</option>
       <option value="oldest">Oldest</option>
     </select>
-    <input id="searchBox" placeholder="Search titles...">
+    <label for="searchMode">Search Mode:</label>
+    <select id="searchMode">
+      <option value="title">Titles</option>
+      <option value="content">Content</option>
+    </select>
+    <input id="searchBox" placeholder="Search...">
   </div>
   <ul id="postList" role="list" aria-label="Posts list"></ul>
 </aside>
 
 <main id="content" class="content">
-  <div id="viewer" class="viewer"></div>
+  <div id="viewer" class="viewer fade-in"></div>
 </main>
 </body>
 </html>
