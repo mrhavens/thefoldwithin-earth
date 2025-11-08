@@ -26,20 +26,17 @@ const state = {
 init();
 
 async function init(){
-  // ensure libs present before any rendering
   const ok = await waitForLibs(3000);
   if (!ok){
     els.viewer.innerHTML = `<p style="color:#f66">Markdown renderer failed to load. Check /lib/marked.min.js and /lib/purify.min.js.</p>`;
     return;
   }
 
-  // restore desktop collapse
   try { state.desktopCollapsed = localStorage.getItem("desktopCollapsed")==="1"; } catch {}
 
   wireToggles();
   onResizeMode();
 
-  // load index
   try{
     const res = await fetch("/index.json", { cache:"no-cache" });
     if (!res.ok) throw new Error(res.status);
@@ -146,7 +143,6 @@ function renderTree(){
     </a>`;
   }).join("");
 
-  // close overlay on mobile when a link is clicked
   els.tree.addEventListener("click", (evt)=>{
     if (!evt.target.closest("a[data-path]")) return;
     if (!window.matchMedia("(min-width:1025px)").matches){
@@ -159,7 +155,6 @@ function renderTree(){
 /* ---------- Routing & Rendering ---------- */
 function onRoute(){
   const hash = location.hash || "#/";
-  // Handle section routes like #/fieldnotes
   const sectionMatch = hash.match(/^#\/(essays|fieldnotes|posts)\/?$/i);
   if (sectionMatch){
     state.section = sectionMatch[1].toLowerCase();
@@ -182,7 +177,6 @@ function onRoute(){
   const ext = rel.split(".").pop().toLowerCase();
   if (ext==="md") return renderMarkdown(rel);
   if (ext==="html") return renderHTML(rel);
-  // Try md then html as a convenience
   renderMarkdown(rel).catch(()=>renderHTML(rel));
 }
 
@@ -195,7 +189,6 @@ async function renderMarkdown(rel){
   const safe = window.DOMPurify.sanitize(html);
   els.viewer.innerHTML = safe;
 
-  // ensure we start at top; no reserved phantom space
   els.viewer.scrollIntoView({ block:"start", behavior:"instant" });
 }
 
@@ -204,6 +197,7 @@ async function renderHTML(rel){
   iframe.setAttribute("sandbox","allow-same-origin allow-scripts allow-forms");
   iframe.style.width = "100%";
   iframe.style.border = "0";
+  iframe.style.margin = "0";
   iframe.loading = "eager";
 
   els.viewer.innerHTML = "";
@@ -217,12 +211,28 @@ async function renderHTML(rel){
       iframe.style.height = h + "px";
     }catch{}
   };
+
   iframe.addEventListener("load", ()=>{
-    size();
     try{
-      const ro = new ResizeObserver(size);
-      ro.observe(iframe.contentDocument.documentElement);
+      const d = iframe.contentDocument || iframe.contentWindow.document;
+
+      // 🔒 Reset default UA margins so content sits flush like Markdown
+      const s = d.createElement("style");
+      s.textContent = `
+        html,body{margin:0;padding:0;background:transparent}
+        body>*:first-child{margin-top:0}
+      `;
+      d.head.appendChild(s);
+
+      // Track dynamic growth
+      try{
+        const ro = new ResizeObserver(size);
+        ro.observe(d.documentElement);
+        ro.observe(d.body);
+      }catch{}
     }catch{}
+
+    size();
     setTimeout(size, 250);
     setTimeout(size, 800);
   });
