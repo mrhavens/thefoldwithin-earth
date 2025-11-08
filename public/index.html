@@ -14,14 +14,13 @@
 
   <link rel="stylesheet" href="/styles.css">
 
-  <!-- Libraries -->
+  <!-- External libraries (load first so they're ready when app.js runs) -->
   <script src="https://cdn.jsdelivr.net/npm/marked@14.1.2/marked.min.js"
           integrity="sha384-Wk42AqblpWXvZ6w8XhUbJR7F85ZZAi9kZi5Lvsh5rFaDRkIl/u7jgvO6puJNLm7k"
-          crossorigin="anonymous" defer></script>
+          crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"
           integrity="sha384-8Whr94hA9beo1m6H5J7VGAa9M+ZMDqUoNUdD7/0+Wy3Fkg6jL1xcLyj5tQALcSD"
-          crossorigin="anonymous" defer></script>
-  <script src="/app.js" defer></script>
+          crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -60,5 +59,8 @@
       <button id="next">Next →</button>
     </div>
   </main>
+
+  <!-- App logic must load last to ensure libraries are available -->
+  <script src="/app.js"></script>
 </body>
 </html>
