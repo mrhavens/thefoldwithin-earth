@@ -86,7 +86,8 @@ body.sidebar-collapsed .content{ margin-left:0 }
   position:relative;
   flex:1 1 auto;
   margin-left:var(--sidebar-w);
-  padding:16px 24px 32px 12px; /* tighter left to remove “gap” look */
+  /* tighter edges so HTML/MD look identical */
+  padding:8px 24px 32px 8px;
   transition:margin-left .25s ease;
 }
 @media (max-width:1024px){ .content{ margin-left:0 } }
@@ -121,9 +122,9 @@ body.sidebar-collapsed .content{ margin-left:0 }
 .tree a:hover{ background:#111 }
 .tree .meta{ color:var(--sub); font-size:.86rem }
 
-/* Viewer — removed “card” frame to avoid bounded look/gap */
+/* Viewer — no “card” frame; flush with divider */
 .viewer{
-  padding:0 8px 24px 16px;
+  padding:0 0 24px 4px;
 }
 .viewer .empty{ opacity:.75 }
 .viewer h1,h2,h3{ color:var(--gold); margin:0 0 .75rem }
@@ -133,6 +134,9 @@ body.sidebar-collapsed .content{ margin-left:0 }
 }
 .viewer hr{ border:0; border-top:1px solid #222; margin:1.5rem 0 }
 .viewer img, .viewer iframe{ max-width:100%; height:auto; display:block; border-radius:12px }
+
+/* Make sure iframe itself has no stray margins */
+.viewer iframe{ border:0; margin:0 }
 
 /* Utilities */
 .visually-hidden{
