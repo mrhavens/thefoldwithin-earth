@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>FoldWithin Earth</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- CSP: allow self + jsdelivr for marked & dompurify. add SRI later if desired -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self';
+                 script-src 'self' https://cdn.jsdelivr.net;
+                 style-src 'self' 'unsafe-inline';
+                 img-src 'self' data:;
+                 frame-src 'self';">
+
+  <!-- markdown + sanitize (CDN). works offline if cached by the browser -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@14.1.2/marked.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js" defer></script>
+
+  <link rel="stylesheet" href="/styles.css" />
+  <script defer src="/app.js"></script>
+</head>
+<body>
+  <div id="app">
+    <aside class="sidebar">
+      <header class="sidehead">
+        <h1>FoldWithin</h1>
+        <div class="controls">
+          <label>
+            Sort:
+            <select id="sort">
+              <option value="date">Date (new → old)</option>
+              <option value="alpha">A → Z</option>
+            </select>
+          </label>
+          <label>
+            Filter:
+            <select id="filter">
+              <option value="all">All</option>
+              <option value="pinned">Pinned</option>
+              <option value="posts">Posts</option>
+            </select>
+          </label>
+        </div>
+      </header>
+      <nav id="tree" role="tree" aria-label="Site navigation"></nav>
+    </aside>
+
+    <main class="content">
+      <div class="viewer">
+        <iframe id="htmlFrame"
+                sandbox="allow-scripts allow-forms allow-popups allow-modals allow-downloads"
+                hidden
+                loading="lazy"></iframe>
+        <article id="mdContainer" class="md" hidden></article>
+      </div>
+      <footer class="foot">
+        <span id="meta"></span>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>
