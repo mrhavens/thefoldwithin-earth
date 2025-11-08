@@ -114,4 +114,5 @@ body.sidebar-open #sidebar{ transform:translateX(0); }
   margin:0;
   min-height:calc(100vh - var(--topbar-h) - 40px);
   border-radius:12px;
+  background: #fff; /* For PDF contrast */
 }
