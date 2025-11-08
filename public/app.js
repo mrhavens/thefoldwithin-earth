@@ -1,5 +1,5 @@
 /* ============================================================
-   Self-Organizing Static Site Framework  v2.3.2
+   Self-Organizing Static Site Framework  v2.3.3
    ============================================================ */
 
 let INDEX, CURRENT_PATH = null, PATH_TO_EL = new Map();
@@ -17,12 +17,30 @@ const sidebar   = document.querySelector(".sidebar");
 const navToggle = document.getElementById("navToggle");
 const overlay   = document.querySelector(".overlay");
 
-/* --- Navigation toggle --- */
+/* ------------------------------------------------------------
+   Utility: ensure external libs are ready before running
+------------------------------------------------------------- */
+async function ensureLibsReady() {
+  let tries = 0;
+  while ((!window.marked || !window.DOMPurify) && tries < 40) {
+    await new Promise(r => setTimeout(r, 100));
+    tries++;
+  }
+  if (!window.marked) console.warn("⚠️ marked.js not detected — markdown will show as plain text.");
+  if (!window.DOMPurify) console.warn("⚠️ DOMPurify not detected — HTML not sanitized.");
+}
+
+/* ------------------------------------------------------------
+   Sidebar toggle and overlay
+------------------------------------------------------------- */
 navToggle.addEventListener("click", () => sidebar.classList.toggle("open"));
 overlay.addEventListener("click",  () => sidebar.classList.remove("open"));
 
-/* --- Index load --- */
+/* ------------------------------------------------------------
+   Load and render index.json
+------------------------------------------------------------- */
 async function loadIndex() {
+  await ensureLibsReady();
   const res = await fetch("/index.json", { cache: "no-store" });
   INDEX = await res.json();
   populateFilters();
@@ -49,7 +67,9 @@ function populateFilters() {
   }
 }
 
-/* --- Tree build --- */
+/* ------------------------------------------------------------
+   Build directory tree
+------------------------------------------------------------- */
 function rebuildTree() {
   treeEl.innerHTML = "";
   PATH_TO_EL.clear();
@@ -111,7 +131,9 @@ function renderNode(n) {
 function iconForExt(ext){return ext===".md"?"📝":"🧩";}
 function fmtDate(ms){return new Date(ms).toISOString().slice(0,10);}
 
-/* --- Path openers --- */
+/* ------------------------------------------------------------
+   Path navigation
+------------------------------------------------------------- */
 function findDir(p){
   p=p.replace(/\/$/,'');
   function search(n){
@@ -145,7 +167,9 @@ async function openPath(path){
   if(window.innerWidth<900) sidebar.classList.remove("open");
 }
 
-/* --- Markdown renderer (v2.3.2 fix) --- */
+/* ------------------------------------------------------------
+   Markdown rendering (stable version)
+------------------------------------------------------------- */
 async function renderMarkdown(path){
   mdView.innerHTML="<p style='color:var(--muted);font-style:italic;'>Loading…</p>";
   htmlView.style.display="none";
@@ -164,6 +188,7 @@ async function renderMarkdown(path){
 
     requestAnimationFrame(()=>{
       mdView.innerHTML=safe;
+      mdView.scrollTop=0;                // reset scroll to top
       mdView.classList.add("fade-in");
       mdView.style.display="block";
     });
@@ -174,14 +199,18 @@ async function renderMarkdown(path){
   }
 }
 
-/* --- HTML viewer --- */
+/* ------------------------------------------------------------
+   HTML rendering
+------------------------------------------------------------- */
 function renderHTML(path){
   htmlView.src="/"+path;
   htmlView.style.display="block";
   mdView.style.display="none";
 }
 
-/* --- Active / Pager --- */
+/* ------------------------------------------------------------
+   Active state + pager
+------------------------------------------------------------- */
 function setActive(path){
   document.querySelectorAll(".file.active").forEach(el=>el.classList.remove("active"));
   const el=PATH_TO_EL.get(path);
@@ -212,7 +241,9 @@ function updatePager(){
   nextBtn.onclick=()=>i<list.length-1&&openPath(list[i+1].path);
 }
 
-/* --- Search / Filter / Sort --- */
+/* ------------------------------------------------------------
+   Search / filter / sort
+------------------------------------------------------------- */
 let searchTimer;
 searchBox.addEventListener("input",()=>{
   clearTimeout(searchTimer);
@@ -221,7 +252,9 @@ searchBox.addEventListener("input",()=>{
 sortSel.addEventListener("change",rebuildTree);
 filterSel.addEventListener("change",rebuildTree);
 
-/* --- Internal link interception --- */
+/* ------------------------------------------------------------
+   Internal link interception
+------------------------------------------------------------- */
 document.body.addEventListener("click",e=>{
   const a=e.target.closest("a[href]");
   if(!a) return;
