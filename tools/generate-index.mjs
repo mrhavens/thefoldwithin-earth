@@ -26,10 +26,9 @@ function parseTitle(raw, ext) {
   return null;
 }
 
-async function walk(relBase = "") {
+async function collectFiles(relBase = "", flat = []) {
   const abs = path.join(ROOT, relBase);
   const entries = await fs.readdir(abs, { withFileTypes: true });
-  const dir = { type: "dir", name: path.posix.basename(relBase) || "", path: relBase, children: [] };
 
   for (const e of entries) {
     if (e.name.startsWith(".")) continue;
@@ -38,8 +37,7 @@ async function walk(relBase = "") {
     if (e.isDirectory()) {
       const top = rel.split("/")[0];
       if (STATIC_TOPLEVEL.has(top)) continue;
-      const child = await walk(rel);
-      dir.children.push(child);
+      await collectFiles(rel, flat);
       continue;
     }
 
@@ -50,7 +48,7 @@ async function walk(relBase = "") {
     const title = parseTitle(raw, ext) || e.name;
     const mtime = dateFromName(e.name) ?? st.mtimeMs;
 
-    dir.children.push({
+    flat.push({
       type: "file",
       name: e.name,
       title,
@@ -60,16 +58,14 @@ async function walk(relBase = "") {
       mtime
     });
   }
-  return dir;
+  return flat;
 }
 
 (async () => {
   try {
-    const tree = await walk();
-    const flat = [];
-    (function flatten(n) { for (const c of n.children) { c.type === "file" ? flat.push(c) : flatten(c); } })(tree);
+    const flat = await collectFiles();
     const sections = [...new Set(flat.map(f => f.path.split("/")[0]))];
-    await fs.writeFile(OUT, JSON.stringify({ tree: tree.children, flat, sections }, null, 2));
+    await fs.writeFile(OUT, JSON.stringify({ flat, sections }, null, 2));
     console.log(`index.json built with ${flat.length} files across ${sections.length} sections.`);
   } catch (e) {
     console.error("Build failed:", e);
