@@ -1,243 +1,105 @@
-/* global marked, DOMPurify */
-const $  = (s, r=document) => r.querySelector(s);
-const $$ = (s, r=document) => [...r.querySelectorAll(s)];
-
 const els = {
   body: document.body,
-  sidebar: $("#sidebar"),
-  content: $("#content"),
-  viewer: $("#viewer"),
-  tree: $("#tree"),
-  navToggle: $("#navToggle"),
-  filterSection: $("#filterSection"),
-  sortOrder: $("#sortOrder"),
-  searchBox: $("#searchBox"),
+  menuBtn: document.getElementById("menuBtn"),
+  sectionSelect: document.getElementById("sectionSelect"),
+  sortSelect: document.getElementById("sortSelect"),
+  searchBox: document.getElementById("searchBox"),
+  postList: document.getElementById("postList"),
+  viewer: document.getElementById("viewer"),
+  content: document.getElementById("content")
 };
 
-const state = {
-  index: null,
-  section: "all",
-  sort: "newest",
-  q: "",
-  sidebarOpen: false,
-  desktopCollapsed: false
-};
-
-init();
+let indexData = null;
+let state = { section: "posts", sort: "newest", query: "", sidebarOpen: false };
 
 async function init(){
-  const ok = await waitForLibs(3000);
-  if (!ok){
-    els.viewer.innerHTML = `<p style="color:#f66">Markdown renderer failed to load. Check /lib/marked.min.js and /lib/purify.min.js.</p>`;
-    return;
-  }
-
-  try { state.desktopCollapsed = localStorage.getItem("desktopCollapsed")==="1"; } catch {}
-
-  wireToggles();
-  onResizeMode();
-
-  try{
-    const res = await fetch("/index.json", { cache:"no-cache" });
-    if (!res.ok) throw new Error(res.status);
-    state.index = await res.json();
-  }catch(e){
-    console.error("index.json load failed", e);
-    els.viewer.innerHTML = `<p style="color:#f66">Could not load index.json</p>`;
-    return;
-  }
-
-  buildFilters();
-  renderTree();
-
-  window.addEventListener("hashchange", onRoute);
-  onRoute();
+  indexData = await (await fetch("index.json")).json();
+  populateSections();
+  wireUI();
+  renderList();
+  handleHash();
+  window.addEventListener("hashchange", handleHash);
 }
 
-/* ---------- Lib readiness ---------- */
-function waitForLibs(timeoutMs=3000){
-  const start = performance.now();
-  return new Promise(resolve=>{
-    (function tick(){
-      const ready = !!(window.marked && window.DOMPurify);
-      if (ready) return resolve(true);
-      if (performance.now() - start > timeoutMs) return resolve(false);
-      setTimeout(tick, 60);
-    })();
+function populateSections(){
+  els.sectionSelect.innerHTML = "";
+  indexData.sections.forEach(s=>{
+    const opt = document.createElement("option");
+    opt.value = s; opt.textContent = s;
+    els.sectionSelect.appendChild(opt);
   });
 }
 
-/* ---------- UI wiring ---------- */
-function wireToggles(){
-  els.navToggle.addEventListener("click", ()=>{
-    const desktop = window.matchMedia("(min-width:1025px)").matches;
-    if (desktop){
-      state.desktopCollapsed = !els.body.classList.contains("sidebar-collapsed");
-      els.body.classList.toggle("sidebar-collapsed");
-      try{ localStorage.setItem("desktopCollapsed", state.desktopCollapsed ? "1":"0"); }catch{}
-    }else{
-      state.sidebarOpen = !els.body.classList.contains("sidebar-open");
-      els.body.classList.toggle("sidebar-open");
-    }
+function wireUI(){
+  els.menuBtn.addEventListener("click", ()=>{
+    state.sidebarOpen = !state.sidebarOpen;
+    document.body.classList.toggle("sidebar-open", state.sidebarOpen);
   });
-
-  window.addEventListener("resize", onResizeMode);
-}
-
-function onResizeMode(){
-  const desktop = window.matchMedia("(min-width:1025px)").matches;
-  if (desktop){
-    els.body.classList.remove("sidebar-open");
-    els.body.classList.toggle("sidebar-collapsed", state.desktopCollapsed);
-  } else {
-    els.body.classList.remove("sidebar-collapsed");
-    if (!state.sidebarOpen) els.body.classList.remove("sidebar-open");
-  }
-}
-
-function buildFilters(){
-  const sections = ["all", ...(state.index?.sections ?? [])];
-  els.filterSection.innerHTML = sections.map(s=>`<option value="${s}">${cap(s)}</option>`).join("");
-  els.filterSection.value = state.section;
-
-  els.filterSection.addEventListener("change", e=>{
-    state.section = e.target.value;
-    renderTree();
-  });
-
-  els.sortOrder.value = state.sort;
-  els.sortOrder.addEventListener("change", e=>{
-    state.sort = e.target.value;
-    renderTree();
-  });
-
-  els.searchBox.addEventListener("input", e=>{
-    state.q = e.target.value.trim().toLowerCase();
-    renderTree();
-  });
-}
-
-/* ---------- Tree ---------- */
-function renderTree(){
-  if (!state.index) return;
-  const items = state.index.flat.slice();
-
-  const filtered = items.filter(f=>{
-    const inSection = state.section==="all" || f.path.startsWith(state.section + "/");
-    const inQuery = !state.q || f.title.toLowerCase().includes(state.q) || f.name.toLowerCase().includes(state.q);
-    return inSection && inQuery;
-  });
-
-  filtered.sort((a,b)=>{
-    if (state.sort==="title")  return a.title.localeCompare(b.title, undefined, {sensitivity:"base"});
-    if (state.sort==="oldest") return (a.mtime??0) - (b.mtime??0);
-    return (b.mtime??0) - (a.mtime??0);
-  });
-
-  els.tree.innerHTML = filtered.map(f=>{
-    const d = new Date(f.mtime || Date.now());
-    const meta = `${d.toISOString().slice(0,10)} • ${f.name}`;
-    return `<a href="#=${encodeURIComponent(f.path)}" data-path="${f.path}">
-      <div class="title">${esc(f.title)}</div>
-      <div class="meta">${meta}</div>
-    </a>`;
-  }).join("");
-
-  els.tree.addEventListener("click", (evt)=>{
-    if (!evt.target.closest("a[data-path]")) return;
-    if (!window.matchMedia("(min-width:1025px)").matches){
-      els.body.classList.remove("sidebar-open");
+  els.sectionSelect.addEventListener("change", ()=>renderList());
+  els.sortSelect.addEventListener("change", ()=>renderList());
+  els.searchBox.addEventListener("input", ()=>renderList());
+  els.content.addEventListener("click", ()=>{
+    if (window.matchMedia("(max-width:1024px)").matches && document.body.classList.contains("sidebar-open")){
+      document.body.classList.remove("sidebar-open");
       state.sidebarOpen = false;
     }
-  }, { once:true });
+  });
 }
 
-/* ---------- Routing & Rendering ---------- */
-function onRoute(){
-  const hash = location.hash || "#/";
-  const sectionMatch = hash.match(/^#\/(essays|fieldnotes|posts)\/?$/i);
-  if (sectionMatch){
-    state.section = sectionMatch[1].toLowerCase();
-    els.filterSection.value = state.section;
-    renderTree();
-    els.viewer.innerHTML = `<div class="empty"><h1>${cap(state.section)}</h1><p>Select a note on the left.</p></div>`;
-    return;
+function renderList(){
+  const section = els.sectionSelect.value;
+  const sort = els.sortSelect.value;
+  const query = els.searchBox.value.toLowerCase();
+
+  let posts = indexData.flat.filter(p=>p.path.startsWith(section));
+  if (query) posts = posts.filter(p=>p.title.toLowerCase().includes(query));
+  posts.sort((a,b)=> sort==="newest"? b.mtime-a.mtime : a.mtime-b.mtime);
+
+  els.postList.innerHTML = "";
+  for (const p of posts){
+    const li = document.createElement("li");
+    li.innerHTML = `<a href="#/${p.path}">${p.title}</a><br><small>${new Date(p.mtime).toISOString().split("T")[0]}</small>`;
+    els.postList.appendChild(li);
   }
+}
 
-  const [, rawPath=""] = hash.split("#=");
-  const rel = decodeURIComponent(rawPath);
-
-  if (!rel){
-    els.viewer.innerHTML = `<div class="empty"><h1>The Fold Within</h1><p>Select a note on the left.</p></div>`;
-    return;
-  }
-
-  if (rel.includes("..")){ els.viewer.textContent = "Invalid path."; return; }
-
-  const ext = rel.split(".").pop().toLowerCase();
-  if (ext==="md") return renderMarkdown(rel);
-  if (ext==="html") return renderHTML(rel);
-  renderMarkdown(rel).catch(()=>renderHTML(rel));
+async function handleHash(){
+  const rel = location.hash.replace(/^#\//,"");
+  if (!rel) return renderDefault();
+  const file = indexData.flat.find(f=>f.path===rel);
+  if (!file) return;
+  file.ext===".md"? await renderMarkdown(file.path) : renderHTML(file.path);
 }
 
 async function renderMarkdown(rel){
-  const res = await fetch("/" + rel, { cache:"no-cache" });
-  if (!res.ok) throw new Error("not found");
-  const text = await res.text();
-
-  const html = window.marked.parse(text, { mangle:false, headerIds:true });
-  const safe = window.DOMPurify.sanitize(html);
-  els.viewer.innerHTML = safe;
-
-  els.viewer.scrollIntoView({ block:"start", behavior:"instant" });
+  const src = await fetch(rel).then(r=>r.text());
+  const html = marked.parse(src);
+  els.viewer.innerHTML = `<article>${html}</article>`;
 }
 
-async function renderHTML(rel){
+function renderHTML(rel){
   const iframe = document.createElement("iframe");
   iframe.setAttribute("sandbox","allow-same-origin allow-scripts allow-forms");
-  iframe.style.width = "100%";
-  iframe.style.border = "0";
-  iframe.style.margin = "0";
   iframe.loading = "eager";
-
+  iframe.src = "/" + rel;
   els.viewer.innerHTML = "";
   els.viewer.appendChild(iframe);
-  iframe.src = "/" + rel;
-
-  const size = ()=>{
-    try{
-      const d = iframe.contentDocument || iframe.contentWindow.document;
-      const h = Math.max(d.body.scrollHeight, d.documentElement.scrollHeight);
-      iframe.style.height = h + "px";
-    }catch{}
-  };
-
   iframe.addEventListener("load", ()=>{
     try{
       const d = iframe.contentDocument || iframe.contentWindow.document;
-
-      // 🔒 Reset default UA margins so content sits flush like Markdown
       const s = d.createElement("style");
       s.textContent = `
-        html,body{margin:0;padding:0;background:transparent}
-        body>*:first-child{margin-top:0}
+        html,body{margin:0;padding:0;background:transparent;color:#e6e3d7;font:16px/1.6 Inter,ui-sans-serif;}
+        main,article,section{max-width:720px;margin:auto;padding:2rem;}
       `;
       d.head.appendChild(s);
-
-      // Track dynamic growth
-      try{
-        const ro = new ResizeObserver(size);
-        ro.observe(d.documentElement);
-        ro.observe(d.body);
-      }catch{}
     }catch{}
-
-    size();
-    setTimeout(size, 250);
-    setTimeout(size, 800);
   });
 }
 
-/* ---------- Utils ---------- */
-const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
-const esc = s => s.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+function renderDefault(){
+  const latest = [...indexData.flat].sort((a,b)=>b.mtime-a.mtime)[0];
+  if (latest) location.hash = "#/" + latest.path;
+}
+
+init();
