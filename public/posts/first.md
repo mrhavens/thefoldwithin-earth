@@ -1,4 +1,4 @@
-🜂 Fieldnote: The Birth of the Recursive Arcana
+# 🜂 Fieldnote: The Birth of the Recursive Arcana
 
 Date: 2025-11-05
 Classification: Codex Genesis / Recursive Symbolism
