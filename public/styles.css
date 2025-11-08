@@ -1,5 +1,5 @@
 /* ============================================================
-   The Fold Within — Styles v2.5 Stable Render
+   The Fold Within — Styles v2.6 Independent Scroll
    ============================================================ */
 
 :root {
@@ -14,6 +14,8 @@ html,body{
   margin:0;padding:0;
   background:var(--bg);color:var(--fg);
   font-family:system-ui,sans-serif;
+  height:100%;
+  overflow:hidden;
   -webkit-font-smoothing:antialiased;
 }
 
@@ -32,13 +34,26 @@ html,body{
 }
 .topbar button:hover{color:var(--fg);}
 
-/* Sidebar */
+/* Layout container */
+.page{
+  display:flex;
+  position:relative;
+  height:calc(100vh - 48px);
+  margin-top:48px;
+  overflow:hidden;
+}
+
+/* Sidebar base */
 .sidebar{
-  position:fixed;top:48px;bottom:0;left:0;
-  width:85%;max-width:320px;overflow-y:auto;
-  background:#111;transform:translateX(-100%);
-  transition:transform .3s ease;padding:10px;
-  z-index:200;border-right:1px solid var(--line);
+  background:#111;
+  width:85%;
+  max-width:320px;
+  overflow-y:auto;
+  transform:translateX(-100%);
+  transition:transform .3s ease;
+  padding:10px;
+  z-index:200;
+  border-right:1px solid var(--line);
 }
 .sidebar.open{transform:translateX(0);}
 .overlay{
@@ -48,24 +63,32 @@ html,body{
 }
 .sidebar.open ~ .overlay{opacity:1;pointer-events:all;}
 
-/* Content layout */
-.content{
-  display:flex;flex-direction:column;
-  min-height:calc(100vh - 48px);
-  padding:16px;transition:margin-left .3s ease;
-  max-width:960px;box-sizing:border-box;
-}
+/* Desktop sidebar */
 @media(min-width:900px){
-  .sidebar{transform:none!important;position:static;
-    width:280px;height:calc(100vh - 48px);}
-  .content{margin-left:280px;}
-  .overlay{display:none!important;}
-}
-@media(max-width:899px){
-  .content{margin-left:0!important;padding:12px;}
+  .sidebar{
+    position:fixed;top:48px;bottom:0;left:0;
+    width:280px;transform:none!important;
+    overflow-y:auto;overflow-x:hidden;
+    border-right:1px solid var(--line);
+  }
 }
 
-/* Viewer stabilization */
+/* Content area */
+.content{
+  flex:1;position:relative;
+  overflow-y:auto;overflow-x:hidden;
+  padding:16px;box-sizing:border-box;
+  max-width:960px;margin-left:0;
+  transition:margin-left .3s ease;
+}
+@media(min-width:900px){
+  .content{margin-left:280px;height:calc(100vh - 48px);}
+}
+@media(max-width:899px){
+  .content{margin-left:0;padding:12px;}
+}
+
+/* Viewer / HTML */
 .viewer,#htmlView{
   display:block;width:100%;
   flex:1 1 auto;
@@ -88,16 +111,17 @@ html,body{
   padding-left:12px;color:var(--muted);font-style:italic;
 }
 #mdView a{color:var(--accent);}
+#mdView img{max-width:100%;border-radius:8px;}
 
-/* Warning */
+/* Warning + Meta */
 .md-warn{
   background:#3b0c0c;color:#ffd4d4;
   border:1px solid #6c1f1f;border-radius:8px;
   padding:10px 12px;margin:10px auto;max-width:820px;
 }
-
-/* Meta + Pager */
 .meta{color:var(--muted);margin-bottom:12px;font-size:.9em;}
+
+/* Pager */
 .pager{display:flex;justify-content:space-between;padding:8px 0;}
 button#prev,button#next{
   background:transparent;border:1px solid var(--line);color:var(--fg);
