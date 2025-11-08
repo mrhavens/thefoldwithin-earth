@@ -1,12 +1,7 @@
 {
   "name": "the-fold-within",
-  "private": true,
-  "type": "module",
-  "version": "2.7.0",
-  "scripts": {
-    "build": "node tools/generate-index.mjs",
-    "serve": "npx http-server public -p 8080 -c-1"
-  },
-  "dependencies": {},
-  "devDependencies": {}
+  "version": "2.3.0",
+  "dependencies": {
+    "pdf-parse": "^1.1.1"
+  }
 }
