@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>The Fold Within</title>
 
-  <!-- Tight CSP (no CDN) -->
+  <!-- Strict CSP, self-contained -->
   <meta http-equiv="Content-Security-Policy"
         content="default-src 'self';
                  script-src 'self';
@@ -14,6 +14,7 @@
                  frame-src 'self';
                  connect-src 'self';">
 
+  <link rel="preload" href="/styles.css" as="style">
   <link rel="stylesheet" href="/styles.css">
 
   <!-- Local vendored libraries -->
@@ -48,8 +49,9 @@
   <main class="content">
     <div id="meta" class="meta"></div>
     <div id="mdWarn" class="md-warn" style="display:none;">
-      Markdown fallback in effect (parser not available).
+      Markdown fallback active — libraries not loaded.
     </div>
+
     <div id="mdView" class="viewer" style="display:none;"></div>
     <iframe id="htmlView"
             sandbox="allow-scripts allow-forms allow-popups allow-modals allow-downloads"
