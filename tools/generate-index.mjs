@@ -13,7 +13,6 @@ function dateFromName(name) {
   const m = name.match(/^(\d{4}-\d{2}-\d{2})/);
   return m ? new Date(m[0]).getTime() : null;
 }
-
 async function readHead(abs) {
   const fh = await fs.open(abs, "r");
   const buf = Buffer.alloc(MAX_BYTES);
@@ -21,26 +20,19 @@ async function readHead(abs) {
   await fh.close();
   return buf.slice(0, bytesRead).toString("utf8");
 }
-
 function parseTitle(raw, ext) {
   if (ext === ".md") return raw.match(/^\s*#\s+(.+?)\s*$/m)?.[1]?.trim();
-  if (ext === ".html")
-    return raw.match(/<title[^>]*>([^<]+)<\/title>/i)?.[1]?.trim();
+  if (ext === ".html") return raw.match(/<title[^>]*>([^<]+)<\/title>/i)?.[1]?.trim();
   return null;
 }
 
 async function walk(relBase = "") {
   const abs = path.join(ROOT, relBase);
   const entries = await fs.readdir(abs, { withFileTypes: true });
-  const dir = {
-    type: "dir",
-    name: path.posix.basename(relBase) || "",
-    path: relBase,
-    children: [],
-  };
+  const dir = { type: "dir", name: path.posix.basename(relBase) || "", path: relBase, children: [] };
 
   for (const e of entries) {
-    if (e.name.startsWith(".")) continue; // skip hidden
+    if (e.name.startsWith(".")) continue;
     const rel = path.posix.join(relBase, e.name);
     const absPath = path.join(ROOT, rel);
 
@@ -59,9 +51,7 @@ async function walk(relBase = "") {
     try {
       const raw = await readHead(absPath);
       title = parseTitle(raw, ext) || e.name;
-    } catch {
-      /* ignore parse errors */
-    }
+    } catch { /* ignore parse errors */ }
 
     const mtime = dateFromName(e.name) ?? st.mtimeMs;
     dir.children.push({
@@ -71,11 +61,11 @@ async function walk(relBase = "") {
       path: rel,
       ext,
       pinned: rel.startsWith("pinned/"),
-      mtime,
+      mtime
     });
   }
 
-  // sort newest first by mtime
+  // newest-first inside each folder for nicer UX
   dir.children.sort((a, b) => (b.mtime ?? 0) - (a.mtime ?? 0));
   return dir;
 }
@@ -90,14 +80,10 @@ async function walk(relBase = "") {
         else flatten(c);
       }
     })(tree);
-    const sections = [...new Set(flat.map((f) => f.path.split("/")[0]))];
-    await fs.writeFile(
-      OUT,
-      JSON.stringify({ tree: tree.children, flat, sections }, null, 2)
-    );
-    console.log(
-      `✅ index.json built with ${flat.length} files across ${sections.length} sections.`
-    );
+
+    const sections = [...new Set(flat.map(f => f.path.split("/")[0]))];
+    await fs.writeFile(OUT, JSON.stringify({ tree: tree.children, flat, sections }, null, 2));
+    console.log(`✅ index.json built with ${flat.length} files across ${sections.length} sections.`);
   } catch (e) {
     console.error("❌ Build failed:", e);
     process.exit(1);
