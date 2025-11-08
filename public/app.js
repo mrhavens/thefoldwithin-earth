@@ -8,6 +8,7 @@ const filterSel = document.getElementById("filter");
 const searchBox = document.getElementById("search");
 const prevBtn = document.getElementById("prev");
 const nextBtn = document.getElementById("next");
+const sidebar = document.querySelector(".sidebar");
 
 async function loadIndex() {
   const res = await fetch("/index.json", { cache: "no-store" });
@@ -36,7 +37,7 @@ function rebuildTree() {
   const pruned = filterTree(root, f => (filter === "all" || f.path.split("/")[0] === filter) && (!query || (f.title || f.name).toLowerCase().includes(query)));
   sortDir(pruned, sort);
   for (const c of pruned.children) treeEl.appendChild(renderNode(c));
-  treeEl.querySelectorAll(".dir").forEach(d => d.classList.add("open"));  // Auto-open tops
+  treeEl.querySelectorAll(".dir").forEach(d => d.classList.add("open"));
 }
 function filterTree(node, keep) {
   if (node.type === "file") return keep(node) ? node : null;
@@ -108,17 +109,17 @@ async function openPath(path) {
   else renderHTML(f.path);
   setActive(path);
   updatePager();
-  if (window.innerWidth < 900) document.querySelector(".sidebar").classList.remove("open");
+  if (window.innerWidth < 900) sidebar.classList.remove("open");
 }
 async function renderMarkdown(path) {
+  mdView.style.display = "none";
   const res = await fetch("/" + path);
-  if (!res.ok) { mdView.innerHTML = "<p>File not found: " + path + "</p>"; return; }
+  if (!res.ok) { mdView.innerHTML = "<p>File not found: " + path + "</p>"; requestAnimationFrame(() => mdView.style.display = "block"); return; }
   const text = await res.text();
   const html = window.marked ? window.marked.parse(text) : text.replace(/&/g, '&amp;').replace(/</g, '&lt;');
   const safe = window.DOMPurify ? window.DOMPurify.sanitize(html) : html;
   mdView.innerHTML = safe;
-  mdView.style.display = "block";
-  htmlView.style.display = "none";
+  requestAnimationFrame(() => { mdView.style.display = "block"; htmlView.style.display = "none"; });
 }
 function renderHTML(path) {
   htmlView.src = "/" + path;
@@ -162,4 +163,5 @@ document.body.addEventListener("click", e => {
     openPath(href.replace(/^\//, ""));
   }
 });
+window.addEventListener("resize", () => { if (window.innerWidth < 900) sidebar.classList.remove("open"); });
 window.addEventListener("DOMContentLoaded", loadIndex);
