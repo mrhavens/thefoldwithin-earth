@@ -1,67 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>FoldWithin</title>
-
-  <!-- Tight baseline CSP (CDNs whitelisted via jsDelivr). 
-       NOTE: Add SRI attributes later to lock these further. -->
-  <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self';
-                 script-src 'self' https://cdn.jsdelivr.net;
-                 style-src 'self' 'unsafe-inline';
-                 img-src 'self' data:;
-                 frame-src 'self';
-                 connect-src 'self'">
-
-  <link rel="stylesheet" href="styles.css" />
-
-  <!-- TODO: add SRI hashes once pinned -->
-  <script src="https://cdn.jsdelivr.net/npm/marked@14.1.2/marked.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js" defer></script>
-  <script src="app.js" defer></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Fold Within</title>
+<link rel="stylesheet" href="/styles.css">
+<script src="https://cdn.jsdelivr.net/npm/marked@14.1.2/marked.min.js"
+ integrity="sha384-Wk42AqblpWXvZ6w8XhUbJR7F85ZZAi9kZi5Lvsh5rFaDRkIl/u7jgvO6puJNLm7k"
+ crossorigin="anonymous" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"
+ integrity="sha384-8Whr94hA9beo1m6H5J7VGAa9M+ZMDqUoNUdD7/0+Wy3Fkg6jL1xcLyj5tQALcSD"
+ crossorigin="anonymous" defer></script>
+<script src="/app.js" defer></script>
 </head>
-
 <body>
-  <button id="navToggle" class="nav-toggle" aria-label="Toggle navigation">☰</button>
-  <div class="overlay" id="backdrop"></div>
-
-  <div id="app">
-    <aside class="sidebar" id="sidebar">
-      <h1>FoldWithin</h1>
-
-      <div class="controls">
-        <label>Sort:
-          <select id="sortSel">
-            <option value="new">Date (new → old)</option>
-            <option value="old">Date (old → new)</option>
-            <option value="alpha">Title (A → Z)</option>
-          </select>
-        </label>
-
-        <label>Filter:
-          <select id="filterSel">
-            <option value="all">All</option>
-            <option value="pinned">Pinned</option>
-            <option value="posts">Posts</option>
-          </select>
-        </label>
-
-        <input id="searchBox" class="search" type="search" placeholder="Search…" />
-      </div>
-
-      <nav id="tree" role="tree" aria-label="Document tree"></nav>
-    </aside>
-
-    <main class="content">
-      <div class="viewer">
-        <div id="meta"></div>
-        <iframe id="htmlView" sandbox="allow-scripts allow-forms allow-popups allow-modals allow-downloads"></iframe>
-        <div id="mdView" class="md"></div>
-        <div id="errorBox" class="error" hidden></div>
-      </div>
-    </main>
+<header class="topbar">
+  <button id="navToggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+  <a href="/">Home</a>
+  <a href="/about/">About</a>
+  <a href="/essays/">Essays</a>
+  <a href="/fieldnotes/">Fieldnotes</a>
+</header>
+<div class="sidebar" id="sidebar">
+  <div class="controls">
+    <select id="filter"></select>
+    <select id="sort">
+      <option value="new">Newest</option>
+      <option value="old">Oldest</option>
+      <option value="name">Name</option>
+    </select>
   </div>
+  <input id="search" type="text" placeholder="Search...">
+  <div id="tree"></div>
+</div>
+<div class="overlay"></div>
+<main class="content">
+  <div id="meta"></div>
+  <div class="viewer" id="mdView"></div>
+  <iframe id="htmlView" sandbox></iframe>
+  <div style="display:flex;justify-content:space-between;padding:8px;">
+    <button id="prev">← Prev</button>
+    <button id="next">Next →</button>
+  </div>
+</main>
 </body>
 </html>
