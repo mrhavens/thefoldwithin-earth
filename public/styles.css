@@ -1,5 +1,6 @@
 /* ============================================================
-   The Fold Within — Styles v2.6.1 Independent Scroll + Mobile Fix
+   The Fold Within — Styles v2.6.2
+   Independent Scroll + Desktop Collapse + Overlap Fix
    ============================================================ */
 
 :root {
@@ -10,6 +11,7 @@
   --line: #2a2d34;
 }
 
+/* Base */
 html, body {
   margin: 0;
   padding: 0;
@@ -24,12 +26,9 @@ html, body {
 /* ============================================================
    Topbar
    ============================================================ */
-
 .topbar {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   height: 48px;
   display: flex;
   align-items: center;
@@ -37,19 +36,14 @@ html, body {
   background: #111;
   padding: 0 1em;
   z-index: 300;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(0,0,0,.3);
 }
-
 .topbar a {
   color: var(--accent);
   text-decoration: none;
   font-weight: 500;
 }
-
-.topbar a:hover {
-  color: var(--fg);
-}
-
+.topbar a:hover { color: var(--fg); }
 .topbar button {
   font-size: 24px;
   background: transparent;
@@ -58,15 +52,11 @@ html, body {
   padding: 4px 8px;
   cursor: pointer;
 }
-
-.topbar button:hover {
-  color: var(--fg);
-}
+.topbar button:hover { color: var(--fg); }
 
 /* ============================================================
-   Layout
+   Layout Containers
    ============================================================ */
-
 .page {
   display: flex;
   position: relative;
@@ -76,63 +66,59 @@ html, body {
 }
 
 /* ============================================================
-   Sidebar (Base)
+   Sidebar (base shared)
    ============================================================ */
-
 .sidebar {
   background: #111;
-  width: 85%;
-  max-width: 320px;
+  width: 280px;
   overflow-y: auto;
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
+  transform: translateX(0);
+  transition: transform .3s ease, width .3s ease;
   padding: 10px;
   z-index: 200;
   border-right: 1px solid var(--line);
 }
 
-.sidebar.open {
-  transform: translateX(0);
+/* collapsed (desktop + mobile toggle) */
+.sidebar.collapsed {
+  transform: translateX(-280px);
 }
 
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0,0,0,.45);
   backdrop-filter: blur(4px);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease;
+  transition: opacity .3s ease;
   z-index: 150;
 }
-
 .sidebar.open ~ .overlay {
   opacity: 1;
   pointer-events: all;
 }
 
 /* ============================================================
-   Sidebar (Desktop)
+   Desktop Sidebar (≥900px)
    ============================================================ */
-
-@media (min-width: 900px) {
+@media (min-width:900px){
   .sidebar {
     position: fixed;
     top: 48px;
     bottom: 0;
     left: 0;
     width: 280px;
-    transform: none !important;
-    overflow-y: auto;
-    overflow-x: hidden;
-    border-right: 1px solid var(--line);
+    transform: none;
+  }
+  .sidebar.collapsed {
+    transform: translateX(-280px);
   }
 }
 
 /* ============================================================
    Content Area
    ============================================================ */
-
 .content {
   flex: 1;
   position: relative;
@@ -141,30 +127,20 @@ html, body {
   padding: 16px;
   box-sizing: border-box;
   max-width: 960px;
+  margin-left: 280px;
+  transition: margin-left .3s ease;
+}
+.content.full {
   margin-left: 0;
-  transition: margin-left 0.3s ease;
 }
-
-@media (min-width: 900px) {
-  .content {
-    margin-left: 280px;
-    height: calc(100vh - 48px);
-  }
-}
-
-@media (max-width: 899px) {
-  .content {
-    margin-left: 0;
-    padding: 12px;
-  }
+@media(max-width:899px){
+  .content { margin-left: 0; padding: 12px; }
 }
 
 /* ============================================================
    Viewer + HTML Frame
    ============================================================ */
-
-.viewer,
-#htmlView {
+.viewer, #htmlView {
   display: block;
   width: 100%;
   flex: 1 1 auto;
@@ -172,63 +148,35 @@ html, body {
   padding-top: 0;
   min-height: calc(100vh - 48px);
   overflow-y: auto;
-  transition: opacity 0.25s ease;
+  transition: opacity .25s ease;
 }
-
-.viewer.fade-in,
-#htmlView.fade-in {
-  opacity: 1;
-}
-
-.viewer:not(.fade-in),
-#htmlView:not(.fade-in) {
-  opacity: 0;
-}
-
-#htmlView {
-  border: none;
-  background: #0b0c10;
-}
+.viewer.fade-in, #htmlView.fade-in { opacity: 1; }
+.viewer:not(.fade-in), #htmlView:not(.fade-in) { opacity: 0; }
+#htmlView { border: none; background: #0b0c10; }
 
 /* ============================================================
    Markdown Formatting
    ============================================================ */
-
-#mdView h1,
-#mdView h2,
-#mdView h3 {
-  color: var(--accent);
-}
-
-#mdView pre,
-#mdView code {
+#mdView h1, #mdView h2, #mdView h3 { color: var(--accent); }
+#mdView pre, #mdView code {
   overflow-x: auto;
   background: #111;
-  padding: 0.5em;
+  padding: .5em;
   border-radius: 4px;
   color: var(--accent);
 }
-
 #mdView blockquote {
   border-left: 3px solid var(--accent);
   padding-left: 12px;
   color: var(--muted);
   font-style: italic;
 }
-
-#mdView a {
-  color: var(--accent);
-}
-
-#mdView img {
-  max-width: 100%;
-  border-radius: 8px;
-}
+#mdView a { color: var(--accent); }
+#mdView img { max-width: 100%; border-radius: 8px; }
 
 /* ============================================================
-   Warning + Meta
+   Warnings + Meta + Pager
    ============================================================ */
-
 .md-warn {
   background: #3b0c0c;
   color: #ffd4d4;
@@ -238,25 +186,14 @@ html, body {
   margin: 10px auto;
   max-width: 820px;
 }
-
-.meta {
-  color: var(--muted);
-  margin-bottom: 12px;
-  font-size: 0.9em;
-}
-
-/* ============================================================
-   Pager
-   ============================================================ */
+.meta { color: var(--muted); margin-bottom: 12px; font-size: .9em; }
 
 .pager {
   display: flex;
   justify-content: space-between;
   padding: 8px 0;
 }
-
-button#prev,
-button#next {
+button#prev, button#next {
   background: transparent;
   border: 1px solid var(--line);
   color: var(--fg);
@@ -264,9 +201,7 @@ button#next {
   padding: 4px 10px;
   cursor: pointer;
 }
-
-button#prev:hover,
-button#next:hover {
+button#prev:hover, button#next:hover {
   border-color: var(--accent);
   color: var(--accent);
 }
@@ -274,22 +209,14 @@ button#next:hover {
 /* ============================================================
    Tree + Controls
    ============================================================ */
-
-.controls {
-  display: flex;
-  gap: 0.5em;
-  margin-bottom: 8px;
-}
-
-select,
-#search {
+.controls { display: flex; gap: .5em; margin-bottom: 8px; }
+select, #search {
   background: #0b0c10;
   color: var(--fg);
   border: 1px solid var(--line);
   border-radius: 4px;
   padding: 6px;
 }
-
 .dir .label {
   display: flex;
   align-items: center;
@@ -298,23 +225,18 @@ select,
   color: var(--accent);
   font-weight: 600;
 }
-
 .dir .label::before {
   content: "▶";
   margin-right: 6px;
-  font-size: 0.8em;
+  font-size: .8em;
   color: var(--muted);
 }
-
-.dir.open .label::before {
-  content: "▼";
-}
+.dir.open .label::before { content: "▼"; }
 
 /* ============================================================
-   Mobile Override Fix
+   Mobile (≤899px)
    ============================================================ */
-
-@media (max-width: 899px) {
+@media (max-width:899px){
   .sidebar {
     position: fixed !important;
     top: 48px !important;
@@ -324,25 +246,15 @@ select,
     max-width: 320px !important;
     background: #111 !important;
     transform: translateX(-100%) !important;
-    transition: transform 0.3s ease;
+    transition: transform .3s ease;
     overflow-y: auto;
     z-index: 200 !important;
   }
-
-  .sidebar.open {
-    transform: translateX(0) !important;
-  }
-
-  .overlay {
-    opacity: 0;
-    pointer-events: none;
-  }
-
+  .sidebar.open { transform: translateX(0) !important; }
+  .overlay { opacity: 0; pointer-events: none; }
   .sidebar.open ~ .overlay {
-    opacity: 1;
-    pointer-events: all;
+    opacity: 1; pointer-events: all;
   }
-
   main.content {
     margin-left: 0 !important;
     height: auto !important;
