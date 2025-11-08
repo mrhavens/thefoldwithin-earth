@@ -1,153 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0b0c10" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>The Fold Within</title>
-
-  <!-- Styles -->
-  <link rel="stylesheet" href="./styles.css" />
-
-  <!-- Markdown + Sanitizer -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
-
-  <style>
-    /* Minimal fade-in startup */
-    body { opacity: 0; transition: opacity 0.6s ease-in; }
-    body.ready { opacity: 1; }
-  </style>
+  <meta name="color-scheme" content="dark light" />
+  <link rel="preload" href="/styles.css" as="style" />
+  <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
-  <!-- ============================================================
-       TOPBAR NAVIGATION
-       ============================================================ -->
-  <header class="topbar">
-    <button id="navToggle" title="Toggle Navigation">☰</button>
-    <a href="#=" class="brand">The Fold Within</a>
-    <nav>
-      <a href="#=index.html">Home</a>
-      <a href="#=about.html">About</a>
-      <a href="#=essays/index.html">Essays</a>
-      <a href="#=fieldnotes/index.html">Fieldnotes</a>
+  <!-- Global Shell -->
+  <header class="topbar" role="banner" aria-label="Primary">
+    <button class="icon-btn" id="navToggle" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
+      ☰
+    </button>
+
+    <nav class="primary-nav" aria-label="Main">
+      <a class="brand" href="#/">Home</a>
+      <a href="#/about">About</a>
+      <a href="#/essays">Essays</a>
+      <a href="#/fieldnotes">Fieldnotes</a>
     </nav>
+
+    <div class="spacer"></div>
+
+    <div class="view-controls" aria-hidden="true">
+      <span id="routeHint"></span>
+    </div>
   </header>
 
-  <!-- ============================================================
-       LAYOUT WRAPPER
-       ============================================================ -->
-  <div class="page">
+  <div id="appLayout">
     <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="controls">
-        <select id="sortOrder">
-          <option value="newest">Newest</option>
-          <option value="oldest">Oldest</option>
-        </select>
-        <input id="search" placeholder="Search titles..." />
+    <aside id="sidebar" class="sidebar" aria-label="Content navigation">
+      <div class="side-head">
+        <div class="filters">
+          <label class="visually-hidden" for="filterSection">Section</label>
+          <select id="filterSection">
+            <option value="all">All</option>
+          </select>
+
+          <label class="visually-hidden" for="sortOrder">Sort</label>
+          <select id="sortOrder">
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="title">Title</option>
+          </select>
+        </div>
+        <div class="search">
+          <input id="searchBox" type="search" placeholder="Search titles…" aria-label="Search titles" />
+        </div>
       </div>
-      <div id="fileTree">
-        <!-- auto-generated file tree will appear here -->
-      </div>
+
+      <nav id="tree" class="tree" aria-label="Posts"></nav>
     </aside>
 
-    <!-- Overlay for mobile -->
-    <div class="overlay"></div>
-
-    <!-- Content Area -->
-    <main class="content">
-      <!-- Markdown View -->
-      <article id="mdView" class="viewer fade-in"></article>
-
-      <!-- HTML View (iframe for dynamic HTML files) -->
-      <iframe id="htmlView" class="viewer fade-in" style="display:none;"></iframe>
-
-      <div class="pager">
-        <button id="prev">← Prev</button>
-        <button id="next">Next →</button>
-      </div>
+    <!-- Main viewer -->
+    <main id="content" class="content" role="main">
+      <article id="viewer" class="viewer" aria-live="polite">
+        <div class="empty">
+          <h1>The Fold Within</h1>
+          <p>Select a note on the left, or open a direct link.</p>
+        </div>
+      </article>
     </main>
   </div>
 
-  <!-- ============================================================
-       SCRIPTS
-       ============================================================ -->
-  <script src="./app.js"></script>
+  <!-- Local, vendored libs (more reliable than CDN) -->
+  <script src="/lib/marked.min.js"></script>
+  <script src="/lib/purify.min.js"></script>
 
-  <script>
-    // ============================================================
-    // FILE TREE INDEXER (CLIENT-SIDE DIRECTORY READER SIMULATION)
-    // ============================================================
-    document.addEventListener("DOMContentLoaded", async () => {
-      const treeEl = document.getElementById("fileTree");
-
-      // simple directory crawl using pre-generated /index.json if available
-      let indexData;
-      try {
-        const res = await fetch("./index.json");
-        indexData = res.ok ? await res.json() : null;
-      } catch (e) {
-        indexData = null;
-      }
-
-      if (indexData) {
-        treeEl.innerHTML = renderTree(indexData);
-        attachTreeHandlers();
-      } else {
-        // fallback: manual message
-        treeEl.innerHTML = `
-          <div class="md-warn">
-            <strong>File index not found.</strong><br>
-            Deploy a JSON index at <code>/index.json</code> or statically list your files.
-          </div>`;
-      }
-    });
-
-    // Recursive tree renderer
-    function renderTree(node, depth = 0) {
-      if (!node) return "";
-      if (node.type === "file") {
-        const icon = node.name.endsWith(".md")
-          ? "📄"
-          : node.name.endsWith(".html")
-          ? "🧩"
-          : "📁";
-        return `<div class="file" data-path="${node.path}" style="margin-left:${depth *
-          10}px">${icon} ${node.name}</div>`;
-      }
-      if (node.type === "dir") {
-        return `
-          <div class="dir" style="margin-left:${depth * 10}px">
-            <div class="label">${node.name}</div>
-            <div class="children">
-              ${(node.children || [])
-                .map((child) => renderTree(child, depth + 1))
-                .join("")}
-            </div>
-          </div>`;
-      }
-      return "";
-    }
-
-    // Expand/Collapse folders and attach file click
-    function attachTreeHandlers() {
-      document.querySelectorAll(".dir .label").forEach((label) => {
-        label.addEventListener("click", () => {
-          label.parentElement.classList.toggle("open");
-        });
-      });
-
-      document.querySelectorAll(".file").forEach((file) => {
-        file.addEventListener("click", () => {
-          const path = file.dataset.path;
-          if (path) window.location.hash = `#=${path}`;
-        });
-      });
-    }
-
-    // Fade-in after DOM ready
-    window.addEventListener("load", () => document.body.classList.add("ready"));
-  </script>
+  <script src="/app.js" type="module"></script>
 </body>
 </html>
