@@ -1,5 +1,5 @@
 /* ============================================================
-   The Fold Within – Static Framework v2.4.1 (Layout fix)
+   The Fold Within — Framework v2.5 Stable Render Build
    ============================================================ */
 
 let INDEX, CURRENT_PATH = null, PATH_TO_EL = new Map();
@@ -22,11 +22,8 @@ const overlay   = document.querySelector(".overlay");
 navToggle.addEventListener("click", () => sidebar.classList.toggle("open"));
 overlay.addEventListener("click",  () => sidebar.classList.remove("open"));
 
-/* Load index */
+/* Load index and init */
 async function loadIndex() {
-  if (!window.marked) console.warn("⚠️ marked.js not detected.");
-  if (!window.DOMPurify) console.warn("⚠️ DOMPurify not detected.");
-
   const res = await fetch("/index.json", { cache: "no-store" });
   INDEX = await res.json();
   populateFilters();
@@ -53,7 +50,7 @@ function populateFilters() {
   }
 }
 
-/* Tree rendering */
+/* Tree */
 function rebuildTree() {
   treeEl.innerHTML = "";
   PATH_TO_EL.clear();
@@ -87,7 +84,7 @@ function sortDir(node, sort) {
 function renderNode(n) {
   if (n.type==="dir") {
     const d = document.createElement("div");
-    d.className="dir"; d.setAttribute("aria-expanded","false");
+    d.className="dir";
     const lbl=document.createElement("span");
     lbl.className="label"; lbl.textContent=n.name||"/";
     lbl.addEventListener("click",()=>{
@@ -112,30 +109,14 @@ function renderNode(n) {
 function iconForExt(ext){return ext===".md"?"📝":"🧩";}
 function fmtDate(ms){return new Date(ms).toISOString().slice(0,10);}
 
-function findDir(p){
-  p=p.replace(/\/$/,'');
-  function search(n){
-    if(n.type==="dir"&&n.path===p) return n;
-    for(const c of n.children||[]){const f=search(c);if(f)return f;}
-  }
-  return search({children:INDEX.tree});
-}
-
+/* Open file */
 async function openPath(path){
   if(path===CURRENT_PATH) return;
   CURRENT_PATH=path;
   if(location.hash!==`#=${path}`) history.pushState(null,"",`#=${path}`);
 
-  let f=INDEX.flat.find(x=>x.path===path);
-  if(!f){
-    const dir=findDir(path);
-    if(dir){
-      const idx=dir.children.find(c=>c.type==="file"&&/^index\.(md|html)$/i.test(c.name));
-      if(idx) return openPath(idx.path);
-    }
-    metaLine.textContent="Path not found: "+path;
-    return;
-  }
+  const f=INDEX.flat.find(x=>x.path===path);
+  if(!f){ metaLine.textContent="Path not found: "+path; return; }
 
   metaLine.textContent=`${f.pinned?"📌 ":""}${fmtDate(f.mtime)} • ${f.name}`;
 
@@ -147,7 +128,7 @@ async function openPath(path){
   if(window.innerWidth<900) sidebar.classList.remove("open");
 }
 
-/* Markdown */
+/* Markdown render */
 async function renderMarkdown(path){
   mdWarn.style.display = "none";
   mdView.innerHTML="<p class='loading-note'>Loading…</p>";
@@ -155,43 +136,55 @@ async function renderMarkdown(path){
   mdView.style.display="block";
 
   try{
-    const res=await fetch("/"+path, { cache: "no-store" });
-    if(!res.ok) throw new Error("File not found: "+path);
+    const res=await fetch("/"+path,{cache:"no-store"});
     const text=await res.text();
 
-    let usedFallback = false;
-    let html;
+    let html, usedFallback=false;
+    if(window.marked) html=window.marked.parse(text);
+    else {usedFallback=true; html=text.replace(/&/g,"&amp;").replace(/</g,"&lt;");}
 
-    if (window.marked) {
-      html = window.marked.parse(text);
-    } else {
-      usedFallback = true;
-      html = text.replace(/&/g,"&amp;").replace(/</g,"&lt;");
-    }
+    const safe=window.DOMPurify?window.DOMPurify.sanitize(html):html;
+    mdView.classList.remove("fade-in");
+    mdView.innerHTML=safe;
+    mdView.scrollTop=0;
+    mdView.offsetHeight; // force reflow
+    mdView.classList.add("fade-in");
+    if(usedFallback) mdWarn.style.display="block";
 
-    const safe = window.DOMPurify ? window.DOMPurify.sanitize(html) : html;
+    // layout stabilization
+    setTimeout(()=>{
+      const content=document.querySelector(".content");
+      if(content){
+        const vh=window.innerHeight;
+        content.style.minHeight=`${vh-48}px`;
+        content.style.paddingBottom="40px";
+      }
+      mdView.scrollIntoView({behavior:"instant",block:"start"});
+    },80);
 
-    requestAnimationFrame(()=>{
-      mdView.innerHTML = safe;
-      mdView.scrollTop = 0;
-      mdView.classList.add("fade-in");
-      mdView.style.display = "block";
-      if (usedFallback) mdWarn.style.display = "block";
-    });
-
-  }catch(e){
-    mdView.innerHTML=`<p style='color:red;'>${e.message}</p>`;
-  }
+  }catch(e){ mdView.innerHTML=`<p style='color:red;'>${e.message}</p>`; }
 }
 
-/* HTML */
+/* HTML render */
 function renderHTML(path){
   htmlView.src="/"+path;
   htmlView.style.display="block";
   mdView.style.display="none";
+  htmlView.classList.remove("fade-in");
+  htmlView.offsetHeight;
+  htmlView.classList.add("fade-in");
+
+  setTimeout(()=>{
+    const content=document.querySelector(".content");
+    if(content){
+      const vh=window.innerHeight;
+      content.style.minHeight=`${vh-48}px`;
+    }
+    htmlView.scrollIntoView({behavior:"instant",block:"start"});
+  },120);
 }
 
-/* Active + Pager */
+/* Active & Pager */
 function setActive(path){
   document.querySelectorAll(".file.active").forEach(el=>el.classList.remove("active"));
   const el=PATH_TO_EL.get(path);
@@ -221,7 +214,7 @@ function updatePager(){
   nextBtn.onclick=()=>i<list.length-1&&openPath(list[i+1].path);
 }
 
-/* Controls */
+/* Search/filter */
 let searchTimer;
 searchBox.addEventListener("input",()=>{
   clearTimeout(searchTimer);
@@ -241,11 +234,11 @@ document.body.addEventListener("click",e=>{
   }
 });
 
-/* Resize listener (mobile full screen fix) */
-window.addEventListener("resize", () => {
-  const vh = window.innerHeight;
-  const content = document.querySelector(".content");
-  if (content) content.style.minHeight = `${vh - 48}px`;
+/* Resize listener */
+window.addEventListener("resize",()=>{
+  const vh=window.innerHeight;
+  const c=document.querySelector(".content");
+  if(c) c.style.minHeight=`${vh-48}px`;
 });
 
 window.addEventListener("DOMContentLoaded",loadIndex);
