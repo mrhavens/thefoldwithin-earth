@@ -1,5 +1,5 @@
 /* ============================================================
-   The Fold Within — Framework v2.5 Stable Render Build
+   The Fold Within — Framework v2.6 Stable Layout Build
    ============================================================ */
 
 let INDEX, CURRENT_PATH = null, PATH_TO_EL = new Map();
@@ -22,7 +22,7 @@ const overlay   = document.querySelector(".overlay");
 navToggle.addEventListener("click", () => sidebar.classList.toggle("open"));
 overlay.addEventListener("click",  () => sidebar.classList.remove("open"));
 
-/* Load index and init */
+/* Load index and initialize */
 async function loadIndex() {
   const res = await fetch("/index.json", { cache: "no-store" });
   INDEX = await res.json();
@@ -50,7 +50,7 @@ function populateFilters() {
   }
 }
 
-/* Tree */
+/* Tree building */
 function rebuildTree() {
   treeEl.innerHTML = "";
   PATH_TO_EL.clear();
@@ -109,7 +109,7 @@ function renderNode(n) {
 function iconForExt(ext){return ext===".md"?"📝":"🧩";}
 function fmtDate(ms){return new Date(ms).toISOString().slice(0,10);}
 
-/* Open file */
+/* File open */
 async function openPath(path){
   if(path===CURRENT_PATH) return;
   CURRENT_PATH=path;
@@ -128,7 +128,7 @@ async function openPath(path){
   if(window.innerWidth<900) sidebar.classList.remove("open");
 }
 
-/* Markdown render */
+/* Markdown renderer */
 async function renderMarkdown(path){
   mdWarn.style.display = "none";
   mdView.innerHTML="<p class='loading-note'>Loading…</p>";
@@ -147,25 +147,22 @@ async function renderMarkdown(path){
     mdView.classList.remove("fade-in");
     mdView.innerHTML=safe;
     mdView.scrollTop=0;
-    mdView.offsetHeight; // force reflow
+    mdView.offsetHeight;
     mdView.classList.add("fade-in");
     if(usedFallback) mdWarn.style.display="block";
 
-    // layout stabilization
     setTimeout(()=>{
       const content=document.querySelector(".content");
       if(content){
         const vh=window.innerHeight;
         content.style.minHeight=`${vh-48}px`;
-        content.style.paddingBottom="40px";
       }
       mdView.scrollIntoView({behavior:"instant",block:"start"});
     },80);
-
   }catch(e){ mdView.innerHTML=`<p style='color:red;'>${e.message}</p>`; }
 }
 
-/* HTML render */
+/* HTML renderer */
 function renderHTML(path){
   htmlView.src="/"+path;
   htmlView.style.display="block";
@@ -184,7 +181,7 @@ function renderHTML(path){
   },120);
 }
 
-/* Active & Pager */
+/* Active + pager */
 function setActive(path){
   document.querySelectorAll(".file.active").forEach(el=>el.classList.remove("active"));
   const el=PATH_TO_EL.get(path);
@@ -214,7 +211,7 @@ function updatePager(){
   nextBtn.onclick=()=>i<list.length-1&&openPath(list[i+1].path);
 }
 
-/* Search/filter */
+/* Search + filter */
 let searchTimer;
 searchBox.addEventListener("input",()=>{
   clearTimeout(searchTimer);
@@ -223,7 +220,7 @@ searchBox.addEventListener("input",()=>{
 sortSel.addEventListener("change",rebuildTree);
 filterSel.addEventListener("change",rebuildTree);
 
-/* Internal links */
+/* Internal link interception */
 document.body.addEventListener("click",e=>{
   const a=e.target.closest("a[href]");
   if(!a) return;
@@ -234,7 +231,7 @@ document.body.addEventListener("click",e=>{
   }
 });
 
-/* Resize listener */
+/* Resize */
 window.addEventListener("resize",()=>{
   const vh=window.innerHeight;
   const c=document.querySelector(".content");
