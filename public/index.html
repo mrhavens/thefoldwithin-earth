@@ -5,19 +5,19 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>The Fold Within</title>
 
-  <!-- Strict CSP, self-contained -->
+  <!-- Security and preload -->
   <meta http-equiv="Content-Security-Policy"
         content="default-src 'self';
                  script-src 'self';
                  style-src 'self' 'unsafe-inline';
                  img-src 'self' data:;
-                 frame-src 'self';
-                 connect-src 'self';">
+                 connect-src 'self';
+                 frame-src 'self';">
 
   <link rel="preload" href="/styles.css" as="style">
   <link rel="stylesheet" href="/styles.css">
 
-  <!-- Local vendored libraries -->
+  <!-- Local libraries -->
   <script src="/lib/marked.min.js"></script>
   <script src="/lib/purify.min.js"></script>
 </head>
@@ -31,38 +31,39 @@
     <a href="/fieldnotes/">Fieldnotes</a>
   </header>
 
-  <aside class="sidebar">
-    <div class="controls">
-      <select id="filter"></select>
-      <select id="sort">
-        <option value="new">Newest</option>
-        <option value="old">Oldest</option>
-        <option value="name">Name</option>
-      </select>
-    </div>
-    <input id="search" type="text" placeholder="Search titles...">
-    <nav id="tree"></nav>
-  </aside>
+  <div class="page">
+    <aside class="sidebar">
+      <div class="controls">
+        <select id="filter"></select>
+        <select id="sort">
+          <option value="new">Newest</option>
+          <option value="old">Oldest</option>
+          <option value="name">Name</option>
+        </select>
+      </div>
+      <input id="search" type="text" placeholder="Search titles...">
+      <nav id="tree"></nav>
+    </aside>
+
+    <main class="content">
+      <div id="meta" class="meta"></div>
+      <div id="mdWarn" class="md-warn" style="display:none;">
+        Markdown fallback active — libraries not loaded.
+      </div>
+
+      <div id="mdView" class="viewer" style="display:none;"></div>
+      <iframe id="htmlView"
+              sandbox="allow-scripts allow-forms allow-popups allow-modals allow-downloads"
+              style="display:none;"></iframe>
+
+      <div class="pager">
+        <button id="prev">← Prev</button>
+        <button id="next">Next →</button>
+      </div>
+    </main>
+  </div>
 
   <div class="overlay"></div>
-
-  <main class="content">
-    <div id="meta" class="meta"></div>
-    <div id="mdWarn" class="md-warn" style="display:none;">
-      Markdown fallback active — libraries not loaded.
-    </div>
-
-    <div id="mdView" class="viewer" style="display:none;"></div>
-    <iframe id="htmlView"
-            sandbox="allow-scripts allow-forms allow-popups allow-modals allow-downloads"
-            style="display:none;"></iframe>
-
-    <div class="pager">
-      <button id="prev">← Prev</button>
-      <button id="next">Next →</button>
-    </div>
-  </main>
-
   <script src="/app.js"></script>
 </body>
 </html>
