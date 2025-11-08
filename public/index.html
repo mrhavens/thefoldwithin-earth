@@ -4,11 +4,23 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>The Fold Within</title>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-src 'self';">
+
+  <!-- Tight CSP: scripts only from 'self' now that libs are vendored -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self';
+                 script-src 'self';
+                 style-src 'self' 'unsafe-inline';
+                 img-src 'self' data:;
+                 frame-src 'self';
+                 connect-src 'self';">
+
   <link rel="stylesheet" href="/styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/marked@14.1.2/marked.min.js" integrity="sha384-Wk42AqblpWXvZ6w8XhUbJR7F85ZZAi9kZi5Lvsh5rFaDRkIl/u7jgvO6puJNLm7k" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js" integrity="sha384-8Whr94hA9beo1m6H5J7VGAa9M+ZMDqUoNUdD7/0+Wy3Fkg6jL1xcLyj5tQALcSD" crossorigin="anonymous"></script>
+
+  <!-- Local, vendored libraries (load before app.js so they’re ready) -->
+  <script src="/lib/marked.min.js"></script>
+  <script src="/lib/purify.min.js"></script>
 </head>
+
 <body>
   <header class="topbar">
     <button id="navToggle">☰</button>
@@ -17,6 +29,7 @@
     <a href="/essays/">Essays</a>
     <a href="/fieldnotes/">Fieldnotes</a>
   </header>
+
   <aside class="sidebar">
     <div class="controls">
       <select id="filter"></select>
@@ -29,16 +42,29 @@
     <input id="search" type="text" placeholder="Search titles...">
     <nav id="tree"></nav>
   </aside>
+
   <div class="overlay"></div>
+
   <main class="content">
     <div id="meta" class="meta"></div>
-    <div id="mdView" class="viewer" style="display: none;"></div>
-    <iframe id="htmlView" sandbox="allow-scripts allow-forms allow-popups allow-modals allow-downloads" style="display: none;"></iframe>
-    <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+
+    <!-- Visible warning if markdown falls back -->
+    <div id="mdWarn" class="md-warn" style="display:none;">
+      Markdown fallback in effect (parser not available).
+    </div>
+
+    <div id="mdView" class="viewer" style="display:none;"></div>
+    <iframe id="htmlView"
+            sandbox="allow-scripts allow-forms allow-popups allow-modals allow-downloads"
+            style="display:none;"></iframe>
+
+    <div class="pager">
       <button id="prev">← Prev</button>
       <button id="next">Next →</button>
     </div>
   </main>
+
+  <!-- App logic last -->
   <script src="/app.js"></script>
 </body>
 </html>
