@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>The Fold Within</title>
 
-  <!-- Tight CSP: scripts only from 'self' now that libs are vendored -->
+  <!-- Tight CSP (no CDN) -->
   <meta http-equiv="Content-Security-Policy"
         content="default-src 'self';
                  script-src 'self';
@@ -16,7 +16,7 @@
 
   <link rel="stylesheet" href="/styles.css">
 
-  <!-- Local, vendored libraries (load before app.js so they’re ready) -->
+  <!-- Local vendored libraries -->
   <script src="/lib/marked.min.js"></script>
   <script src="/lib/purify.min.js"></script>
 </head>
@@ -47,12 +47,9 @@
 
   <main class="content">
     <div id="meta" class="meta"></div>
-
-    <!-- Visible warning if markdown falls back -->
     <div id="mdWarn" class="md-warn" style="display:none;">
       Markdown fallback in effect (parser not available).
     </div>
-
     <div id="mdView" class="viewer" style="display:none;"></div>
     <iframe id="htmlView"
             sandbox="allow-scripts allow-forms allow-popups allow-modals allow-downloads"
@@ -64,7 +61,6 @@
     </div>
   </main>
 
-  <!-- App logic last -->
   <script src="/app.js"></script>
 </body>
 </html>
