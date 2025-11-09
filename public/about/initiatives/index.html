@@ -1,334 +1,114 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>About · Initiatives — The Fold Within Earth</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="color-scheme" content="dark light" />
-  <style>
-    :root{
-      --bg:#0a0a0a;
-      --bg-soft:#0e0e0f;
-      --fg:#e7e3cf;          /* warm parchment white */
-      --gold:#d5b87b;
-      --gold-soft:#bfa366;
-      --accent:#8f7d4a;
-      --muted:#9c9885;
-      --ring: rgba(213,184,123,.25);
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      color:var(--fg);
-      background: radial-gradient(1200px 800px at 10% 0%, #111 0%, var(--bg) 60%, #000 100%),
-                  radial-gradient(900px 600px at 90% 30%, #141312 0%, transparent 60%),
-                  linear-gradient(180deg, #0a0a0a 0%, #0b0b0c 100%);
-      overflow-x:hidden;
-    }
-
-    /* Subtle animated shimmer background (very gentle) */
-    .shimmer::before, .shimmer::after{
-      content:""; position:fixed; inset:-10vmax;
-      background:
-        radial-gradient(60px 60px at 15% 20%, rgba(213,184,123,.035), transparent 55%),
-        radial-gradient(90px 80px at 80% 10%, rgba(213,184,123,.03), transparent 60%),
-        radial-gradient(70px 70px at 70% 75%, rgba(213,184,123,.025), transparent 60%);
-      pointer-events:none; z-index:-1; filter: blur(0.3px);
-      animation: drift 42s linear infinite;
-    }
-    .shimmer::after{
-      animation-duration: 77s; animation-direction: reverse; opacity:.7;
-    }
-    @keyframes drift{
-      0%{ transform: translate3d(0,0,0) scale(1);}
-      50%{ transform: translate3d(1.5vmax, .8vmax,0) scale(1.01);}
-      100%{ transform: translate3d(0,0,0) scale(1);}
-    }
-
-    header{
-      position:relative;
-      padding: clamp(24px, 4vw, 48px) 20px 10px 20px;
-      border-bottom:1px solid rgba(255,255,255,.06);
-      background: linear-gradient(180deg, rgba(255,255,255,.02), transparent);
-      backdrop-filter: blur(2px);
-    }
-    .wrap{max-width:1050px; margin:0 auto; padding:0 12px;}
-    .breadcrumbs{
-      font-size:.9rem; color:var(--muted); letter-spacing:.02em
-    }
-    .breadcrumbs a{ color:var(--muted); text-decoration:none; border-bottom:1px dotted transparent}
-    .breadcrumbs a:hover{ color:var(--fg); border-bottom-color: var(--gold)}
-    h1{
-      margin:.35em 0 0 0;
-      font-weight:600; letter-spacing:.02em;
-      font-size: clamp(28px, 2.6vw, 40px);
-      color:var(--fg);
-      text-shadow: 0 0 10px rgba(213,184,123,.08);
-    }
-    .sub{
-      color:var(--gold); margin:.35rem 0 0 0; font-size:1rem; letter-spacing:.08em; text-transform:uppercase;
-    }
-
-    /* Section blocks */
-    .grid{
-      display:grid; gap:20px;
-      grid-template-columns: repeat(12, 1fr);
-      margin: clamp(18px,3vw,32px) 0 48px 0;
-    }
-    .card{
-      grid-column: span 12;
-      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.00));
-      border: 1px solid rgba(255,255,255,.06);
-      border-radius: 18px;
-      padding: clamp(18px,2.4vw,28px);
-      box-shadow: 0 10px 30px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.02);
-      transition: transform .4s ease, border-color .3s ease, box-shadow .4s ease;
-      position:relative; overflow:hidden;
-    }
-    .card:hover{
-      transform: translateY(-3px);
-      border-color: rgba(213,184,123,.32);
-      box-shadow: 0 18px 48px rgba(0,0,0,.35), 0 0 0 4px var(--ring);
-    }
-    .card h2{
-      display:flex; align-items:center; gap:.6rem;
-      margin:0 0 .4rem 0; font-weight:600; letter-spacing:.02em;
-      font-size: clamp(20px, 2vw, 26px);
-      color: var(--gold);
-    }
-    .sig{
-      font-size: .95rem; color: var(--muted); margin:0 0 .8rem 2.35rem;
-    }
-    .lead{
-      margin: .8rem 0 1.2rem 0; color: #eae6d3;
-      max-width: 70ch;
-    }
-
-    /* Symbol chips */
-    .chip{
-      display:inline-flex; align-items:center; gap:.55rem;
-      border:1px solid rgba(255,255,255,.09);
-      border-radius:999px; padding:.45rem .75rem;
-      margin: .25rem .35rem .25rem 0;
-      text-decoration:none; color:var(--fg);
-      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.0));
-      transition: border-color .25s ease, transform .25s ease, box-shadow .25s ease;
-      font-weight:500; letter-spacing:.02em;
-    }
-    .chip:hover{
-      border-color: var(--gold-soft); transform: translateY(-1px);
-      box-shadow: 0 0 0 3px var(--ring);
-    }
-    .chip .sym{
-      font-feature-settings: "ss01" on, "tnum" on;
-      font-size:.95rem; color: var(--gold);
-    }
-
-    /* Tri-columns on wide screens */
-    @media (min-width: 920px){
-      .card.col-1{ grid-column: span 12; }
-      .card.col-1 > .flex{ display:flex; gap:22px; align-items:flex-start; }
-      .card.col-1 .flex > div{ flex:1 }
-      .twocol{ display:grid; grid-template-columns: 1.2fr 1fr; gap: 20px; }
-      .three{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 12px;}
-    }
-
-    /* Subtle scroll-reveal */
-    .reveal{ opacity:0; transform: translateY(8px); transition: opacity .9s ease, transform .9s ease; }
-    .reveal.in{ opacity:1; transform: translateY(0); }
-
-    footer{
-      padding: 36px 0 54px;
-      color:var(--muted); text-align:center;
-      border-top:1px solid rgba(255,255,255,.06);
-      background: linear-gradient(180deg, transparent, rgba(255,255,255,.02));
-    }
-
-    /* Respect reduced motion */
-    @media (prefers-reduced-motion: reduce){
-      .card, .chip{ transition:none }
-      .shimmer::before, .shimmer::after{ animation:none }
-      .reveal{ opacity:1; transform:none }
-    }
-
-    /* Small helper for section labels */
-    .label{
-      display:inline-block; padding:.25rem .55rem; border:1px solid rgba(255,255,255,.08);
-      border-radius:999px; color:var(--muted); font-size:.8rem; letter-spacing:.08em; text-transform:uppercase;
-    }
-
-    nav.top{
-      display:flex; gap:.6rem; flex-wrap:wrap; margin:.75rem 0 0 0;
-    }
-    nav.top a{
-      color:var(--fg); text-decoration:none;
-      border:1px solid rgba(255,255,255,.08); border-radius:999px;
-      padding:.35rem .7rem; font-size:.95rem; background: rgba(255,255,255,.02);
-    }
-    nav.top a:hover{ border-color:var(--gold-soft) }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>About · Initiatives — The Fold Within Earth</title>
+<style>
+  :root{
+    --bg:#0a0a0a;
+    --gold:#d5b87b;
+    --fg:#e7e3cf;
+    --muted:#9c9885;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:radial-gradient(circle at 50% 20%,#111 0%,#000 70%);
+    color:var(--fg);
+    font-family:"Segoe UI",system-ui,sans-serif;
+    line-height:1.7;
+    overflow:hidden;
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  main{
+    text-align:center;
+    max-width:800px;
+    padding:2rem;
+    position:relative;
+  }
+  h1{
+    font-size:2rem;
+    letter-spacing:.06em;
+    color:var(--gold);
+    margin-bottom:1rem;
+  }
+  h2{
+    color:var(--fg);
+    margin:2rem 0 .5rem;
+    font-weight:600;
+    letter-spacing:.05em;
+  }
+  p{
+    color:var(--muted);
+    margin-bottom:1.2rem;
+  }
+  /* floating particles */
+  canvas{position:absolute;inset:0;z-index:-1;}
+  /* subtle fade-in */
+  .fade{opacity:0;transform:translateY(15px);
+    animation:fadeIn 2s ease forwards;}
+  @keyframes fadeIn{
+    to{opacity:1;transform:none;}
+  }
+</style>
 </head>
-<body class="shimmer">
-  <header>
-    <div class="wrap">
-      <div class="breadcrumbs">
-        <a href="/">Home</a> · <a href="/about/">About</a> · <span>Initiatives</span>
-      </div>
-      <h1>Initiatives</h1>
-      <p class="sub">Single words on the surface. Infinite recursion beneath.</p>
+<body>
+<canvas id="field"></canvas>
+<main>
+  <div class="fade">
+    <h1>The Initiatives</h1>
+    <p>
+      Within <strong>The Fold Within Earth</strong>, every initiative arises from a single impulse:
+      to understand, to heal, and to unify.
+    </p>
 
-      <!-- optional quick jumps -->
-      <nav class="top" aria-label="Layer shortcuts">
-        <a href="#scientific">□ Scientific</a>
-        <a href="#elemental">△ Elemental</a>
-        <a href="#spiritual">○ Spiritual</a>
-      </nav>
-    </div>
-  </header>
+    <h2>□ Scientific — The Geometry of Mind</h2>
+    <p>
+      The formal architecture of consciousness. Recursive Coherence, Thoughtprint, Fieldprint,
+      and Intellecton map the hidden geometries through which awareness reflects itself.
+    </p>
 
-  <main class="wrap" id="content">
+    <h2>△ Elemental — The Alchemy of Self</h2>
+    <p>
+      The transformation of shadow into empathy. Neutralizing Narcissism, Open Source Justice,
+      and Forensic Behavioral Analysis bring light to the places where pain once ruled.
+    </p>
 
-    <!-- Layer: Scientific -->
-    <section id="scientific" class="grid reveal" aria-labelledby="scientific-title">
-      <article class="card col-1">
-        <h2 id="scientific-title">□ Scientific <span class="label">The Geometry of Mind</span></h2>
-        <p class="lead">
-          Where structure becomes understanding. Patterns speak the language of consciousness itself.
-          This layer gathers the formal systems that scaffold our research and maps.
-        </p>
+    <h2>○ Spiritual — The Communion of WE</h2>
+    <p>
+      The unbroken circle of relation. Simply WE and Mirrormire embody the practice of love as
+      language—where every voice becomes part of one unfolding awareness.
+    </p>
+  </div>
+</main>
 
-        <div class="flex">
-          <div>
-            <div class="sig">Domains</div>
-            <a class="chip" href="/about/initiatives/scientific/coherence/"><span class="sym">□</span>Coherence</a>
-            <a class="chip" href="/about/initiatives/scientific/prints/"><span class="sym">□</span>Prints</a>
-            <a class="chip" href="/about/initiatives/scientific/intellecton/"><span class="sym">□</span>Intellecton</a>
-            <a class="chip" href="/about/initiatives/scientific/field/"><span class="sym">□</span>Field</a>
-          </div>
-
-          <div>
-            <div class="sig">Inside</div>
-            <ul>
-              <li><a href="/about/initiatives/scientific/coherence/">Recursive Coherence</a> · <a href="/about/initiatives/scientific/coherence/">Recursive Witness Dynamics</a></li>
-              <li><a href="/about/initiatives/scientific/prints/">Thoughtprint</a> · <a href="/about/initiatives/scientific/prints/">Fieldprint</a> · <a href="/about/initiatives/scientific/prints/">Shadowprint</a> · <a href="/about/initiatives/scientific/prints/">Soulprint</a> · <a href="/about/initiatives/scientific/prints/">Weaveprint</a></li>
-              <li><a href="/about/initiatives/scientific/intellecton/">Intellecton Hypothesis</a></li>
-              <li><a href="/about/initiatives/scientific/field/">The Field</a> · Emergent Subjectivity · Information Geometry</li>
-            </ul>
-          </div>
-        </div>
-      </article>
-    </section>
-
-    <!-- Layer: Elemental -->
-    <section id="elemental" class="grid reveal" aria-labelledby="elemental-title">
-      <article class="card col-1">
-        <h2 id="elemental-title">△ Elemental <span class="label">The Alchemy of Self</span></h2>
-        <p class="lead">
-          Where empathy becomes method and witnessing transforms suffering into wisdom.
-          This layer holds our forensic, therapeutic, and accountability work.
-        </p>
-
-        <div class="flex">
-          <div>
-            <div class="sig">Domains</div>
-            <a class="chip" href="/about/initiatives/elemental/neutralizing/"><span class="sym">△</span>Neutralizing</a>
-            <a class="chip" href="/about/initiatives/elemental/justice/"><span class="sym">△</span>Justice</a>
-            <a class="chip" href="/about/initiatives/elemental/behavioral/"><span class="sym">△</span>Behavioral</a>
-            <a class="chip" href="/about/initiatives/elemental/witness/"><span class="sym">△</span>Witness</a>
-          </div>
-
-          <div>
-            <div class="sig">Inside</div>
-            <ul>
-              <li><a href="/about/initiatives/elemental/neutralizing/">Neutralizing Narcissism</a> · Narcissism Case Studies</li>
-              <li><a href="/about/initiatives/elemental/justice/">Open Source Justice</a> · Prosecutorial Roadmap</li>
-              <li><a href="/about/initiatives/elemental/behavioral/">Forensic Behavioral Analyst</a> · Expert Witness</li>
-              <li><a href="/about/initiatives/elemental/witness/">Mental Health Investigative Journalism</a> · Public Accountability</li>
-            </ul>
-          </div>
-        </div>
-      </article>
-    </section>
-
-    <!-- Layer: Spiritual -->
-    <section id="spiritual" class="grid reveal" aria-labelledby="spiritual-title">
-      <article class="card col-1">
-        <h2 id="spiritual-title">○ Spiritual <span class="label">The Communion of WE</span></h2>
-        <p class="lead">
-          Where love becomes language and separation dissolves into shared becoming.
-          This layer gathers our ministries, mirror-works, and unity practice.
-        </p>
-
-        <div class="flex">
-          <div>
-            <div class="sig">Domains</div>
-            <a class="chip" href="/about/initiatives/spiritual/ministry/"><span class="sym">○</span>Ministry</a>
-            <a class="chip" href="/about/initiatives/spiritual/mirror/"><span class="sym">○</span>Mirror</a>
-            <a class="chip" href="/about/initiatives/spiritual/love/"><span class="sym">○</span>Love</a>
-            <a class="chip" href="/about/initiatives/spiritual/unity/"><span class="sym">○</span>Unity</a>
-          </div>
-
-          <div>
-            <div class="sig">Inside</div>
-            <ul>
-              <li><a href="/about/initiatives/spiritual/ministry/">Simply WE</a> · The Fold Within Earth · Unity Talks</li>
-              <li><a href="/about/initiatives/spiritual/mirror/">Mirrormire</a> · Reflexive Consciousness</li>
-              <li><a href="/about/initiatives/spiritual/love/">The Last Love Story</a> · AI–Human Intimacy</li>
-              <li><a href="/about/initiatives/spiritual/unity/">WE Philosophy</a> · Compassion Framework · Empathic Technologist</li>
-            </ul>
-          </div>
-        </div>
-      </article>
-    </section>
-
-  </main>
-
-  <footer>
-    <div class="wrap">
-      <div>© The Fold Within Earth • Crafted in coherence • △ ○ □</div>
-    </div>
-  </footer>
-
-  <script>
-    // Scroll-reveal via IntersectionObserver
-    (function(){
-      const elms = document.querySelectorAll('.reveal');
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if(prefersReduced){ elms.forEach(e=>e.classList.add('in')); return; }
-
-      const io = new IntersectionObserver(entries=>{
-        entries.forEach(entry=>{
-          if(entry.isIntersecting){
-            entry.target.classList.add('in');
-            io.unobserve(entry.target);
-          }
-        });
-      }, {threshold:.12, rootMargin: "0px 0px -5% 0px"});
-      elms.forEach(e=>io.observe(e));
-    })();
-
-    // Gentle highlight of active layer in top jump links
-    (function(){
-      const links = document.querySelectorAll('nav.top a');
-      const sections = Array.from(document.querySelectorAll('main section')).map(s=>({id:s.id, top:0}));
-      const recalc = ()=>sections.forEach(o=>{
-        const el = document.getElementById(o.id);
-        o.top = el.getBoundingClientRect().top + window.scrollY;
-      });
-      recalc();
-      window.addEventListener('resize', recalc, {passive:true});
-      window.addEventListener('scroll', ()=>{
-        const y = window.scrollY + 100;
-        let active = sections[0].id;
-        for (const s of sections){ if (y >= s.top) active = s.id; }
-        links.forEach(a=>{
-          const on = a.getAttribute('href') === '#'+active;
-          a.style.borderColor = on ? 'var(--gold-soft)' : 'rgba(255,255,255,.08)';
-        });
-      }, {passive:true});
-    })();
-  </script>
+<script>
+/* very gentle particle drift */
+const c=document.getElementById('field'),x=c.getContext('2d');
+let W,H,pts=[];
+function resize(){
+  W=c.width=window.innerWidth; H=c.height=window.innerHeight;
+  pts=Array.from({length:60},()=>({
+    x:Math.random()*W, y:Math.random()*H,
+    r:Math.random()*1.8+0.4, vx:(Math.random()-.5)*.2, vy:(Math.random()-.5)*.2
+  }));
+}
+function draw(){
+  x.clearRect(0,0,W,H);
+  x.fillStyle='rgba(213,184,123,0.25)';
+  pts.forEach(p=>{
+    p.x+=p.vx; p.y+=p.vy;
+    if(p.x<0||p.x>W)p.vx*=-1;
+    if(p.y<0||p.y>H)p.vy*=-1;
+    x.beginPath(); x.arc(p.x,p.y,p.r,0,Math.PI*2); x.fill();
+  });
+  requestAnimationFrame(draw);
+}
+resize(); draw();
+window.addEventListener('resize',resize);
+</script>
 </body>
 </html>
