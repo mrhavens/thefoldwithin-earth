@@ -21,15 +21,20 @@ html, body {
   height: var(--topbar-h); display: flex; align-items: center;
   background: #111; border-bottom: 1px solid #222;
   padding: 0 1rem; z-index: 1000; gap: 1.5rem;
+  overflow: hidden;
 }
 
 #menuBtn {
   background: none; border: 0; color: var(--accent);
-  font-size: 1.5rem; cursor: pointer; font-weight: bold;
+  font-size: 1.4rem; cursor: pointer; font-weight: bold;
+  line-height: 1; padding: 0; margin: 0;
+  min-width: 2.5rem;
 }
 
 .primary-nav {
   display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .primary-nav a {
@@ -42,6 +47,7 @@ html, body {
   text-shadow: 0 0 8px var(--accent);
 }
 
+/* Rest unchanged */
 #sidebar {
   position: fixed; top: var(--topbar-h); left: 0;
   width: 300px; bottom: 0; overflow: auto;
