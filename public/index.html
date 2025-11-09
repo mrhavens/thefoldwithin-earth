@@ -1,60 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Fold Within – v3.3.3</title>
-  <!-- ΔFIELD: Meta for basic SEO and responsiveness. -->
-  <meta name="description" content="A breathing field for recursive content horizons.">
-  <!-- ΔHORIZON: CDN for marked.js; required for Markdown rendering. -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.0/marked.min.js"></script>
-  <!-- ΔFIELD: Link to styles; app.js at body end for DOM readiness. -->
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>The Fold Within</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script defer src="app.js"></script>
 </head>
 <body>
-  <!-- ΔHORIZON: Topbar as fixed anchor. -->
-  <header class="topbar">
-    <button id="menuBtn">☰</button>
-    <nav id="primaryNav" class="primary-nav"></nav>
-  </header>
-  <!-- ΔRECURSION: Subnav for nested layers. -->
-  <nav id="subNav" class="sub-nav"></nav>
-  <!-- ΔFIELD: Sidebar for lists and filters. -->
-  <aside id="sidebar">
-    <div class="sidebar-header">
-      <h3>Posts</h3>
-      <button id="toggleControls" class="toggle-btn">Filters</button>
+<header class="topbar">
+  <button id="menuBtn" aria-label="Toggle menu">Menu</button>
+  <nav id="primaryNav" class="primary-nav"></nav>
+</header>
+
+<nav id="subNav" class="sub-nav"></nav>
+
+<aside id="sidebar">
+  <div class="sidebar-header">
+    <h3>Contents</h3>
+    <button id="toggleControls" class="toggle-btn" aria-label="Toggle filters">Filters</button>
+  </div>
+
+  <section id="postListSection">
+    <ul id="postList" role="list" aria-label="Content list"></ul>
+  </section>
+
+  <details id="filterPanel" class="filter-panel">
+    <summary>Filters & Search</summary>
+    <div class="filter-controls">
+      <label for="sectionSelect">Section</label>
+      <select id="sectionSelect"></select>
+
+      <label for="tagSelect">Tags</label>
+      <select id="tagSelect" multiple></select>
+
+      <label for="sortSelect">Sort</label>
+      <select id="sortSelect">
+        <option value="newest">Newest</option>
+        <option value="oldest">Oldest</option>
+      </select>
+
+      <label for="searchMode">Search</label>
+      <select id="searchMode">
+        <option value="title">Titles</option>
+        <option value="content">Content</option>
+      </select>
+
+      <input id="searchBox" placeholder="Search...">
     </div>
-    <section id="postListSection">
-      <ul id="postList"></ul>
-    </section>
-    <!-- ΔFIELD: Details for collapsible filters. -->
-    <details id="filterPanel" class="filter-panel">
-      <summary>Filter Options</summary>
-      <div class="filter-controls">
-        <label for="sectionSelect">Section</label>
-        <select id="sectionSelect"></select>
-        <label for="tagSelect">Tags</label>
-        <select id="tagSelect" multiple></select>
-        <label for="sortSelect">Sort</label>
-        <select id="sortSelect">
-          <option value="newest">Newest First</option>
-          <option value="oldest">Oldest First</option>
-        </select>
-        <label for="searchMode">Search Mode</label>
-        <select id="searchMode">
-          <option value="title">Title Only</option>
-          <option value="content">Title + Excerpt</option>
-        </select>
-        <label for="searchBox">Search</label>
-        <input id="searchBox" type="text" placeholder="Search...">
-      </div>
-    </details>
-  </aside>
-  <!-- ΔFIELD: Main content viewer. -->
-  <main id="content" class="content">
-    <section id="viewer" class="viewer"></section>
-  </main>
-  <script src="app.js"></script>
+  </details>
+</aside>
+
+<main id="content" class="content">
+  <div id="viewer" class="viewer"></div>
+</main>
 </body>
 </html>

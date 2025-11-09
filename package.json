@@ -1,31 +1,7 @@
 {
-  "flat": [
-    {
-      "path": "posts/example.md",
-      "title": "Example Post",
-      "tags": ["tag1", "tag2"],
-      "isIndex": false,
-      "isPinned": true,
-      "ctime": 1731168000000,
-      "mtime": 1731168000000,
-      "ext": ".md",
-      "excerpt": "This is an example excerpt from the post content..."
-    },
-    {
-      "path": "section/index.html",
-      "title": "Section Index",
-      "tags": [],
-      "isIndex": true,
-      "isPinned": false,
-      "ctime": 1731168000000,
-      "mtime": 1731168000000,
-      "ext": ".html",
-      "excerpt": "Welcome to the section..."
-    }
-  ],
-  "sections": ["posts", "section"],
-  "tags": ["tag1", "tag2"],
-  "hierarchies": {
-    "section": ["subsection"]
+  "name": "the-fold-within",
+  "version": "3.0.0",
+  "dependencies": {
+    "pdf-parse": "^1.1.1"
   }
 }

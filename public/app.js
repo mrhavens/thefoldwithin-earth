@@ -1,10 +1,3 @@
-/**
- * app.js – v3.3.4 DIAGNOSTIC RESONANCE
- * High-coherence, readable, maintainable.
- * No hacks. No surgery. Only truth.
- * Now with diagnostic overlays for rupture illumination.
- */
-
 const els = {
   menuBtn: document.getElementById("menuBtn"),
   primaryNav: document.getElementById("primaryNav"),
@@ -24,25 +17,12 @@ const els = {
 let indexData = null;
 let sidebarOpen = false;
 let currentParent = null;
-let indexFiles = null; // Cached index files
+let indexFiles = null; // Cached
 
-// ΔTRUTH: Diagnostic overlay for error/clarity banners.
-// Rationale: Fixed red banner for immediate visibility; z-index above topbar.
-function showDiagnostic(message) {
-  const banner = document.createElement('div');
-  banner.style = 'position: fixed; top: 0; left: 0; width: 100%; background: #ff4d4d; color: white; padding: 10px; z-index: 1001; text-align: center; font-weight: bold;';
-  banner.innerHTML = message;
-  document.body.appendChild(banner);
-}
-
-// === INITIALIZATION ===
 async function init() {
   try {
     indexData = await (await fetch("index.json")).json();
-    if (indexData.flat.length === 0) {
-      showDiagnostic('index.json loaded but no content files found. Add .md or .html files to public/ sections and run node tools/generate-index.mjs.');
-    }
-    indexFiles = indexData.flat.filter(f => f.isIndex);
+    indexFiles = indexData.flat.filter(f => f.isIndex); // Cache
     populateNav();
     populateSections();
     populateTags();
@@ -50,14 +30,11 @@ async function init() {
     renderList();
     handleHash();
     window.addEventListener("hashchange", handleHash);
-    console.info('%cThe Fold Within: Harmony sustained.', 'color:#e0b84b');
   } catch (e) {
-    showDiagnostic('Failed to load index.json. Check Network tab for 404 or console for errors. Ensure deployed from public/ directory and index.json is generated.');
-    els.viewer.innerHTML = "<h1>Error</h1><p>Failed to load site data. See diagnostic banner for fixes.</p>";
+    els.viewer.innerHTML = "<h1>Error</h1><p>Failed to load site data.</p>";
   }
 }
 
-// === NAVIGATION ===
 function populateNav() {
   els.primaryNav.innerHTML = '<a href="#/">Home</a>';
   const navSections = [...new Set(
@@ -78,8 +55,11 @@ function populateSections() {
     els.sectionSelect.appendChild(opt);
   });
 
-  const defaultSection = indexData.sections.includes("posts") ? "posts" : indexData.sections[0];
-  if (defaultSection) els.sectionSelect.value = defaultSection;
+  if (indexData.sections.includes("posts")) {
+    els.sectionSelect.value = "posts";
+  } else if (indexData.sections.length > 0) {
+    els.sectionSelect.value = indexData.sections[0];
+  }
 }
 
 function populateTags() {
@@ -90,7 +70,11 @@ function populateTags() {
   });
 }
 
-// === UI WIRING ===
+function formatTimestamp(ms) {
+  const d = new Date(ms);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+}
+
 function wireUI() {
   els.menuBtn.addEventListener("click", () => {
     sidebarOpen = !sidebarOpen;
@@ -111,7 +95,6 @@ function wireUI() {
   [els.tagSelect, els.sortSelect, els.searchMode].forEach(el => el.addEventListener("change", renderList));
   els.searchBox.addEventListener("input", renderList);
 
-  // Close sidebar on content click (mobile)
   els.content.addEventListener("click", (e) => {
     if (window.innerWidth < 1024 && document.body.classList.contains("sidebar-open")) {
       if (!e.target.closest("#sidebar")) {
@@ -122,7 +105,6 @@ function wireUI() {
   });
 }
 
-// === LIST RENDERING ===
 function renderList() {
   const section = els.sectionSelect.value;
   const tags = Array.from(els.tagSelect.selectedOptions).map(o => o.value.toLowerCase());
@@ -142,13 +124,10 @@ function renderList() {
   posts.sort((a, b) => sort === "newest" ? b.mtime - a.mtime : a.mtime - b.mtime);
 
   els.postList.innerHTML = posts.length ? "" : "<li>No posts found.</li>";
-  if (!posts.length) {
-    showDiagnostic('No posts found in current filters. If persistent, check index.json for flat entries or add content files and regenerate.');
-  }
   posts.forEach(p => {
     const li = document.createElement("li");
     const pin = p.isPinned ? "Star " : "";
-    const time = new Date(p.ctime).toLocaleDateString();
+    const time = formatTimestamp(p.ctime);
     li.innerHTML = `<a href="#/${p.path}">${pin}${p.title}</a><small>${time}</small>`;
     els.postList.appendChild(li);
   });
@@ -164,7 +143,7 @@ function loadDefaultForSection(section) {
   location.hash = `#/${pinned.path}`;
 }
 
-// === SUBNAV (NESTED HORIZON) ===
+// NESTED HORIZON: Deep-Aware Sub-Navigation
 function renderSubNav(parent) {
   const subnav = els.subNav;
   subnav.innerHTML = "";
@@ -180,14 +159,17 @@ function renderSubNav(parent) {
     subnav.appendChild(link);
   });
 
-  requestAnimationFrame(() => subnav.classList.add("visible"));
+  requestAnimationFrame(() => {
+    subnav.classList.add("visible");
+  });
 }
 
-// === HASH ROUTING ===
 async function handleHash() {
   els.viewer.innerHTML = "";
   const rel = location.hash.replace(/^#\//, "");
-  const parts = rel.split("/").filter(Boolean);
+  const parts = rel.split("/").filter(Boolean); // e.g., ["about", "Mark"]
+
+  // Determine current depth parent for subnav
   const currentParentPath = parts.slice(0, -1).join("/") || parts[0] || null;
 
   if (currentParentPath !== currentParent) {
@@ -195,40 +177,76 @@ async function handleHash() {
     renderSubNav(currentParent);
   }
 
+  // Sync sidebar section to top-level
   const topSection = parts[0] || null;
   if (topSection && indexData.sections.includes(topSection)) {
     els.sectionSelect.value = topSection;
     renderList();
   }
 
-  if (rel === '' || rel === '#') return renderDefault();
-
   if (!rel) return renderDefault();
 
+  // CASE: Trailing slash → render index at *current* level
   if (rel.endsWith('/')) {
     const currentPath = parts.join("/");
+
     const indexFile = indexFiles.find(f => {
       const dir = f.path.split("/").slice(0, -1).join("/");
       return dir === currentPath;
     });
 
     if (indexFile) {
-      if (indexFile.ext === ".md") {
-        await renderMarkdown(indexFile.path);
-      } else {
-        await renderIframe("/" + indexFile.path);
+      try {
+        if (indexFile.ext === ".md") {
+          const src = await fetch(indexFile.path).then(r => r.ok ? r.text() : "");
+          const html = marked.parse(src || `# ${currentPath.split("/").pop()}\n\nNo content yet.`);
+          els.viewer.innerHTML = `<article class="markdown">${html}</article>`;
+        } else {
+          const iframe = document.createElement("iframe");
+          iframe.src = "/" + indexFile.path;
+          iframe.loading = "eager";
+          iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-forms");
+          els.viewer.appendChild(iframe);
+
+          iframe.onload = () => {
+            try {
+              const doc = iframe.contentDocument;
+              const body = doc.body;
+              const hasContent = body && body.innerText.trim().length > 50;
+              if (!hasContent) {
+                doc.body.innerHTML = `
+                  <div style="text-align:center;padding:4rem;font-family:Inter,sans-serif;">
+                    <h1 style="color:#e6e3d7;">${currentPath.split("/").pop()}</h1>
+                    <p style="color:#888;">No content yet.</p>
+                  </div>
+                `;
+                doc.body.style.background = "#0b0b0b";
+              }
+            } catch (e) {}
+          };
+        }
+      } catch (e) {
+        els.viewer.innerHTML = `<h1>${currentPath.split("/").pop()}</h1><p>No content yet.</p>`;
       }
     } else {
-      if (topSection) loadDefaultForSection(topSection);
-      else els.viewer.innerHTML = `<h1>${currentPath.split("/").pop()}</h1><p>No content yet.</p>`;
+      // No index → show children or fallback
+      if (topSection) {
+        els.sectionSelect.value = topSection;
+        renderList();
+        loadDefaultForSection(topSection);
+      } else {
+        els.viewer.innerHTML = `<h1>${currentPath.split("/").pop()}</h1><p>No content yet.</p>`;
+      }
     }
-  } else {
+  } 
+  // CASE: Direct file
+  else {
     const file = indexData.flat.find(f => f.path === rel);
     if (!file) {
       els.viewer.innerHTML = "<h1>404</h1><p>Not found.</p>";
       return;
     }
-    file.ext === ".md" ? await renderMarkdown(file.path) : await renderIframe("/" + file.path);
+    file.ext === ".md" ? await renderMarkdown(file.path) : renderIframe(file.path);
   }
 }
 
@@ -237,80 +255,36 @@ async function renderMarkdown(rel) {
   els.viewer.innerHTML = `<article class="markdown">${marked.parse(src || "# Untitled")}</article>`;
 }
 
-// === PREVIEW + PORTAL ENGINE ===
-async function renderIframe(rel) {
-  const preview = await generatePreview(rel);
-  const portalBtn = `<button class="portal-btn" data-src="${rel}">Open Full Experience</button>`;
+function renderIframe(rel) {
+  const iframe = document.createElement("iframe");
+  iframe.src = "/" + rel;
+  iframe.loading = "eager";
+  iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-forms");
+  els.viewer.appendChild(iframe);
 
-  els.viewer.innerHTML = `
-    <div class="preview-header">${portalBtn}</div>
-    <article class="preview-content">${preview}</article>
-  `;
-
-  els.viewer.querySelector(".portal-btn").addEventListener("click", e => {
-    window.open(e.target.dataset.src, "_blank", "noopener,noreferrer");
-  });
+  iframe.onload = () => {
+    try {
+      const doc = iframe.contentDocument;
+      const style = doc.createElement("style");
+      style.textContent = `
+        html,body{background:#0b0b0b;color:#e6e3d7;font-family:Inter,sans-serif;margin:0;padding:2rem;}
+        *{max-width:720px;margin:auto;}
+        img, video, iframe {max-width:100%;height:auto;}
+      `;
+      doc.head.appendChild(style);
+    } catch (e) {}
+  };
 }
 
-async function generatePreview(rel) {
-  try {
-    const res = await fetch(rel);
-    if (!res.ok) throw new Error();
-    const html = await res.text();
-
-    function sanitizeHTML(html) {
-      return html
-        .replace(/<script[\s\S]*?<\/script>/gi, "")
-        .replace(/<style[\s\S]*?<\/style>/gi, "")
-        .replace(/<link[^>]*rel=["']stylesheet["'][^>]*>/gi, "")
-        .replace(/\s+(on\w+)=["'][^"']*["']/gi, "")
-        .replace(/\s+style=["'][^"']*["']/gi, "")
-        .replace(/^\s+|\s+$/g, '')
-        .replace(/(\n\s*){2,}/g, '\n')
-        .replace(/<p>\s*<\/p>/gi, '')
-        .replace(/<br\s*\/?>/gi, '');
-    }
-
-    let content = sanitizeHTML(html.match(/<body[^>]*>([\s\S]*)<\/body>/i)?.[1] || html);
-
-    const div = document.createElement("div");
-    div.innerHTML = content;
-    trimPreview(div, 3, 3000); // depth, char limit
-
-    return div.innerHTML || `<p>Empty content.</p>`;
-  } catch {
-    return `<p>Preview unavailable. <a href="${rel}" target="_blank" rel="noopener">Open directly</a>.</p>`;
-  }
-}
-
-function trimPreview(el, maxDepth, charLimit, depth = 0, chars = 0) {
-  if (depth > maxDepth || chars > charLimit) {
-    el.innerHTML = "...";
-    return;
-  }
-  let total = chars;
-  for (const child of [...el.children]) {
-    total += child.textContent.length;
-    if (total > charLimit || depth > maxDepth) {
-      child.remove();
-    } else {
-      trimPreview(child, maxDepth, charLimit, depth + 1, total);
-    }
-  }
-}
-
-// === DEFAULT VIEW ===
 function renderDefault() {
-  const defaultSection = indexData.sections.includes("posts") ? "posts" : indexData.sections[0];
+  const defaultSection = indexData.sections.includes("posts") ? "posts" : (indexData.sections[0] || null);
   if (defaultSection) {
     els.sectionSelect.value = defaultSection;
     renderList();
     loadDefaultForSection(defaultSection);
   } else {
-    showDiagnostic('No sections detected in index.json. Create folders with .md/.html files in public/ and run node tools/generate-index.mjs to regenerate.');
-    els.viewer.innerHTML = "<h1>Welcome</h1><p>Add content to begin. See diagnostic banner for details.</p>";
+    els.viewer.innerHTML = "<h1>Welcome</h1><p>Add content to begin.</p>";
   }
 }
 
-// === START ===
 init();
