@@ -31,7 +31,7 @@ async function init() {
   }
 }
 
-// Only show folder name if any index.* exists
+// TOP NAV: Only folder name if ANY index.* exists
 function populateNav() {
   els.primaryNav.innerHTML = '<a href="#/">Home</a>';
   const navSections = [...new Set(
@@ -44,6 +44,7 @@ function populateNav() {
   });
 }
 
+// DROPDOWN: Only sections with NON-index files
 function populateSections() {
   els.sectionSelect.innerHTML = '<option value="all">All Sections</option>';
   indexData.sections.forEach(s => {
@@ -103,7 +104,7 @@ function renderList() {
   const mode = els.searchMode.value;
   const query = els.searchBox.value.toLowerCase();
 
-  let posts = indexData.flat.filter(p => !p.isIndex);
+  let posts = indexData.flat.filter(p => !p.isIndex);  // NEVER show index.*
   if (section !== "all") posts = posts.filter(p => p.path.split('/')[0] === section);
   if (tags.length) posts = posts.filter(p => tags.every(t => p.tags.includes(t)));
   if (query) {
@@ -145,6 +146,7 @@ async function handleHash() {
     if (indexFile) {
       indexFile.ext === ".md" ? await renderMarkdown(indexFile.path) : renderIframe(indexFile.path);
     } else {
+      // NEVER show "index.html" fallback
       els.sectionSelect.value = section;
       renderList();
       loadDefaultForSection(section);
