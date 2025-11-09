@@ -4,62 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>About · Initiatives — The Fold Within Earth</title>
-<style>
-  :root{
-    --bg:#0a0a0a;
-    --fg:#e7e3cf;
-    --gold:#d5b87b;
-    --muted:#9c9885;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{
-    background:radial-gradient(circle at 50% 20%,#111 0%,#000 70%);
-    color:var(--fg);
-    font-family:"Segoe UI",system-ui,sans-serif;
-    line-height:1.7;
-    overflow-x:hidden;
-    position:relative;
-  }
-  canvas{position:fixed;inset:0;z-index:-1;}
-  main{
-    max-width:800px;
-    margin:0 auto;
-    padding:5rem 1.5rem 8rem;
-  }
-  h1{
-    font-size:2.3rem;
-    letter-spacing:.06em;
-    color:var(--gold);
-    margin-bottom:1.5rem;
-    text-align:center;
-  }
-  h2{
-    color:var(--fg);
-    margin:3.5rem 0 .5rem;
-    font-weight:600;
-    letter-spacing:.05em;
-    text-align:center;
-  }
-  p{
-    color:var(--muted);
-    margin-bottom:1.4rem;
-    text-align:center;
-  }
-  section{opacity:0;transform:translateY(30px);transition:all 1.2s ease;}
-  section.visible{opacity:1;transform:none;}
-  footer{
-    text-align:center;
-    color:var(--muted);
-    padding:2rem 1rem 4rem;
-    font-size:.9rem;
-  }
-</style>
 </head>
 <body>
+
 <canvas id="field"></canvas>
 
 <main>
-  <section class="visible">
+  <section>
     <h1>The Initiatives</h1>
     <p>
       Within <strong>The Fold Within Earth</strong>, every initiative arises from one current:
@@ -100,39 +51,52 @@
 <footer>© The Fold Within Earth • Crafted in Coherence • △ ○ □</footer>
 
 <script>
-// floating gold dust background
-const c=document.getElementById('field'),ctx=c.getContext('2d');
-let W,H,pts=[];
+// --- floating particle background ---
+const canvas = document.getElementById('field');
+const ctx = canvas.getContext('2d');
+let W, H, pts = [];
+
 function resize(){
-  W=c.width=innerWidth; H=c.height=innerHeight;
-  pts=Array.from({length:70},()=>({
-    x:Math.random()*W, y:Math.random()*H,
-    r:Math.random()*1.8+.4,
-    vx:(Math.random()-.5)*.15, vy:(Math.random()-.5)*.15
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+  pts = Array.from({length:70}, () => ({
+    x: Math.random()*W,
+    y: Math.random()*H,
+    r: Math.random()*1.8 + 0.4,
+    vx: (Math.random() - 0.5) * 0.15,
+    vy: (Math.random() - 0.5) * 0.15
   }));
 }
 function draw(){
-  ctx.clearRect(0,0,W,H);
-  ctx.fillStyle='rgba(213,184,123,0.25)';
-  pts.forEach(p=>{
-    p.x+=p.vx; p.y+=p.vy;
-    if(p.x<0||p.x>W)p.vx*=-1;
-    if(p.y<0||p.y>H)p.vy*=-1;
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = 'rgba(213,184,123,0.25)';
+  for (const p of pts){
+    p.x += p.vx; p.y += p.vy;
+    if(p.x<0 || p.x>W) p.vx *= -1;
+    if(p.y<0 || p.y>H) p.vy *= -1;
     ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
-  });
+  }
   requestAnimationFrame(draw);
 }
 resize(); draw();
-addEventListener('resize',resize);
+window.addEventListener('resize', resize);
 
-// scroll reveal
-const sections=document.querySelectorAll('section');
-const io=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){e.target.classList.add('visible');}
-  });
+// --- scroll reveal animation ---
+const sections = document.querySelectorAll('section');
+const observer = new IntersectionObserver(entries => {
+  for (const e of entries){
+    if(e.isIntersecting){
+      e.target.style.transition = "opacity 1.2s ease, transform 1.2s ease";
+      e.target.style.opacity = 1;
+      e.target.style.transform = "none";
+    } else {
+      e.target.style.opacity = 0;
+      e.target.style.transform = "translateY(30px)";
+    }
+  }
 },{threshold:0.1});
-sections.forEach(s=>io.observe(s));
+sections.forEach(s => observer.observe(s));
 </script>
+
 </body>
 </html>
