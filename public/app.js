@@ -1,3 +1,9 @@
+/**
+ * app.js – v3.3.1 PREVIEW + PORTAL
+ * High-coherence, readable, maintainable.
+ * No hacks. No surgery. Only truth.
+ */
+
 const els = {
   menuBtn: document.getElementById("menuBtn"),
   primaryNav: document.getElementById("primaryNav"),
@@ -17,12 +23,13 @@ const els = {
 let indexData = null;
 let sidebarOpen = false;
 let currentParent = null;
-let indexFiles = null; // Cached
+let indexFiles = null; // Cached index files
 
+// === INITIALIZATION ===
 async function init() {
   try {
     indexData = await (await fetch("index.json")).json();
-    indexFiles = indexData.flat.filter(f => f.isIndex); // Cache
+    indexFiles = indexData.flat.filter(f => f.isIndex);
     populateNav();
     populateSections();
     populateTags();
@@ -35,6 +42,7 @@ async function init() {
   }
 }
 
+// === NAVIGATION ===
 function populateNav() {
   els.primaryNav.innerHTML = '<a href="#/">Home</a>';
   const navSections = [...new Set(
@@ -55,11 +63,8 @@ function populateSections() {
     els.sectionSelect.appendChild(opt);
   });
 
-  if (indexData.sections.includes("posts")) {
-    els.sectionSelect.value = "posts";
-  } else if (indexData.sections.length > 0) {
-    els.sectionSelect.value = indexData.sections[0];
-  }
+  const defaultSection = indexData.sections.includes("posts") ? "posts" : indexData.sections[0];
+  if (defaultSection) els.sectionSelect.value = defaultSection;
 }
 
 function populateTags() {
@@ -70,11 +75,7 @@ function populateTags() {
   });
 }
 
-function formatTimestamp(ms) {
-  const d = new Date(ms);
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
-}
-
+// === UI WIRING ===
 function wireUI() {
   els.menuBtn.addEventListener("click", () => {
     sidebarOpen = !sidebarOpen;
@@ -95,6 +96,7 @@ function wireUI() {
   [els.tagSelect, els.sortSelect, els.searchMode].forEach(el => el.addEventListener("change", renderList));
   els.searchBox.addEventListener("input", renderList);
 
+  // Close sidebar on content click (mobile)
   els.content.addEventListener("click", (e) => {
     if (window.innerWidth < 1024 && document.body.classList.contains("sidebar-open")) {
       if (!e.target.closest("#sidebar")) {
@@ -105,6 +107,7 @@ function wireUI() {
   });
 }
 
+// === LIST RENDERING ===
 function renderList() {
   const section = els.sectionSelect.value;
   const tags = Array.from(els.tagSelect.selectedOptions).map(o => o.value.toLowerCase());
@@ -127,7 +130,7 @@ function renderList() {
   posts.forEach(p => {
     const li = document.createElement("li");
     const pin = p.isPinned ? "Star " : "";
-    const time = formatTimestamp(p.ctime);
+    const time = new Date(p.ctime).toLocaleDateString();
     li.innerHTML = `<a href="#/${p.path}">${pin}${p.title}</a><small>${time}</small>`;
     els.postList.appendChild(li);
   });
@@ -143,7 +146,7 @@ function loadDefaultForSection(section) {
   location.hash = `#/${pinned.path}`;
 }
 
-// NESTED HORIZON: Deep-Aware Sub-Navigation
+// === SUBNAV (NESTED HORIZON) ===
 function renderSubNav(parent) {
   const subnav = els.subNav;
   subnav.innerHTML = "";
@@ -159,16 +162,14 @@ function renderSubNav(parent) {
     subnav.appendChild(link);
   });
 
-  requestAnimationFrame(() => {
-    subnav.classList.add("visible");
-  });
+  requestAnimationFrame(() => subnav.classList.add("visible"));
 }
 
+// === HASH ROUTING ===
 async function handleHash() {
   els.viewer.innerHTML = "";
   const rel = location.hash.replace(/^#\//, "");
   const parts = rel.split("/").filter(Boolean);
-
   const currentParentPath = parts.slice(0, -1).join("/") || parts[0] || null;
 
   if (currentParentPath !== currentParent) {
@@ -186,41 +187,28 @@ async function handleHash() {
 
   if (rel.endsWith('/')) {
     const currentPath = parts.join("/");
-
     const indexFile = indexFiles.find(f => {
       const dir = f.path.split("/").slice(0, -1).join("/");
       return dir === currentPath;
     });
 
     if (indexFile) {
-      try {
-        if (indexFile.ext === ".md") {
-          const src = await fetch(indexFile.path).then(r => r.ok ? r.text() : "");
-          const html = marked.parse(src || `# ${currentPath.split("/").pop()}\n\nNo content yet.`);
-          els.viewer.innerHTML = `<article class="markdown">${html}</article>`;
-        } else {
-          renderIframe("/" + indexFile.path);
-        }
-      } catch (e) {
-        els.viewer.innerHTML = `<h1>${currentPath.split("/").pop()}</h1><p>No content yet.</p>`;
+      if (indexFile.ext === ".md") {
+        await renderMarkdown(indexFile.path);
+      } else {
+        await renderIframe("/" + indexFile.path);
       }
     } else {
-      if (topSection) {
-        els.sectionSelect.value = topSection;
-        renderList();
-        loadDefaultForSection(topSection);
-      } else {
-        els.viewer.innerHTML = `<h1>${currentPath.split("/").pop()}</h1><p>No content yet.</p>`;
-      }
+      if (topSection) loadDefaultForSection(topSection);
+      else els.viewer.innerHTML = `<h1>${currentPath.split("/").pop()}</h1><p>No content yet.</p>`;
     }
-  } 
-  else {
+  } else {
     const file = indexData.flat.find(f => f.path === rel);
     if (!file) {
       els.viewer.innerHTML = "<h1>404</h1><p>Not found.</p>";
       return;
     }
-    file.ext === ".md" ? await renderMarkdown(file.path) : renderIframe("/" + file.path);
+    file.ext === ".md" ? await renderMarkdown(file.path) : await renderIframe("/" + file.path);
   }
 }
 
@@ -229,53 +217,61 @@ async function renderMarkdown(rel) {
   els.viewer.innerHTML = `<article class="markdown">${marked.parse(src || "# Untitled")}</article>`;
 }
 
-function renderIframe(src) {
-  const iframe = document.createElement("iframe");
-  iframe.src = src;
-  iframe.loading = "eager";
-  iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-forms allow-popups");
-  iframe.style.width = "100vw";
-  iframe.style.height = "calc(100vh - var(--topbar-h) - var(--subnav-h))";
-  iframe.style.border = "none";
-  iframe.style.borderRadius = "0";
-  iframe.style.margin = "0";
+// === PREVIEW + PORTAL ENGINE ===
+async function renderIframe(rel) {
+  const preview = await generatePreview(rel);
+  const portalBtn = `<button class="portal-btn" data-src="${rel}">Open Full Experience</button>`;
 
-  els.viewer.appendChild(iframe);
+  els.viewer.innerHTML = `
+    <div class="preview-header">${portalBtn}</div>
+    <article class="preview-content">${preview}</article>
+  `;
 
-  iframe.onload = () => {
-    try {
-      const doc = iframe.contentDocument;
-      const style = doc.createElement("style");
-      style.textContent = `
-        html, body {
-          background: transparent;
-          color: inherit;
-          font-family: inherit;
-          margin: 0;
-          padding: 3rem 4vw;
-        }
-        * { max-width: 100%; }
-        img, video, iframe { max-width: 100%; height: auto; }
-      `;
-      doc.head.appendChild(style);
-
-      const body = doc.body;
-      const hasContent = body && body.innerText.trim().length > 50;
-      if (!hasContent) {
-        doc.body.innerHTML = `
-          <div style="text-align:center;padding:6rem;font-family:Inter,sans-serif;">
-            <h1 style="color:#e6e3d7;">${src.split("/").pop().replace(/\..*$/, "")}</h1>
-            <p style="color:#888;">No content yet.</p>
-          </div>
-        `;
-        doc.body.style.background = "transparent";
-      }
-    } catch (e) {}
-  };
+  els.viewer.querySelector(".portal-btn").addEventListener("click", e => {
+    window.open(e.target.dataset.src, "_blank", "noopener,noreferrer");
+  });
 }
 
+async function generatePreview(rel) {
+  try {
+    const res = await fetch(rel);
+    if (!res.ok) throw new Error();
+    const html = await res.text();
+
+    let content = html.match(/<body[^>]*>([\s\S]*)<\/body>/i)?.[1] || html;
+
+    // Strip dangerous/interactive elements
+    content = content
+      .replace(/<script[\s\S]*?<\/script>/gi, "")
+      .replace(/<style[\s\S]*?<\/style>/gi, "")
+      .replace(/<link[^>]*rel=["']stylesheet["'][^>]*>/gi, "")
+      .replace(/\s+(on\w+)=["'][^"']*["']/gi, "")
+      .replace(/\s+style=["'][^"']*["']/gi, "");
+
+    const div = document.createElement("div");
+    div.innerHTML = content;
+    trimPreview(div, 3, 3000); // depth, char limit
+
+    return div.innerHTML || `<p>Empty content.</p>`;
+  } catch {
+    return `<p>Preview unavailable. <a href="${rel}" target="_blank" rel="noopener">Open directly</a>.</p>`;
+  }
+}
+
+function trimPreview(el, maxDepth, charLimit, depth = 0, chars = 0) {
+  if (depth > maxDepth || chars > charLimit) {
+    el.innerHTML = "...";
+    return;
+  }
+  for (const child of [...el.children]) {
+    trimPreview(child, maxDepth, charLimit, depth + 1, chars + child.textContent.length);
+    if (chars > charLimit) child.remove();
+  }
+}
+
+// === DEFAULT VIEW ===
 function renderDefault() {
-  const defaultSection = indexData.sections.includes("posts") ? "posts" : (indexData.sections[0] || null);
+  const defaultSection = indexData.sections.includes("posts") ? "posts" : indexData.sections[0];
   if (defaultSection) {
     els.sectionSelect.value = defaultSection;
     renderList();
@@ -285,4 +281,5 @@ function renderDefault() {
   }
 }
 
+// === START ===
 init();

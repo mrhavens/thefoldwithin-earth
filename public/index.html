@@ -1,63 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>The Fold Within</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script defer src="app.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>The Fold Within</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script defer src="app.js"></script>
 </head>
 <body>
-<header class="topbar">
-  <button id="menuBtn" aria-label="Toggle menu">Menu</button>
-  <nav id="primaryNav" class="primary-nav"></nav>
-</header>
+  <header class="topbar">
+    <button id="menuBtn" aria-label="Toggle menu">Menu</button>
+    <nav id="primaryNav" class="primary-nav"></nav>
+  </header>
 
-<!-- HORIZON LAYER: Emergent Sub-Navigation -->
-<nav id="subNav" class="sub-nav"></nav>
+  <nav id="subNav" class="sub-nav"></nav>
 
-<aside id="sidebar">
-  <div class="sidebar-header">
-    <h3>Contents</h3>
-    <button id="toggleControls" class="toggle-btn" aria-label="Toggle filters">Filters</button>
-  </div>
-
-  <section id="postListSection">
-    <ul id="postList" role="list" aria-label="Content list"></ul>
-  </section>
-
-  <details id="filterPanel" class="filter-panel">
-    <summary>Filters & Search</summary>
-    <div class="filter-controls">
-      <label for="sectionSelect">Section</label>
-      <select id="sectionSelect"></select>
-
-      <label for="tagSelect">Tags</label>
-      <select id="tagSelect" multiple></select>
-
-      <label for="sortSelect">Sort</label>
-      <select id="sortSelect">
-        <option value="newest">Newest</option>
-        <option value="oldest">Oldest</option>
-      </select>
-
-      <label for="searchMode">Search</label>
-      <select id="searchMode">
-        <option value="title">Titles</option>
-        <option value="content">Content</option>
-      </select>
-
-      <input id="searchBox" placeholder="Search...">
+  <aside id="sidebar">
+    <div class="sidebar-header">
+      <h3>Contents</h3>
+      <button id="toggleControls" class="toggle-btn" aria-label="Toggle filters">Filters</button>
     </div>
-  </details>
-</aside>
 
-<main id="content" class="content">
-  <div id="viewer" class="viewer"></div>
-</main>
+    <section id="postListSection">
+      <ul id="postList" role="list" aria-label="Content list"></ul>
+    </section>
+
+    <details id="filterPanel" class="filter-panel">
+      <summary>Filters & Search</summary>
+      <div class="filter-controls">
+        <label for="sectionSelect">Section</label>
+        <select id="sectionSelect"></select>
+
+        <label for="tagSelect">Tags</label>
+        <select id="tagSelect" multiple></select>
+
+        <label for="sortSelect">Sort</label>
+        <select id="sortSelect">
+          <option value="newest">Newest</option>
+          <option value="oldest">Oldest</option>
+        </select>
+
+        <label for="searchMode">Search</label>
+        <select id="searchMode">
+          <option value="title">Titles</option>
+          <option value="content">Content</option>
+        </select>
+
+        <input id="searchBox" placeholder="Search...">
+      </div>
+    </details>
+  </aside>
+
+  <main id="content" class="content">
+    <div id="viewer" class="viewer"></div>
+  </main>
 </body>
 </html>

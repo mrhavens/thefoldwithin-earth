@@ -1,4 +1,10 @@
 #!/usr/bin/env node
+/**
+ * generate-index.mjs
+ * Scans public/ for .md, .html, .pdf
+ * Builds index.json: flat list, sections, tags, hierarchies
+ * Zero config. Filesystem = truth.
+ */
 import { promises as fs } from "fs";
 import path from "path";
 import pdf from "pdf-parse";
@@ -57,7 +63,6 @@ async function collectFiles(relBase = "", flat = []) {
     const rel = path.posix.join(relBase, e.name);
     const absPath = path.join(ROOT, rel);
 
-    // Skip the SPA root index file entirely — it's the shell, not content
     if (rel.toLowerCase() === "index.html" || rel.toLowerCase() === "index.md") continue;
 
     if (e.isDirectory()) {
@@ -104,24 +109,19 @@ async function collectFiles(relBase = "", flat = []) {
 (async () => {
   try {
     const flat = await collectFiles();
-
-    // Build sections: folders with non-index files
     const sections = [...new Set(flat.filter(f => !f.isIndex).map(f => f.path.split("/")[0]))].sort();
-
-    // Build hierarchies: parent → [child] where child has index.*
     const hierarchies = {};
     for (const f of flat.filter(f => f.isIndex)) {
       const parts = f.path.split("/");
-      if (parts.length > 2) {  // e.g., essays/ai/index.md → parts[0]=essays, parts[1]=ai
-        const parent = parts[0];
-        const child = parts[1];
+      if (parts.length > 2) {
+        const parent = parts.slice(0, -2).join("/");
+        const child = parts[parts.length - 2];
         if (!hierarchies[parent]) hierarchies[parent] = [];
         if (!hierarchies[parent].includes(child)) {
           hierarchies[parent].push(child);
         }
       }
     }
-
     const allTags = [...new Set(flat.flatMap(f => f.tags))].sort();
 
     await fs.writeFile(OUT, JSON.stringify({ flat, sections, tags: allTags, hierarchies }, null, 2));
