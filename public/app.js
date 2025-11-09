@@ -35,9 +35,7 @@ async function init() {
 function populateNav() {
   els.primaryNav.innerHTML = '<a href="#/">Home</a>';
   indexData.sections.forEach(s => {
-    const hasIndex = indexData.flat.some(f => 
-      f.path.startsWith(s + "/") && f.isIndex
-    );
+    const hasIndex = indexData.flat.some(f => f.path.startsWith(s + "/") && f.isIndex);
     if (hasIndex) {
       els.primaryNav.innerHTML += `<a href="#/${s}/">${s.charAt(0).toUpperCase() + s.slice(1)}</a>`;
     }
@@ -59,6 +57,11 @@ function populateTags() {
     opt.value = t; opt.textContent = t;
     els.tagSelect.appendChild(opt);
   });
+}
+
+function formatTimestamp(ms) {
+  const d = new Date(ms);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
 }
 
 function wireUI() {
@@ -91,13 +94,6 @@ function wireUI() {
   });
 }
 
-function formatDateTime(mtime) {
-  const d = new Date(mtime);
-  const date = d.toISOString().split("T")[0];
-  const time = d.toTimeString().slice(0, 5);
-  return `${date} at ${time}`;
-}
-
 function renderList() {
   const section = els.sectionSelect.value;
   const tags = Array.from(els.tagSelect.selectedOptions).map(o => o.value.toLowerCase());
@@ -120,8 +116,8 @@ function renderList() {
   posts.forEach(p => {
     const li = document.createElement("li");
     const pin = p.isPinned ? "Star " : "";
-    const datetime = formatDateTime(p.mtime);
-    li.innerHTML = `<a href="#/${p.path}">${pin}${p.title}</a><small>${datetime}</small>`;
+    const time = formatTimestamp(p.ctime);
+    li.innerHTML = `<a href="#/${p.path}">${pin}${p.title}</a><small>${time}</small>`;
     els.postList.appendChild(li);
   });
 }
@@ -143,9 +139,7 @@ async function handleHash() {
 
   if (rel.endsWith('/')) {
     const section = rel.slice(0, -1);
-    const indexFile = indexData.flat.find(f => 
-      f.path.startsWith(section + "/") && f.isIndex
-    );
+    const indexFile = indexData.flat.find(f => f.path.startsWith(section + "/") && f.isIndex);
     if (indexFile) {
       indexFile.ext === ".md" ? await renderMarkdown(indexFile.path) : renderIframe(indexFile.path);
     } else {
