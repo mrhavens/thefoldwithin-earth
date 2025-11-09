@@ -294,11 +294,15 @@ function renderIframe(rel) {
     `;
       doc.head.appendChild(style);
 
-      // Inject auto-height script
+      // Inject auto-height script with debounce
       const script = doc.createElement("script");
       script.textContent = `
+        let timeout;
         function sendHeight() {
-          window.parent.postMessage({ type: 'resizeFrame', height: document.body.scrollHeight }, '*');
+          clearTimeout(timeout);
+          timeout = setTimeout(() => {
+            window.parent.postMessage({ type: 'resizeFrame', height: document.body.scrollHeight + 20 }, '*');
+          }, 100);
         }
         new ResizeObserver(sendHeight).observe(document.body);
         window.addEventListener('load', sendHeight);
