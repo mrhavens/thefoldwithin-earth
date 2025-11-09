@@ -15,7 +15,6 @@ const els = {
 
 let indexData = null;
 let sidebarOpen = false;
-let currentIframe = null;
 
 async function init() {
   try {
@@ -34,11 +33,13 @@ async function init() {
 
 function populateNav() {
   els.primaryNav.innerHTML = '<a href="#/">Home</a>';
-  indexData.sections.forEach(s => {
-    const hasIndex = indexData.flat.some(f => f.path.startsWith(s + "/") && f.isIndex);
-    if (hasIndex) {
-      els.primaryNav.innerHTML += `<a href="#/${s}/">${s.charAt(0).toUpperCase() + s.slice(1)}</a>`;
-    }
+  const navSections = [...new Set(
+    indexData.flat
+      .filter(f => f.isIndex)
+      .map(f => f.path.split("/")[0])
+  )].sort();
+  navSections.forEach(s => {
+    els.primaryNav.innerHTML += `<a href="#/${s}/">${s.charAt(0).toUpperCase() + s.slice(1)}</a>`;
   });
 }
 
@@ -168,8 +169,6 @@ function renderIframe(rel) {
   iframe.loading = "eager";
   iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-forms");
   els.viewer.appendChild(iframe);
-
-  currentIframe = iframe;
 
   iframe.onload = () => {
     try {
