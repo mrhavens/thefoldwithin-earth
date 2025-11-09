@@ -75,10 +75,11 @@ async function collectFiles(relBase = "", flat = []) {
       title = parseTitle(raw, ext) || e.name.replace(new RegExp(`\\${ext}$`), "").trim();
     }
 
-    // Use birthtimeMs (creation time), fallback to mtimeMs
-    const ctime = st.birthtimeMs || st.mtimeMs;
+    // Priority: birthtime → mtime → filename
+    const ctime = st.birthtimeMs || st.mtimeMs || dateFromName(e.name) || st.mtimeMs;
     const mtime = dateFromName(e.name) ?? st.mtimeMs;
-    const baseName = e.name.slice(0, e.name.lastIndexOf('.')).toLowerCase();
+
+    const baseName = e.name.toLowerCase();
 
     flat.push({
       type: "file",
@@ -86,12 +87,12 @@ async function collectFiles(relBase = "", flat = []) {
       title,
       path: rel,
       ext,
-      ctime,        // Creation timestamp
-      mtime,        // For sorting
+      ctime,
+      mtime,
       excerpt: extractExcerpt(raw, ext),
       tags: extractTags(raw, ext, pdfData),
-      isIndex: baseName === "index",
-      isPinned: baseName === "pinned"
+      isIndex: baseName.startsWith("index."),  // index.md, index.html, index.pdf
+      isPinned: baseName.startsWith("pinned.")
     });
   }
   return flat;
@@ -100,7 +101,6 @@ async function collectFiles(relBase = "", flat = []) {
 (async () => {
   try {
     const flat = await collectFiles();
-    // Only include sections with non-index files in dropdown
     const sections = [...new Set(flat.filter(f => !f.isIndex).map(f => f.path.split("/")[0]))].sort();
     const allTags = [...new Set(flat.flatMap(f => f.tags))].sort();
     await fs.writeFile(OUT, JSON.stringify({ flat, sections, tags: allTags }, null, 2));
