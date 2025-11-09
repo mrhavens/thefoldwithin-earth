@@ -1,7 +1,8 @@
 /**
- * app.js – v3.3.1 PREVIEW + PORTAL
+ * app.js – v3.3.2 PRECISION LAYOUT
  * High-coherence, readable, maintainable.
  * No hacks. No surgery. Only truth.
+ * Now with preview spacing precision.
  */
 
 const els = {
@@ -247,6 +248,12 @@ async function generatePreview(rel) {
       .replace(/<link[^>]*rel=["']stylesheet["'][^>]*>/gi, "")
       .replace(/\s+(on\w+)=["'][^"']*["']/gi, "")
       .replace(/\s+style=["'][^"']*["']/gi, "");
+
+    // Normalize whitespace and strip blank nodes
+    content = content.replace(/^\s+|\s+$/g, '').replace(/(\n\s*){2,}/g, '\n');
+
+    // Remove stray <br> or empty paragraph tags that create phantom space
+    content = content.replace(/<p>\s*<\/p>/gi, '').replace(/<br\s*\/?>/gi, '');
 
     const div = document.createElement("div");
     div.innerHTML = content;

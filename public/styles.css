@@ -269,3 +269,35 @@ body.sidebar-open #sidebar { transform: translateX(0); }
 .preview-content a:hover {
   text-shadow: 0 0 6px var(--accent);
 }
+
+/* === PREVIEW SPACING FIX === */
+
+/* Remove top margin from the first visible child */
+.preview-content > *:first-child {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Consistent bottom rhythm for the last visible element */
+.preview-content > *:last-child {
+  margin-bottom: 3rem;
+}
+
+/* Responsive typography scaling for mobile preview */
+@media (max-width: 768px) {
+  .preview-content {
+    padding: 2rem 6vw;
+    line-height: 1.65;
+  }
+}
+
+/* Ellipsis alignment fix */
+.preview-content p:empty::before {
+  content: "...";
+  color: var(--accent);
+  opacity: 0.6;
+  display: block;
+  text-align: center;
+  margin: 1.5rem 0;
+  letter-spacing: 0.2em;
+}
