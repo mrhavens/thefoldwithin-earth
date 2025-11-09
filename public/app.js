@@ -44,7 +44,7 @@ function populateNav() {
   });
 }
 
-// DROPDOWN: Only sections with NON-index files
+// DROPDOWN: Only sections with NON-index files + default to "posts"
 function populateSections() {
   els.sectionSelect.innerHTML = '<option value="all">All Sections</option>';
   indexData.sections.forEach(s => {
@@ -52,6 +52,13 @@ function populateSections() {
     opt.value = s; opt.textContent = s;
     els.sectionSelect.appendChild(opt);
   });
+
+  // DEFAULT TO "posts" IF EXISTS
+  if (indexData.sections.includes("posts")) {
+    els.sectionSelect.value = "posts";
+  } else if (indexData.sections.length > 0) {
+    els.sectionSelect.value = indexData.sections[0];
+  }
 }
 
 function populateTags() {
@@ -147,14 +154,35 @@ async function handleHash() {
     );
 
     if (indexFile) {
-      // ALWAYS render the index file — never show file name
       try {
         if (indexFile.ext === ".md") {
           const src = await fetch(indexFile.path).then(r => r.ok ? r.text() : "");
-          const html = marked.parse(src || "# " + section);
+          const html = marked.parse(src || `# ${section}\n\nNo content yet.`);
           els.viewer.innerHTML = `<article class="markdown">${html}</article>`;
         } else {
-          renderIframe(indexFile.path);
+          // HTML/PDF: inject clean fallback
+          const iframe = document.createElement("iframe");
+          iframe.src = "/" + indexFile.path;
+          iframe.loading = "eager";
+          iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-forms");
+          els.viewer.appendChild(iframe);
+
+          iframe.onload = () => {
+            try {
+              const doc = iframe.contentDocument;
+              const body = doc.body;
+              const hasContent = body && body.innerText.trim().length > 50;
+              if (!hasContent) {
+                doc.body.innerHTML = `
+                  <div style="text-align:center;padding:4rem;font-family:Inter,sans-serif;">
+                    <h1 style="color:#e6e3d7;">${section}</h1>
+                    <p style="color:#888;">No content yet.</p>
+                  </div>
+                `;
+                doc.body.style.background = "#0b0b0b";
+              }
+            } catch (e) {}
+          };
         }
       } catch (e) {
         els.viewer.innerHTML = `<h1>${section}</h1><p>No content yet.</p>`;
@@ -201,9 +229,14 @@ function renderIframe(rel) {
 }
 
 function renderDefault() {
-  const latest = indexData.flat.filter(f => !f.isIndex).sort((a,b) => b.mtime - a.mtime)[0];
-  if (latest) location.hash = `#/${latest.path}`;
-  else els.viewer.innerHTML = "<h1>Welcome</h1><p>Add content to begin.</p>";
+  const defaultSection = indexData.sections.includes("posts") ? "posts" : (indexData.sections[0] || null);
+  if (defaultSection) {
+    els.sectionSelect.value = defaultSection;
+    renderList();
+    loadDefaultForSection(defaultSection);
+  } else {
+    els.viewer.innerHTML = "<h1>Welcome</h1><p>Add content to begin.</p>";
+  }
 }
 
 init();
