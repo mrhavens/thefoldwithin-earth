@@ -35,7 +35,9 @@ async function init() {
 function populateNav() {
   els.primaryNav.innerHTML = '<a href="#/">Home</a>';
   indexData.sections.forEach(s => {
-    const hasIndex = indexData.flat.some(f => f.path.startsWith(s + "/") && f.isIndex);
+    const hasIndex = indexData.flat.some(f => 
+      f.path.startsWith(s + "/") && f.isIndex
+    );
     if (hasIndex) {
       els.primaryNav.innerHTML += `<a href="#/${s}/">${s.charAt(0).toUpperCase() + s.slice(1)}</a>`;
     }
@@ -79,7 +81,6 @@ function wireUI() {
   [els.tagSelect, els.sortSelect, els.searchMode].forEach(el => el.addEventListener("change", renderList));
   els.searchBox.addEventListener("input", renderList);
 
-  // Click outside to close sidebar (works on iframe too)
   els.content.addEventListener("click", (e) => {
     if (window.innerWidth < 1024 && document.body.classList.contains("sidebar-open")) {
       if (!e.target.closest("#sidebar")) {
@@ -88,6 +89,13 @@ function wireUI() {
       }
     }
   });
+}
+
+function formatDateTime(mtime) {
+  const d = new Date(mtime);
+  const date = d.toISOString().split("T")[0];
+  const time = d.toTimeString().slice(0, 5);
+  return `${date} at ${time}`;
 }
 
 function renderList() {
@@ -112,7 +120,8 @@ function renderList() {
   posts.forEach(p => {
     const li = document.createElement("li");
     const pin = p.isPinned ? "Star " : "";
-    li.innerHTML = `<a href="#/${p.path}">${pin}${p.title}</a><small>${new Date(p.mtime).toISOString().split("T")[0]}</small>`;
+    const datetime = formatDateTime(p.mtime);
+    li.innerHTML = `<a href="#/${p.path}">${pin}${p.title}</a><small>${datetime}</small>`;
     els.postList.appendChild(li);
   });
 }
@@ -134,7 +143,9 @@ async function handleHash() {
 
   if (rel.endsWith('/')) {
     const section = rel.slice(0, -1);
-    const indexFile = indexData.flat.find(f => f.path.startsWith(section + "/") && f.isIndex);
+    const indexFile = indexData.flat.find(f => 
+      f.path.startsWith(section + "/") && f.isIndex
+    );
     if (indexFile) {
       indexFile.ext === ".md" ? await renderMarkdown(indexFile.path) : renderIframe(indexFile.path);
     } else {
@@ -176,9 +187,7 @@ function renderIframe(rel) {
         img, video, iframe {max-width:100%;height:auto;}
       `;
       doc.head.appendChild(style);
-    } catch (e) {
-      // Cross-origin: ignore
-    }
+    } catch (e) {}
   };
 }
 
