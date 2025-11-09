@@ -13,35 +13,48 @@
 </head>
 <body>
 <header class="topbar">
-  <button id="menuBtn" aria-label="Toggle menu">☰</button>
-  <nav id="primaryNav" class="primary-nav">
-    <!-- Dynamically populated -->
-  </nav>
+  <button id="menuBtn" aria-label="Toggle menu">Menu</button>
+  <nav id="primaryNav" class="primary-nav"></nav>
 </header>
 
 <aside id="sidebar">
-  <div class="sidebar-controls">
-    <label for="sectionSelect">Section:</label>
-    <select id="sectionSelect"></select>
-    <label for="tagSelect">Tags (multi-select):</label>
-    <select id="tagSelect" multiple aria-label="Filter by tags"></select>
-    <label for="sortSelect">Sort:</label>
-    <select id="sortSelect">
-      <option value="newest">Newest</option>
-      <option value="oldest">Oldest</option>
-    </select>
-    <label for="searchMode">Search Mode:</label>
-    <select id="searchMode">
-      <option value="title">Titles</option>
-      <option value="content">Content</option>
-    </select>
-    <input id="searchBox" placeholder="Search...">
+  <div class="sidebar-header">
+    <h3>Contents</h3>
+    <button id="toggleControls" class="toggle-btn" aria-label="Toggle filters">Filters</button>
   </div>
-  <ul id="postList" role="list" aria-label="Posts list"></ul>
+
+  <section id="postListSection">
+    <ul id="postList" role="list" aria-label="Content list"></ul>
+  </section>
+
+  <details id="filterPanel" class="filter-panel">
+    <summary>Filters & Search</summary>
+    <div class="filter-controls">
+      <label for="sectionSelect">Section</label>
+      <select id="sectionSelect"></select>
+
+      <label for="tagSelect">Tags</label>
+      <select id="tagSelect" multiple></select>
+
+      <label for="sortSelect">Sort</label>
+      <select id="sortSelect">
+        <option value="newest">Newest</option>
+        <option value="oldest">Oldest</option>
+      </select>
+
+      <label for="searchMode">Search</label>
+      <select id="searchMode">
+        <option value="title">Titles</option>
+        <option value="content">Content</option>
+      </select>
+
+      <input id="searchBox" placeholder="Search...">
+    </div>
+  </details>
 </aside>
 
 <main id="content" class="content">
-  <div id="viewer" class="viewer fade-in"></div>
+  <div id="viewer" class="viewer"></div>
 </main>
 </body>
 </html>
