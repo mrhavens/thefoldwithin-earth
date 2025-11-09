@@ -77,7 +77,6 @@ async function collectFiles(relBase = "", flat = []) {
 
     const ctime = st.birthtimeMs || st.mtimeMs || dateFromName(e.name) || st.mtimeMs;
     const mtime = dateFromName(e.name) ?? st.mtimeMs;
-
     const baseName = e.name.toLowerCase();
 
     flat.push({
@@ -100,6 +99,7 @@ async function collectFiles(relBase = "", flat = []) {
 (async () => {
   try {
     const flat = await collectFiles();
+    // ONLY non-index files → dropdown
     const sections = [...new Set(flat.filter(f => !f.isIndex).map(f => f.path.split("/")[0]))].sort();
     const allTags = [...new Set(flat.flatMap(f => f.tags))].sort();
     await fs.writeFile(OUT, JSON.stringify({ flat, sections, tags: allTags }, null, 2));
