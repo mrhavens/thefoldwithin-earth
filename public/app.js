@@ -33,7 +33,6 @@ async function init() {
   }
 }
 
-// TOP NAV: Only real section folders with index.*
 function populateNav() {
   els.primaryNav.innerHTML = '<a href="#/">Home</a>';
   const navSections = [...new Set(
@@ -46,7 +45,6 @@ function populateNav() {
   });
 }
 
-// DROPDOWN: Only sections with NON-index files
 function populateSections() {
   els.sectionSelect.innerHTML = '<option value="all">All Sections</option>';
   indexData.sections.forEach(s => {
@@ -167,7 +165,7 @@ function renderSubNav(parent) {
 async function handleHash() {
   els.viewer.innerHTML = "";
   const rel = location.hash.replace(/^#\//, "");
-  const parts = rel.split("/").filter(Boolean);
+  const parts = rel.split("/").filter(Boolean); // ["about", "Mark"]
 
   let parentSection = null;
   if (parts.length >= 1) {
@@ -182,17 +180,20 @@ async function handleHash() {
 
   if (!rel) return renderDefault();
 
+  // CASE 1: Deep section with trailing slash → e.g., #about/Mark/
   if (rel.endsWith('/')) {
-    const section = parts[0];
-    const indexFile = indexData.flat.find(f => 
-      f.path.startsWith(section + "/") && f.isIndex
+    const fullPath = parts.join("/"); // "about/Mark"
+    const expectedIndexPath = fullPath + "/"; // "about/Mark/"
+
+    const indexFile = indexData.flat.find(f =>
+      f.path.startsWith(expectedIndexPath) && f.isIndex
     );
 
     if (indexFile) {
       try {
         if (indexFile.ext === ".md") {
           const src = await fetch(indexFile.path).then(r => r.ok ? r.text() : "");
-          const html = marked.parse(src || `# ${section}\n\nNo content yet.`);
+          const html = marked.parse(src || `# ${fullPath.split("/").pop()}\n\nNo content yet.`);
           els.viewer.innerHTML = `<article class="markdown">${html}</article>`;
         } else {
           const iframe = document.createElement("iframe");
@@ -209,7 +210,7 @@ async function handleHash() {
               if (!hasContent) {
                 doc.body.innerHTML = `
                   <div style="text-align:center;padding:4rem;font-family:Inter,sans-serif;">
-                    <h1 style="color:#e6e3d7;">${section}</h1>
+                    <h1 style="color:#e6e3d7;">${fullPath.split("/").pop()}</h1>
                     <p style="color:#888;">No content yet.</p>
                   </div>
                 `;
@@ -219,14 +220,17 @@ async function handleHash() {
           };
         }
       } catch (e) {
-        els.viewer.innerHTML = `<h1>${section}</h1><p>No content yet.</p>`;
+        els.viewer.innerHTML = `<h1>${fullPath.split("/").pop()}</h1><p>No content yet.</p>`;
       }
     } else {
-      els.sectionSelect.value = section;
+      // Fallback: treat as section list
+      els.sectionSelect.value = parentSection;
       renderList();
-      loadDefaultForSection(section);
+      loadDefaultForSection(parentSection);
     }
-  } else {
+  } 
+  // CASE 2: Direct file → e.g., #about/Mark/bio.md
+  else {
     const file = indexData.flat.find(f => f.path === rel);
     if (!file) {
       els.viewer.innerHTML = "<h1>404</h1><p>Not found.</p>";
