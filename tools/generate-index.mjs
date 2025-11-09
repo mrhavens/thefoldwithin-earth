@@ -5,19 +5,18 @@ import pdf from "pdf-parse";
 
 const ROOT = "public";
 const OUT = path.join(ROOT, "index.json");
-const EXCERPT_LENGTH = 500;
-const MAX_HEAD_BYTES = 64 * 1024;
+const EXCERPT_LENGTH = 400;
 
 function dateFromName(name) {
   const m = name.match(/^(\d{4}-\d{2}-\d{2})/);
   return m ? new Date(m[0]).getTime() : null;
 }
 
-async function readHead(abs, fullForExcerpt = false) {
+async function readHead(abs, full = false) {
   const fh = await fs.open(abs, "r");
-  const bufSize = fullForExcerpt ? await fs.stat(abs).then(st => Math.min(st.size, EXCERPT_LENGTH * 2)) : MAX_HEAD_BYTES;
-  const buf = Buffer.alloc(bufSize);
-  const { bytesRead } = await fh.read(buf, 0, bufSize, 0);
+  const size = full ? await fs.stat(abs).then(s => Math.min(s.size, EXCERPT_LENGTH * 2)) : 64 * 1024;
+  const buf = Buffer.alloc(size);
+  const { bytesRead } = await fh.read(buf, 0, size, 0);
   await fh.close();
   return buf.slice(0, bytesRead).toString("utf8");
 }
@@ -29,19 +28,19 @@ function parseTitle(raw, ext) {
 }
 
 function extractExcerpt(raw, ext) {
-  if (ext === ".md") raw = raw.replace(/^#.*\n?/, '').trim();
-  if (ext === ".html") raw = raw.replace(/<head>.*<\/head>/is, '').replace(/<[^>]+>/g, ' ').trim();
+  if (ext === ".md") raw = raw.replace(/^#.*\n/, '').trim();
+  if (ext === ".html") raw = raw.replace(/<head>[\s\S]*<\/head>/i, '').replace(/<[^>]+>/g, ' ').trim();
   return raw.replace(/\s+/g, ' ').slice(0, EXCERPT_LENGTH);
 }
 
-function extractTags(raw, ext, pdfData = null) {
+function extractTags(raw, ext, pdfData) {
   let tags = [];
   if (ext === ".md") {
-    const match = raw.match(/^\s*tags:\s*(.+)$/im);
-    if (match) tags = match[1].split(',').map(t => t.trim().toLowerCase());
+    const m = raw.match(/^\s*tags:\s*(.+)$/im);
+    if (m) tags = m[1].split(',').map(t => t.trim().toLowerCase());
   } else if (ext === ".html") {
-    const match = raw.match(/<meta\s+name="keywords"\s+content="([^"]+)"/i);
-    if (match) tags = match[1].split(',').map(t => t.trim().toLowerCase());
+    const m = raw.match(/<meta\s+name="keywords"\s+content="([^"]+)"/i);
+    if (m) tags = m[1].split(',').map(t => t.trim().toLowerCase());
   } else if (ext === ".pdf" && pdfData?.info?.Subject) {
     tags = pdfData.info.Subject.split(',').map(t => t.trim().toLowerCase());
   }
@@ -62,7 +61,8 @@ async function collectFiles(relBase = "", flat = []) {
     }
 
     const ext = path.posix.extname(e.name).toLowerCase();
-    if (![".md", ".html", ".pdf"].includes(ext)) continue; // No exclude for index.*
+    if (![".md", ".html", ".pdf"].includes(ext)) continue;
+
     const st = await fs.stat(absPath);
     let raw, pdfData, title;
     if (ext === ".pdf") {
@@ -74,10 +74,9 @@ async function collectFiles(relBase = "", flat = []) {
       raw = await readHead(absPath, true);
       title = parseTitle(raw, ext) || e.name.replace(new RegExp(`\\${ext}$`), "").trim();
     }
+
     const mtime = dateFromName(e.name) ?? st.mtimeMs;
-    const excerpt = extractExcerpt(raw, ext);
-    const tags = extractTags(raw, ext, pdfData);
-    const baseName = e.name.toLowerCase().replace(ext, '').trim();
+    const baseName = e.name.slice(0, e.name.lastIndexOf('.')).toLowerCase();
 
     flat.push({
       type: "file",
@@ -86,8 +85,8 @@ async function collectFiles(relBase = "", flat = []) {
       path: rel,
       ext,
       mtime,
-      excerpt,
-      tags,
+      excerpt: extractExcerpt(raw, ext),
+      tags: extractTags(raw, ext, pdfData),
       isIndex: baseName === "index",
       isPinned: baseName === "pinned"
     });
