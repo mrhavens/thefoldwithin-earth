@@ -162,10 +162,11 @@ function renderSubNav(parent) {
   });
 }
 
+// CORE FIX: RENDER INDEX AT CURRENT LEVEL
 async function handleHash() {
   els.viewer.innerHTML = "";
   const rel = location.hash.replace(/^#\//, "");
-  const parts = rel.split("/").filter(Boolean); // ["about", "Mark"]
+  const parts = rel.split("/").filter(Boolean); // e.g., ["about"], ["about", "Mark"]
 
   let parentSection = null;
   if (parts.length >= 1) {
@@ -180,10 +181,10 @@ async function handleHash() {
 
   if (!rel) return renderDefault();
 
-  // CASE 1: Deep section with trailing slash → e.g., #about/Mark/
+  // CASE: Trailing slash → render index at *current* level
   if (rel.endsWith('/')) {
-    const fullPath = parts.join("/"); // "about/Mark"
-    const expectedIndexPath = fullPath + "/"; // "about/Mark/"
+    const currentPath = parts.join("/"); // "about" or "about/Mark"
+    const expectedIndexPath = currentPath + "/";
 
     const indexFile = indexData.flat.find(f =>
       f.path.startsWith(expectedIndexPath) && f.isIndex
@@ -193,7 +194,7 @@ async function handleHash() {
       try {
         if (indexFile.ext === ".md") {
           const src = await fetch(indexFile.path).then(r => r.ok ? r.text() : "");
-          const html = marked.parse(src || `# ${fullPath.split("/").pop()}\n\nNo content yet.`);
+          const html = marked.parse(src || `# ${currentPath.split("/").pop()}\n\nNo content yet.`);
           els.viewer.innerHTML = `<article class="markdown">${html}</article>`;
         } else {
           const iframe = document.createElement("iframe");
@@ -210,7 +211,7 @@ async function handleHash() {
               if (!hasContent) {
                 doc.body.innerHTML = `
                   <div style="text-align:center;padding:4rem;font-family:Inter,sans-serif;">
-                    <h1 style="color:#e6e3d7;">${fullPath.split("/").pop()}</h1>
+                    <h1 style="color:#e6e3d7;">${currentPath.split("/").pop()}</h1>
                     <p style="color:#888;">No content yet.</p>
                   </div>
                 `;
@@ -220,16 +221,16 @@ async function handleHash() {
           };
         }
       } catch (e) {
-        els.viewer.innerHTML = `<h1>${fullPath.split("/").pop()}</h1><p>No content yet.</p>`;
+        els.viewer.innerHTML = `<h1>${currentPath.split("/").pop()}</h1><p>No content yet.</p>`;
       }
     } else {
-      // Fallback: treat as section list
+      // No index → show list of children or fallback
       els.sectionSelect.value = parentSection;
       renderList();
       loadDefaultForSection(parentSection);
     }
   } 
-  // CASE 2: Direct file → e.g., #about/Mark/bio.md
+  // CASE: Direct file
   else {
     const file = indexData.flat.find(f => f.path === rel);
     if (!file) {
