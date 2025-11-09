@@ -190,47 +190,19 @@ body.sidebar-open #sidebar { transform: translateX(0); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* === DYNAMIC BREATHING FRAME === */
-.preview-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0;
-  padding: 1rem 0 3rem 0;
-  min-height: calc(100vh - var(--topbar-h) - var(--subnav-h));
+.viewer iframe {
+  width: 100%; height: calc(100vh - var(--topbar-h) - var(--subnav-h) - 80px);
+  border: 0; border-radius: var(--radius); background: transparent;
+  display: block;
 }
 
+/* === POP-OUT PREVIEW === */
 .preview-header {
   text-align: right;
-  width: 100%;
-  max-width: 960px;
-  background: rgba(224,184,75,0.06);
+  background: rgba(224,184,75,0.08);
   border-bottom: 1px solid #333;
-  padding: .6rem 1rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+  padding: .4rem 1rem;
 }
-
-.viewer iframe {
-  display: block;
-  width: 100%;
-  max-width: 960px;
-  min-height: 500px;
-  border: 0;
-  border-radius: var(--radius);
-  background: #0b0b0b;
-  box-shadow: 0 0 30px rgba(0,0,0,0.6);
-  margin: 0 auto 3rem auto;
-  transition: height .4s ease, transform .4s ease;
-}
-
-@media (max-width: 768px) {
-  .viewer iframe {
-    max-width: 100%;
-    border-radius: 0;
-  }
-}
-
 .popout-btn {
   background: none;
   border: 1px solid var(--accent);
