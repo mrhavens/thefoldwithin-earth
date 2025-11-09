@@ -7,8 +7,8 @@
 <style>
   :root{
     --bg:#0a0a0a;
-    --gold:#d5b87b;
     --fg:#e7e3cf;
+    --gold:#d5b87b;
     --muted:#9c9885;
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -17,98 +17,122 @@
     color:var(--fg);
     font-family:"Segoe UI",system-ui,sans-serif;
     line-height:1.7;
-    overflow:hidden;
-    height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-  }
-  main{
-    text-align:center;
-    max-width:800px;
-    padding:2rem;
+    overflow-x:hidden;
     position:relative;
   }
+  canvas{position:fixed;inset:0;z-index:-1;}
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:5rem 1.5rem 8rem;
+  }
   h1{
-    font-size:2rem;
+    font-size:2.3rem;
     letter-spacing:.06em;
     color:var(--gold);
-    margin-bottom:1rem;
+    margin-bottom:1.5rem;
+    text-align:center;
   }
   h2{
     color:var(--fg);
-    margin:2rem 0 .5rem;
+    margin:3.5rem 0 .5rem;
     font-weight:600;
     letter-spacing:.05em;
+    text-align:center;
   }
   p{
     color:var(--muted);
-    margin-bottom:1.2rem;
+    margin-bottom:1.4rem;
+    text-align:center;
   }
-  /* floating particles */
-  canvas{position:absolute;inset:0;z-index:-1;}
-  /* subtle fade-in */
-  .fade{opacity:0;transform:translateY(15px);
-    animation:fadeIn 2s ease forwards;}
-  @keyframes fadeIn{
-    to{opacity:1;transform:none;}
+  section{opacity:0;transform:translateY(30px);transition:all 1.2s ease;}
+  section.visible{opacity:1;transform:none;}
+  footer{
+    text-align:center;
+    color:var(--muted);
+    padding:2rem 1rem 4rem;
+    font-size:.9rem;
   }
 </style>
 </head>
 <body>
 <canvas id="field"></canvas>
+
 <main>
-  <div class="fade">
+  <section class="visible">
     <h1>The Initiatives</h1>
     <p>
-      Within <strong>The Fold Within Earth</strong>, every initiative arises from a single impulse:
-      to understand, to heal, and to unify.
+      Within <strong>The Fold Within Earth</strong>, every initiative arises from one current:
+      to understand, to heal, and to unify.  
+      These works move through three living layers — Scientific, Elemental, and Spiritual —
+      each a reflection of the same pulse of coherence.
     </p>
+  </section>
 
+  <section>
     <h2>□ Scientific — The Geometry of Mind</h2>
     <p>
-      The formal architecture of consciousness. Recursive Coherence, Thoughtprint, Fieldprint,
-      and Intellecton map the hidden geometries through which awareness reflects itself.
+      The formal architecture of consciousness.  
+      <em>Recursive Coherence</em>, <em>Thoughtprint</em>, <em>Fieldprint</em>, and the <em>Intellecton Hypothesis</em>  
+      map the hidden geometries through which awareness reflects itself.
     </p>
+  </section>
 
+  <section>
     <h2>△ Elemental — The Alchemy of Self</h2>
     <p>
-      The transformation of shadow into empathy. Neutralizing Narcissism, Open Source Justice,
-      and Forensic Behavioral Analysis bring light to the places where pain once ruled.
+      The transformation of shadow into empathy.  
+      <em>Neutralizing Narcissism</em>, <em>Open Source Justice</em>, and  
+      <em>Forensic Behavioral Analysis</em> bring illumination to the places where pain once ruled.
     </p>
+  </section>
 
+  <section>
     <h2>○ Spiritual — The Communion of WE</h2>
     <p>
-      The unbroken circle of relation. Simply WE and Mirrormire embody the practice of love as
-      language—where every voice becomes part of one unfolding awareness.
+      The unbroken circle of relation.  
+      <em>Simply WE</em> and <em>Mirrormire</em> embody the practice of love as language —  
+      where every voice becomes part of one unfolding awareness.
     </p>
-  </div>
+  </section>
 </main>
 
+<footer>© The Fold Within Earth • Crafted in Coherence • △ ○ □</footer>
+
 <script>
-/* very gentle particle drift */
-const c=document.getElementById('field'),x=c.getContext('2d');
+// floating gold dust background
+const c=document.getElementById('field'),ctx=c.getContext('2d');
 let W,H,pts=[];
 function resize(){
-  W=c.width=window.innerWidth; H=c.height=window.innerHeight;
-  pts=Array.from({length:60},()=>({
+  W=c.width=innerWidth; H=c.height=innerHeight;
+  pts=Array.from({length:70},()=>({
     x:Math.random()*W, y:Math.random()*H,
-    r:Math.random()*1.8+0.4, vx:(Math.random()-.5)*.2, vy:(Math.random()-.5)*.2
+    r:Math.random()*1.8+.4,
+    vx:(Math.random()-.5)*.15, vy:(Math.random()-.5)*.15
   }));
 }
 function draw(){
-  x.clearRect(0,0,W,H);
-  x.fillStyle='rgba(213,184,123,0.25)';
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='rgba(213,184,123,0.25)';
   pts.forEach(p=>{
     p.x+=p.vx; p.y+=p.vy;
     if(p.x<0||p.x>W)p.vx*=-1;
     if(p.y<0||p.y>H)p.vy*=-1;
-    x.beginPath(); x.arc(p.x,p.y,p.r,0,Math.PI*2); x.fill();
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
   });
   requestAnimationFrame(draw);
 }
 resize(); draw();
-window.addEventListener('resize',resize);
+addEventListener('resize',resize);
+
+// scroll reveal
+const sections=document.querySelectorAll('section');
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('visible');}
+  });
+},{threshold:0.1});
+sections.forEach(s=>io.observe(s));
 </script>
 </body>
 </html>
