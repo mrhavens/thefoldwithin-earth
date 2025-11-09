@@ -167,9 +167,8 @@ function renderSubNav(parent) {
 async function handleHash() {
   els.viewer.innerHTML = "";
   const rel = location.hash.replace(/^#\//, "");
-  const parts = rel.split("/").filter(Boolean); // e.g., ["about", "Mark"]
+  const parts = rel.split("/").filter(Boolean);
 
-  // Determine current depth parent for subnav
   const currentParentPath = parts.slice(0, -1).join("/") || parts[0] || null;
 
   if (currentParentPath !== currentParent) {
@@ -177,7 +176,6 @@ async function handleHash() {
     renderSubNav(currentParent);
   }
 
-  // Sync sidebar section to top-level
   const topSection = parts[0] || null;
   if (topSection && indexData.sections.includes(topSection)) {
     els.sectionSelect.value = topSection;
@@ -186,7 +184,6 @@ async function handleHash() {
 
   if (!rel) return renderDefault();
 
-  // CASE: Trailing slash → render index at *current* level
   if (rel.endsWith('/')) {
     const currentPath = parts.join("/");
 
@@ -202,34 +199,12 @@ async function handleHash() {
           const html = marked.parse(src || `# ${currentPath.split("/").pop()}\n\nNo content yet.`);
           els.viewer.innerHTML = `<article class="markdown">${html}</article>`;
         } else {
-          const iframe = document.createElement("iframe");
-          iframe.src = "/" + indexFile.path;
-          iframe.loading = "eager";
-          iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-forms");
-          els.viewer.appendChild(iframe);
-
-          iframe.onload = () => {
-            try {
-              const doc = iframe.contentDocument;
-              const body = doc.body;
-              const hasContent = body && body.innerText.trim().length > 50;
-              if (!hasContent) {
-                doc.body.innerHTML = `
-                  <div style="text-align:center;padding:4rem;font-family:Inter,sans-serif;">
-                    <h1 style="color:#e6e3d7;">${currentPath.split("/").pop()}</h1>
-                    <p style="color:#888;">No content yet.</p>
-                  </div>
-                `;
-                doc.body.style.background = "#0b0b0b";
-              }
-            } catch (e) {}
-          };
+          renderIframe("/" + indexFile.path);
         }
       } catch (e) {
         els.viewer.innerHTML = `<h1>${currentPath.split("/").pop()}</h1><p>No content yet.</p>`;
       }
     } else {
-      // No index → show children or fallback
       if (topSection) {
         els.sectionSelect.value = topSection;
         renderList();
@@ -239,14 +214,13 @@ async function handleHash() {
       }
     }
   } 
-  // CASE: Direct file
   else {
     const file = indexData.flat.find(f => f.path === rel);
     if (!file) {
       els.viewer.innerHTML = "<h1>404</h1><p>Not found.</p>";
       return;
     }
-    file.ext === ".md" ? await renderMarkdown(file.path) : renderIframe(file.path);
+    file.ext === ".md" ? await renderMarkdown(file.path) : renderIframe("/" + file.path);
   }
 }
 
@@ -255,11 +229,17 @@ async function renderMarkdown(rel) {
   els.viewer.innerHTML = `<article class="markdown">${marked.parse(src || "# Untitled")}</article>`;
 }
 
-function renderIframe(rel) {
+function renderIframe(src) {
   const iframe = document.createElement("iframe");
-  iframe.src = "/" + rel;
+  iframe.src = src;
   iframe.loading = "eager";
-  iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-forms");
+  iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-forms allow-popups");
+  iframe.style.width = "100vw";
+  iframe.style.height = "calc(100vh - var(--topbar-h) - var(--subnav-h))";
+  iframe.style.border = "none";
+  iframe.style.borderRadius = "0";
+  iframe.style.margin = "0";
+
   els.viewer.appendChild(iframe);
 
   iframe.onload = () => {
@@ -267,11 +247,29 @@ function renderIframe(rel) {
       const doc = iframe.contentDocument;
       const style = doc.createElement("style");
       style.textContent = `
-        html,body{background:#0b0b0b;color:#e6e3d7;font-family:Inter,sans-serif;margin:0;padding:2rem;}
-        *{max-width:720px;margin:auto;}
-        img, video, iframe {max-width:100%;height:auto;}
+        html, body {
+          background: transparent;
+          color: inherit;
+          font-family: inherit;
+          margin: 0;
+          padding: 3rem 4vw;
+        }
+        * { max-width: 100%; }
+        img, video, iframe { max-width: 100%; height: auto; }
       `;
       doc.head.appendChild(style);
+
+      const body = doc.body;
+      const hasContent = body && body.innerText.trim().length > 50;
+      if (!hasContent) {
+        doc.body.innerHTML = `
+          <div style="text-align:center;padding:6rem;font-family:Inter,sans-serif;">
+            <h1 style="color:#e6e3d7;">${src.split("/").pop().replace(/\..*$/, "")}</h1>
+            <p style="color:#888;">No content yet.</p>
+          </div>
+        `;
+        doc.body.style.background = "transparent";
+      }
     } catch (e) {}
   };
 }
