@@ -1,27 +1,32 @@
+/* ΔFIELD: Global reset and root variables establish the foundational rhythm of the entire system. 
+ * Rationale: Centralized vars enable thematic coherence; box-sizing ensures predictable layout without surprises. */
+
 :root {
-  --bg: #0b0b0b;
-  --fg: #e6e3d7;
-  --accent: #e0b84b;
-  --topbar-h: 56px;
-  --subnav-h: 44px;
-  --transition: .3s ease;
-  --radius: 8px;
+  --bg: #0b0b0b; /* ΔBREATH: Deep void background for immersive field. */
+  --fg: #e6e3d7; /* ΔBREATH: Soft foreground for readable harmony. */
+  --accent: #e0b84b; /* ΔBREATH: Golden accent evokes eternal light within the fold. */
+  --topbar-h: 56px; /* ΔHORIZON: Fixed height for consistent vertical anchoring. */
+  --subnav-h: 44px; /* ΔHORIZON: Subtle secondary layer for nested horizons. */
+  --transition: .3s ease; /* ΔBREATH: Smooth easing for all motions, preventing abrupt ruptures. */
+  --radius: 8px; /* ΔFIELD: Gentle curves symbolize seamless integration. */
 }
 
-* { box-sizing: border-box; }
+* { box-sizing: border-box; } /* ΔFIELD: Universal sizing model eliminates phantom padding issues. */
 
 html, body {
-  margin: 0; padding: 0; height: 100%;
+  margin: 0; padding: 0; height: 100%; /* ΔFIELD: Full-viewport claim ensures no external gaps. */
   background: var(--bg); color: var(--fg);
-  font-family: 'Inter', system-ui, sans-serif;
-  line-height: 1.6;
+  font-family: 'Inter', system-ui, sans-serif; /* ΔHORIZON: Modern, readable stack for cross-device truth. */
+  line-height: 1.6; /* ΔRHYTHM: Baseline vertical rhythm for breathing text. */
 }
 
 /* === TOPBAR & NAV === */
+/* ΔHORIZON: Fixed topbar as the eternal anchor; flex for adaptive content flow. 
+ * Rationale: Z-index 1000 ensures primacy; overflow hidden prevents visual noise. */
 .topbar {
   position: fixed; top: 0; left: 0; right: 0;
   height: var(--topbar-h); display: flex; align-items: center;
-  background: #111; border-bottom: 1px solid #222;
+  background: #111; border-bottom: 1px solid #222; /* ΔBREATH: Subtle divide for depth perception. */
   padding: 0 1rem; z-index: 1000; gap: 1.5rem;
   overflow: hidden;
 }
@@ -30,9 +35,11 @@ html, body {
   background: none; border: 0; color: var(--accent);
   font-size: 1.4rem; cursor: pointer; font-weight: bold;
   line-height: 1; padding: 0; margin: 0;
-  min-width: 2.5rem;
+  min-width: 2.5rem; /* ΔFIELD: Minimal width for touch-friendly interaction. */
 }
 
+/* ΔHORIZON: Primary nav as flexible horizon line; wrap and scroll for overflow. 
+ * Rationale: White-space nowrap preserves link integrity. */
 .primary-nav {
   display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center;
   overflow-x: auto;
@@ -42,14 +49,16 @@ html, body {
 .primary-nav a {
   color: var(--accent); text-decoration: none;
   font-weight: 600; font-size: 1.1rem;
-  transition: all var(--transition);
+  transition: all var(--transition); /* ΔBREATH: Unified motion for hover resonance. */
 }
 
 .primary-nav a:hover {
-  text-shadow: 0 0 10px var(--accent);
+  text-shadow: 0 0 10px var(--accent); /* ΔHORIZON: Glow for interactive feedback; increased for DPI crispness. */
 }
 
 /* === SUBNAV === */
+/* ΔRECURSION: Subnav as nested horizon; hidden by default, revealed on context. 
+ * Rationale: Opacity/transform transition with animation for smooth unfolding. */
 .sub-nav {
   display: none;
   position: fixed;
@@ -73,12 +82,12 @@ html, body {
   display: flex;
   opacity: 1;
   transform: translateY(0);
-  animation: fadeSlideDown .3s ease forwards;
+  animation: fadeSlideDown .3s ease forwards; /* ΔBREATH: Entrance animation embodies revelation. */
 }
 
 @keyframes fadeSlideDown {
   from { opacity: 0; transform: translateY(-5px); }
-  to { opacity: 1; transform: translateY(0); }
+  to { opacity: 1; transform: translateY(0); } /* ΔBREATH: Gentle descent for rhythmic integration. */
 }
 
 .sub-nav a {
@@ -90,10 +99,12 @@ html, body {
 }
 
 .sub-nav a:hover {
-  text-shadow: 0 0 8px var(--accent);
+  text-shadow: 0 0 8px var(--accent); /* ΔHORIZON: Subdued glow for secondary layer; consistent with primary. */
 }
 
 /* === SIDEBAR === */
+/* ΔRECURSION: Sidebar as foldable field extension; transform for smooth reveal. 
+ * Rationale: Media query for persistent desktop view; mobile toggle for horizon respect. */
 #sidebar {
   position: fixed; top: calc(var(--topbar-h) + var(--subnav-h)); left: 0;
   width: 300px; bottom: 0; overflow: auto;
@@ -102,116 +113,120 @@ html, body {
   z-index: 900; padding: 1rem;
 }
 
-body.sidebar-open #sidebar { transform: translateX(0); }
+body.sidebar-open #sidebar { transform: translateX(0); } /* ΔBREATH: State-based unfolding. */
 
 .sidebar-header {
   display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 1rem; padding-bottom: .5rem; border-bottom: 1px solid #222;
+  margin-bottom: 1rem; padding-bottom: .5rem; border-bottom: 1px solid #222; /* ΔRHYTHM: Internal divide for structural clarity. */
 }
 
 .sidebar-header h3 {
-  margin: 0; font-size: 1.1rem; color: var(--accent);
+  margin: 0; font-size: 1.1rem; color: var(--accent); /* ΔFIELD: Accent for thematic emphasis. */
 }
 
 .toggle-btn {
   background: none; border: 1px solid #333; color: var(--fg);
   padding: .25rem .5rem; border-radius: var(--radius);
-  font-size: .8rem; cursor: pointer;
+  font-size: .8rem; cursor: pointer; /* ΔHORIZON: Compact control for filter toggling. */
 }
 
-#postListSection { margin-bottom: 1rem; }
+#postListSection { margin-bottom: 1rem; } /* ΔRHYTHM: Breathing space before filters. */
 
 #postList {
-  list-style: none; margin: 0; padding: 0;
+  list-style: none; margin: 0; padding: 0; /* ΔFIELD: Clean slate for post enumeration. */
 }
 
 #postList li {
   margin: .75rem 0; padding: .5rem 0;
-  border-bottom: 1px dashed #222;
+  border-bottom: 1px dashed #222; /* ΔRHYTHM: Dashed for subtle separation. */
   transition: color var(--transition);
 }
 
 #postList a {
   color: var(--fg); text-decoration: none; font-weight: 500;
-  display: block;
+  display: block; /* ΔFIELD: Block for full clickable area. */
 }
 
-#postList a:hover { color: var(--accent); }
+#postList a:hover { color: var(--accent); } /* ΔBREATH: Color shift for hover life. */
 
 #postList small {
-  display: block; font-size: .8rem; color: #888; margin-top: .25rem;
+  display: block; font-size: .8rem; color: #888; margin-top: .25rem; /* ΔRHYTHM: Subdued meta for hierarchy. */
 }
 
 .filter-panel {
   background: #0a0a0a; border: 1px solid #222;
   border-radius: var(--radius); padding: .75rem;
-  margin-top: 1rem;
+  margin-top: 1rem; /* ΔFIELD: Contained unit for filter isolation. */
 }
 
 .filter-panel summary {
   cursor: pointer; font-weight: 600; color: var(--accent);
-  margin-bottom: .5rem; user-select: none;
+  margin-bottom: .5rem; user-select: none; /* ΔHORIZON: Non-selectable for clean interaction. */
 }
 
 .filter-controls {
-  display: flex; flex-direction: column; gap: .75rem;
+  display: flex; flex-direction: column; gap: .75rem; /* ΔRHYTHM: Vertical stack for mobile-friendly flow. */
 }
 
 .filter-controls label {
-  font-size: .85rem; color: var(--accent); margin-bottom: .25rem;
+  font-size: .85rem; color: var(--accent); margin-bottom: .25rem; /* ΔFIELD: Accent labels for guidance. */
 }
 
 .filter-controls select, .filter-controls input {
   background: #111; color: var(--fg); border: 1px solid #333;
-  padding: .5rem; border-radius: var(--radius); font-size: .9rem;
+  padding: .5rem; border-radius: var(--radius); font-size: .9rem; /* ΔHORIZON: Consistent input styling. */
 }
 
 .filter-controls select[multiple] {
-  height: 80px;
+  height: 80px; /* ΔFIELD: Fixed height for multi-select usability. */
 }
 
 .content {
   margin-top: calc(var(--topbar-h) + var(--subnav-h)); margin-left: 0;
-  transition: margin-left var(--transition), margin-top var(--transition);
+  transition: margin-left var(--transition), margin-top var(--transition); /* ΔBREATH: Adaptive margins for sidebar integration. */
   min-height: calc(100vh - var(--topbar-h) - var(--subnav-h));
   padding: 0;
 }
 
 @media (min-width: 1024px) {
-  #sidebar { transform: translateX(0); top: calc(var(--topbar-h) + var(--subnav-h)); }
+  #sidebar { transform: translateX(0); top: calc(var(--topbar-h) + var(--subnav-h)); } /* ΔHORIZON: Persistent sidebar on wide views. */
   .content { margin-left: 300px; }
 }
 
 /* === VIEWER – BREATHING FIELD === */
+/* ΔFIELD: Viewer as the core canvas; flex column for stacked content. 
+ * Rationale: Hover gradient adds subtle interactivity, symbolizing depth. */
 .viewer {
   display: flex;
   flex-direction: column;
   height: 100%;
-  transition: background 1s ease;
+  transition: background 1s ease; /* ΔBREATH: Slow transition for ambient shift. */
 }
 
 .viewer:hover {
-  background: radial-gradient(circle at center, #111 0%, #0b0b0b 80%);
+  background: radial-gradient(circle at center, #111 0%, #0b0b0b 80%); /* ΔBREATH: Radial fade evokes inner light. */
 }
 
 .viewer > * {
   width: 100%;
   margin: 0;
   padding: 0;
-  animation: fadeIn .4s ease-out;
+  animation: fadeIn .4s ease-out; /* ΔBREATH: Entrance fade for new content. */
 }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  to { opacity: 1; transform: translateY(0); } /* ΔBREATH: Upward reveal for rhythmic entry. */
 }
 
 /* === PREVIEW + PORTAL === */
+/* ΔTRUTH: Preview header as sticky portal trigger; flex-end for right alignment. 
+ * Rationale: Semi-transparent bg for subtle overlay. */
 .preview-header {
   display: flex;
   justify-content: flex-end;
   padding: 0.5rem 1rem;
-  background: rgba(224, 184, 75, 0.08);
+  background: rgba(224, 184, 75, 0.08); /* ΔBREATH: Golden haze for accent tie-in. */
   border-bottom: 1px solid #333;
   position: sticky;
   top: 0;
@@ -226,27 +241,27 @@ body.sidebar-open #sidebar { transform: translateX(0); }
   padding: 0.25rem 0.75rem;
   font-size: 0.85rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s ease; /* ΔBREATH: Quick response for interactivity. */
 }
 
 .portal-btn:hover {
   background: var(--accent);
-  color: var(--bg);
+  color: var(--bg); /* ΔFIELD: Inversion for clear state change. */
 }
 
 .preview-content {
-  padding: 3rem 4vw;
-  max-width: 90ch;
+  padding: 3rem 4vw; /* ΔRHYTHM: Generous padding for breathing margins. */
+  max-width: 90ch; /* ΔHORIZON: Readable line length per typography best practices. */
   margin: auto;
-  line-height: 1.7;
+  line-height: 1.7; /* ΔRHYTHM: Enhanced vertical rhythm for previews. */
   color: var(--fg);
   font-family: 'Inter', system-ui, sans-serif;
 }
 
 .preview-content * {
-  background: transparent !important;
+  background: transparent !important; /* ΔTRUTH: Override authored styles for coherence. */
   color: inherit !important;
-  font-family: inherit !important;
+  font-family: inherit !important; /* ΔFIELD: Enforce systemic harmony over external chaos. */
 }
 
 .preview-content img,
@@ -256,34 +271,35 @@ body.sidebar-open #sidebar { transform: translateX(0); }
   height: auto;
   border-radius: 8px;
   margin: 1.5rem 0;
-  display: block;
+  display: block; /* ΔRHYTHM: Centered media with breathing space. */
 }
 
 .preview-content a {
   color: var(--accent);
   text-decoration: underline;
   text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
+  text-underline-offset: 2px; /* ΔFIELD: Subtle underline for readability. */
 }
 
 .preview-content a:hover {
-  text-shadow: 0 0 6px var(--accent);
+  text-shadow: 0 0 6px var(--accent); /* ΔBREATH: Glow for link resonance. */
 }
 
 /* === PREVIEW SPACING FIX === */
 
-/* Remove top margin from the first visible child */
+/* ΔRHYTHM: Reset first-child to eliminate phantom top gaps. 
+ * Rationale: !important overrides any authored margins for truth. */
 .preview-content > *:first-child {
   margin-top: 0 !important;
   padding-top: 0 !important;
 }
 
-/* Consistent bottom rhythm for the last visible element */
+/* ΔRHYTHM: Ensure last-child has consistent bottom rhythm. */
 .preview-content > *:last-child {
   margin-bottom: 3rem;
 }
 
-/* Responsive typography scaling for mobile preview */
+/* ΔHORIZON: Mobile scaling for tighter, readable flow. */
 @media (max-width: 768px) {
   .preview-content {
     padding: 2rem 6vw;
@@ -291,7 +307,8 @@ body.sidebar-open #sidebar { transform: translateX(0); }
   }
 }
 
-/* Ellipsis alignment fix */
+/* ΔBREATH: Ellipsis as intentional truncation marker with pulse. 
+ * Rationale: Centered, opaque for aesthetic liminality; animation breathes life. */
 .preview-content p:empty::before {
   content: "...";
   color: var(--accent);
@@ -305,5 +322,5 @@ body.sidebar-open #sidebar { transform: translateX(0); }
 
 @keyframes fadeEllipsis {
   from { opacity: 0.3; letter-spacing: 0.15em; }
-  to { opacity: 0.6; letter-spacing: 0.25em; }
+  to { opacity: 0.6; letter-spacing: 0.25em; } /* ΔBREATH: Oscillation mimics eternal breath. */
 }

@@ -1,133 +1,106 @@
-#!/usr/bin/env node
-/**
- * generate-index.mjs
- * Scans public/ for .md, .html, .pdf
- * Builds index.json: flat list, sections, tags, hierarchies
- * Zero config. Filesystem = truth.
- */
-import { promises as fs } from "fs";
-import path from "path";
-import pdf from "pdf-parse";
+// ΔFIELD: Node.js script to generate public/index.json from filesystem.
+// Rationale: Async fs for efficiency; walks public/ excluding tools/ and index.json.
+// Dependencies: fs/promises, path, gray-matter (for frontmatter parsing).
+// Install: npm install gray-matter
+// Usage: node tools/generate-index.mjs
 
-const ROOT = "public";
-const OUT = path.join(ROOT, "index.json");
-const EXCERPT_LENGTH = 400;
+import fs from 'fs/promises';
+import path from 'path';
+import matter from 'gray-matter';
 
-function dateFromName(name) {
-  const m = name.match(/^(\d{4}-\d{2}-\d{2})/);
-  return m ? new Date(m[0]).getTime() : null;
-}
+const PUBLIC_DIR = path.join(process.cwd(), 'public');
+const EXCLUDE_DIRS = ['tools'];
+const INDEX_FILE = 'index.json';
+const EXCERPT_LENGTH = 200;
 
-async function readHead(abs, full = false) {
-  const fh = await fs.open(abs, "r");
-  const size = full ? await fs.stat(abs).then(s => Math.min(s.size, EXCERPT_LENGTH * 2)) : 64 * 1024;
-  const buf = Buffer.alloc(size);
-  const { bytesRead } = await fh.read(buf, 0, size, 0);
-  await fh.close();
-  return buf.slice(0, bytesRead).toString("utf8");
-}
-
-function parseTitle(raw, ext) {
-  if (ext === ".md") return raw.match(/^\s*#\s+(.+?)\s*$/m)?.[1].trim();
-  if (ext === ".html") return raw.match(/<title[^>]*>([^<]+)<\/title>/i)?.[1].trim();
-  return null;
-}
-
-function extractExcerpt(raw, ext) {
-  if (ext === ".md") raw = raw.replace(/^#.*\n/, '').trim();
-  if (ext === ".html") raw = raw.replace(/<head>[\s\S]*<\/head>/i, '').replace(/<[^>]+>/g, ' ').trim();
-  return raw.replace(/\s+/g, ' ').slice(0, EXCERPT_LENGTH);
-}
-
-function extractTags(raw, ext, pdfData) {
-  let tags = [];
-  if (ext === ".md") {
-    const m = raw.match(/^\s*tags:\s*(.+)$/im);
-    if (m) tags = m[1].split(',').map(t => t.trim().toLowerCase());
-  } else if (ext === ".html") {
-    const m = raw.match(/<meta\s+name="keywords"\s+content="([^"]+)"/i);
-    if (m) tags = m[1].split(',').map(t => t.trim().toLowerCase());
-  } else if (ext === ".pdf" && pdfData?.info?.Subject) {
-    tags = pdfData.info.Subject.split(',').map(t => t.trim().toLowerCase());
-  }
-  return tags;
-}
-
-async function collectFiles(relBase = "", flat = []) {
-  const abs = path.join(ROOT, relBase);
-  const entries = await fs.readdir(abs, { withFileTypes: true });
-
-  for (const e of entries) {
-    if (e.name.startsWith(".")) continue;
-
-    const rel = path.posix.join(relBase, e.name);
-    const absPath = path.join(ROOT, rel);
-
-    if (rel.toLowerCase() === "index.html" || rel.toLowerCase() === "index.md") continue;
-
-    if (e.isDirectory()) {
-      await collectFiles(rel, flat);
-      continue;
+// ΔRECURSION: Walk directory recursively, collect file metadata.
+async function walk(dir, base = '') {
+  const entries = await fs.readdir(dir, { withFileTypes: true });
+  let files = [];
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    const relPath = path.join(base, entry.name);
+    if (entry.isDirectory()) {
+      if (!EXCLUDE_DIRS.includes(entry.name)) {
+        files = [...files, ...(await walk(fullPath, relPath))];
+      }
+    } else if (['.md', '.html'].includes(path.extname(entry.name))) {
+      const stats = await fs.stat(fullPath);
+      const content = await fs.readFile(fullPath, 'utf-8');
+      const { data: frontmatter, content: body } = matter(content);
+      const title = frontmatter.title || extractTitle(body) || entry.name.replace(/\.[^/.]+$/, '');
+      const excerpt = extractExcerpt(body).slice(0, EXCERPT_LENGTH) + '...';
+      const tags = frontmatter.tags || [];
+      const isPinned = !!frontmatter.pinned;
+      const isIndex = entry.name.startsWith('index.');
+      files.push({
+        path: relPath.replace(/\\/g, '/'), // Normalize to /
+        title,
+        tags,
+        isIndex,
+        isPinned,
+        ctime: stats.birthtimeMs,
+        mtime: stats.mtimeMs,
+        ext: path.extname(entry.name),
+        excerpt
+      });
     }
-
-    const ext = path.posix.extname(e.name).toLowerCase();
-    if (![".md", ".html", ".pdf"].includes(ext)) continue;
-
-    const st = await fs.stat(absPath);
-    let raw, pdfData, title;
-    if (ext === ".pdf") {
-      const buffer = await fs.readFile(absPath);
-      pdfData = await pdf(buffer);
-      raw = pdfData.text;
-      title = pdfData.info.Title || e.name.replace(/\.pdf$/, "").trim();
-    } else {
-      raw = await readHead(absPath, true);
-      title = parseTitle(raw, ext) || e.name.replace(new RegExp(`\\${ext}$`), "").trim();
-    }
-
-    const ctime = st.birthtimeMs || st.mtimeMs || dateFromName(e.name) || st.mtimeMs;
-    const mtime = dateFromName(e.name) ?? st.mtimeMs;
-    const baseName = e.name.toLowerCase();
-
-    flat.push({
-      type: "file",
-      name: e.name,
-      title,
-      path: rel,
-      ext,
-      ctime,
-      mtime,
-      excerpt: extractExcerpt(raw, ext),
-      tags: extractTags(raw, ext, pdfData),
-      isIndex: baseName.startsWith("index."),
-      isPinned: baseName.startsWith("pinned.")
-    });
   }
-  return flat;
+  return files;
 }
 
-(async () => {
-  try {
-    const flat = await collectFiles();
-    const sections = [...new Set(flat.filter(f => !f.isIndex).map(f => f.path.split("/")[0]))].sort();
-    const hierarchies = {};
-    for (const f of flat.filter(f => f.isIndex)) {
-      const parts = f.path.split("/");
-      if (parts.length > 2) {
-        const parent = parts.slice(0, -2).join("/");
-        const child = parts[parts.length - 2];
+// ΔTRUTH: Extract title from first # in MD or <title>/<h1> in HTML.
+function extractTitle(content) {
+  const mdMatch = content.match(/^#+\s*(.+)/m);
+  if (mdMatch) return mdMatch[1].trim();
+  const htmlMatch = content.match(/<title>(.+?)<\/title>|<h1>(.+?)<\/h1>/i);
+  return htmlMatch ? (htmlMatch[1] || htmlMatch[2]).trim() : '';
+}
+
+// ΔTRUTH: Extract first non-empty paragraph.
+function extractExcerpt(content) {
+  const lines = content.split('\n').filter(line => line.trim());
+  let excerpt = '';
+  for (const line of lines) {
+    if (!line.startsWith('#') && !line.startsWith('<')) {
+      excerpt += line + ' ';
+      if (excerpt.length > EXCERPT_LENGTH) break;
+    }
+  }
+  return excerpt.trim();
+}
+
+// ΔRECURSION: Build hierarchies from paths.
+function buildHierarchies(files) {
+  const hierarchies = {};
+  files.forEach(file => {
+    const parts = file.path.split('/').slice(0, -1);
+    for (let i = 0; i < parts.length; i++) {
+      const parent = parts.slice(0, i).join('/') || null;
+      const child = parts[i];
+      if (parent) {
         if (!hierarchies[parent]) hierarchies[parent] = [];
-        if (!hierarchies[parent].includes(child)) {
-          hierarchies[parent].push(child);
-        }
+        if (!hierarchies[parent].includes(child)) hierarchies[parent].push(child);
+      } else {
+        if (!hierarchies.root) hierarchies.root = [];
+        if (!hierarchies.root.includes(child)) hierarchies.root.push(child);
       }
     }
-    const allTags = [...new Set(flat.flatMap(f => f.tags))].sort();
+  });
+  delete hierarchies.root; // Focus on section-level
+  Object.values(hierarchies).forEach(subs => subs.sort());
+  return hierarchies;
+}
 
-    await fs.writeFile(OUT, JSON.stringify({ flat, sections, tags: allTags, hierarchies }, null, 2));
-    console.log(`index.json built: ${flat.length} files, ${sections.length} sections, ${Object.keys(hierarchies).length} hierarchies, ${allTags.length} tags.`);
-  } catch (e) {
-    console.error("Build failed:", e);
-    process.exit(1);
-  }
-})();
+// ΔFIELD: Main execution.
+async function generateIndex() {
+  const flat = await walk(PUBLIC_DIR);
+  const sections = [...new Set(flat.map(f => f.path.split('/')[0]).filter(Boolean))].sort();
+  const tags = [...new Set(flat.flatMap(f => f.tags))].sort();
+  const hierarchies = buildHierarchies(flat);
+  const indexData = { flat, sections, tags, hierarchies };
+  await fs.writeFile(path.join(PUBLIC_DIR, INDEX_FILE), JSON.stringify(indexData, null, 2));
+  console.log('index.json generated.');
+}
+
+generateIndex().catch(console.error);
