@@ -97,7 +97,8 @@ async function collectFiles(relBase = "", flat = []) {
 (async () => {
   try {
     const flat = await collectFiles();
-    const sections = [...new Set(flat.map(f => f.path.split("/")[0]))].sort();
+    // Only include sections with non-index files
+    const sections = [...new Set(flat.filter(f => !f.isIndex).map(f => f.path.split("/")[0]))].sort();
     const allTags = [...new Set(flat.flatMap(f => f.tags))].sort();
     await fs.writeFile(OUT, JSON.stringify({ flat, sections, tags: allTags }, null, 2));
     console.log(`index.json built: ${flat.length} files, ${sections.length} sections, ${allTags.length} tags.`);
