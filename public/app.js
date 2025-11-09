@@ -201,29 +201,11 @@ async function handleHash() {
           const src = await fetch(indexFile.path).then(r => r.ok ? r.text() : "");
           const html = marked.parse(src || `# ${currentPath.split("/").pop()}\n\nNo content yet.`);
           els.viewer.innerHTML = `<article class="markdown">${html}</article>`;
+        } else if (indexFile.ext === ".html") {
+          // Use unified bounded renderer even for nested index.html
+          renderIframe(indexFile.path);
         } else {
-          const iframe = document.createElement("iframe");
-          iframe.src = "/" + indexFile.path;
-          iframe.loading = "eager";
-          iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-forms");
-          els.viewer.appendChild(iframe);
-
-          iframe.onload = () => {
-            try {
-              const doc = iframe.contentDocument;
-              const body = doc.body;
-              const hasContent = body && body.innerText.trim().length > 50;
-              if (!hasContent) {
-                doc.body.innerHTML = `
-                  <div style="text-align:center;padding:4rem;font-family:Inter,sans-serif;">
-                    <h1 style="color:#e6e3d7;">${currentPath.split("/").pop()}</h1>
-                    <p style="color:#888;">No content yet.</p>
-                  </div>
-                `;
-                doc.body.style.background = "#0b0b0b";
-              }
-            } catch (e) {}
-          };
+          els.viewer.innerHTML = `<h1>${currentPath.split("/").pop()}</h1><p>Unsupported type.</p>`;
         }
       } catch (e) {
         els.viewer.innerHTML = `<h1>${currentPath.split("/").pop()}</h1><p>No content yet.</p>`;
