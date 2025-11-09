@@ -31,6 +31,7 @@ async function init() {
   }
 }
 
+// Only show folder name if any index.* exists
 function populateNav() {
   els.primaryNav.innerHTML = '<a href="#/">Home</a>';
   const navSections = [...new Set(
