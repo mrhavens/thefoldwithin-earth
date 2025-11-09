@@ -15,6 +15,7 @@ const els = {
 
 let indexData = null;
 let sidebarOpen = false;
+let currentIframe = null;
 
 async function init() {
   try {
@@ -78,10 +79,13 @@ function wireUI() {
   [els.tagSelect, els.sortSelect, els.searchMode].forEach(el => el.addEventListener("change", renderList));
   els.searchBox.addEventListener("input", renderList);
 
-  els.content.addEventListener("click", () => {
+  // Click outside to close sidebar (works on iframe too)
+  els.content.addEventListener("click", (e) => {
     if (window.innerWidth < 1024 && document.body.classList.contains("sidebar-open")) {
-      document.body.classList.remove("sidebar-open");
-      sidebarOpen = false;
+      if (!e.target.closest("#sidebar")) {
+        document.body.classList.remove("sidebar-open");
+        sidebarOpen = false;
+      }
     }
   });
 }
@@ -160,17 +164,21 @@ function renderIframe(rel) {
   iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-forms");
   els.viewer.appendChild(iframe);
 
+  currentIframe = iframe;
+
   iframe.onload = () => {
-    if (rel.endsWith('.pdf')) return;
     try {
       const doc = iframe.contentDocument;
       const style = doc.createElement("style");
       style.textContent = `
         html,body{background:#0b0b0b;color:#e6e3d7;font-family:Inter,sans-serif;margin:0;padding:2rem;}
         *{max-width:720px;margin:auto;}
+        img, video, iframe {max-width:100%;height:auto;}
       `;
       doc.head.appendChild(style);
-    } catch {}
+    } catch (e) {
+      // Cross-origin: ignore
+    }
   };
 }
 
