@@ -31,12 +31,12 @@ async function init() {
   }
 }
 
-// TOP NAV: Only folder name if ANY index.* exists
+// TOP NAV: Only real section folders with index.*
 function populateNav() {
   els.primaryNav.innerHTML = '<a href="#/">Home</a>';
   const navSections = [...new Set(
     indexData.flat
-      .filter(f => f.isIndex)
+      .filter(f => f.isIndex && f.path.split("/").length > 1)
       .map(f => f.path.split("/")[0])
   )].sort();
   navSections.forEach(s => {
@@ -44,7 +44,7 @@ function populateNav() {
   });
 }
 
-// DROPDOWN: Only sections with NON-index files + default to "posts"
+// DROPDOWN: Only sections with NON-index files
 function populateSections() {
   els.sectionSelect.innerHTML = '<option value="all">All Sections</option>';
   indexData.sections.forEach(s => {
@@ -53,7 +53,6 @@ function populateSections() {
     els.sectionSelect.appendChild(opt);
   });
 
-  // DEFAULT TO "posts" IF EXISTS
   if (indexData.sections.includes("posts")) {
     els.sectionSelect.value = "posts";
   } else if (indexData.sections.length > 0) {
@@ -160,7 +159,6 @@ async function handleHash() {
           const html = marked.parse(src || `# ${section}\n\nNo content yet.`);
           els.viewer.innerHTML = `<article class="markdown">${html}</article>`;
         } else {
-          // HTML/PDF: inject clean fallback
           const iframe = document.createElement("iframe");
           iframe.src = "/" + indexFile.path;
           iframe.loading = "eager";
