@@ -104,10 +104,28 @@ async function collectFiles(relBase = "", flat = []) {
 (async () => {
   try {
     const flat = await collectFiles();
+
+    // Build sections: folders with non-index files
     const sections = [...new Set(flat.filter(f => !f.isIndex).map(f => f.path.split("/")[0]))].sort();
+
+    // Build hierarchies: parent → [child] where child has index.*
+    const hierarchies = {};
+    for (const f of flat.filter(f => f.isIndex)) {
+      const parts = f.path.split("/");
+      if (parts.length > 2) {  // e.g., essays/ai/index.md → parts[0]=essays, parts[1]=ai
+        const parent = parts[0];
+        const child = parts[1];
+        if (!hierarchies[parent]) hierarchies[parent] = [];
+        if (!hierarchies[parent].includes(child)) {
+          hierarchies[parent].push(child);
+        }
+      }
+    }
+
     const allTags = [...new Set(flat.flatMap(f => f.tags))].sort();
-    await fs.writeFile(OUT, JSON.stringify({ flat, sections, tags: allTags }, null, 2));
-    console.log(`index.json built: ${flat.length} files, ${sections.length} sections, ${allTags.length} tags.`);
+
+    await fs.writeFile(OUT, JSON.stringify({ flat, sections, tags: allTags, hierarchies }, null, 2));
+    console.log(`index.json built: ${flat.length} files, ${sections.length} sections, ${Object.keys(hierarchies).length} hierarchies, ${allTags.length} tags.`);
   } catch (e) {
     console.error("Build failed:", e);
     process.exit(1);
