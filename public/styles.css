@@ -47,7 +47,6 @@ html, body {
   text-shadow: 0 0 8px var(--accent);
 }
 
-/* Rest unchanged */
 #sidebar {
   position: fixed; top: var(--topbar-h); left: 0;
   width: 300px; bottom: 0; overflow: auto;
