@@ -212,22 +212,21 @@ body.sidebar-open #sidebar { transform: translateX(0); }
 }
 
 .viewer iframe {
+  display: block;
   width: 100%;
   max-width: 960px;
-  height: calc(100vh - var(--topbar-h) - var(--subnav-h) - 120px);
   min-height: 500px;
   border: 0;
   border-radius: var(--radius);
   background: #0b0b0b;
   box-shadow: 0 0 30px rgba(0,0,0,0.6);
-  margin: 0 auto;
-  transition: all .4s ease;
+  margin: 0 auto 3rem auto;
+  transition: height .4s ease, transform .4s ease;
 }
 
 @media (max-width: 768px) {
   .viewer iframe {
     max-width: 100%;
-    height: calc(100vh - var(--topbar-h) - var(--subnav-h) - 80px);
     border-radius: 0;
   }
 }

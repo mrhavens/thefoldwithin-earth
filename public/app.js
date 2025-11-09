@@ -265,33 +265,48 @@ function renderIframe(rel) {
       const doc = iframe.contentDocument;
       const style = doc.createElement("style");
       style.textContent = `
-  html,body{
-    background:#0b0b0b;
-    color:#e6e3d7;
-    font-family:Inter,sans-serif;
-    margin:0;
-    padding:3vh 6vw;
-    line-height:1.8;
-  }
-  body{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:flex-start;
-    min-height:100vh;
-  }
-  *{
-    max-width:960px;
-    width:100%;
-  }
-  img,video,iframe{
-    max-width:100%;
-    height:auto;
-    border-radius:8px;
-  }
-`;
+      html,body {
+        background:#0b0b0b;
+        color:#e6e3d7;
+        font-family:Inter,sans-serif;
+        margin:0;
+        padding:3vh 6vw;
+        line-height:1.8;
+      }
+      body {
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:flex-start;
+        min-height:100vh;
+      }
+      * {
+        max-width:960px;
+        width:100%;
+      }
+      img,video,iframe {
+        max-width:100%;
+        height:auto;
+        border-radius:8px;
+      }
+      /* remove internal scrollbars */
+      html { overflow:hidden; }
+    `;
       doc.head.appendChild(style);
-    } catch {}
+
+      // Inject auto-height script
+      const script = doc.createElement("script");
+      script.textContent = `
+        function sendHeight() {
+          window.parent.postMessage({ type: 'resizeFrame', height: document.body.scrollHeight }, '*');
+        }
+        new ResizeObserver(sendHeight).observe(document.body);
+        window.addEventListener('load', sendHeight);
+      `;
+      doc.body.appendChild(script);
+    } catch (e) {
+      console.warn("iframe load error", e);
+    }
   };
 }
 
@@ -305,5 +320,14 @@ function renderDefault() {
     els.viewer.innerHTML = "<h1>Welcome</h1><p>Add content to begin.</p>";
   }
 }
+
+window.addEventListener("message", e => {
+  if (e.data?.type === "resizeFrame") {
+    const iframe = document.querySelector("iframe[src*='" + location.hash.replace(/^#\//, "") + "']");
+    if (iframe) {
+      iframe.style.height = e.data.height + "px";
+    }
+  }
+});
 
 init();
