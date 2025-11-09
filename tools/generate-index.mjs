@@ -29,7 +29,6 @@ function parseTitle(raw, ext) {
 }
 
 function extractExcerpt(raw, ext) {
-  // Trim headers/metadata for cleaner excerpts
   if (ext === ".md") raw = raw.replace(/^#.*\n?/, '').trim();
   if (ext === ".html") raw = raw.replace(/<head>.*<\/head>/is, '').replace(/<[^>]+>/g, ' ').trim();
   return raw.replace(/\s+/g, ' ').slice(0, EXCERPT_LENGTH);
@@ -63,7 +62,7 @@ async function collectFiles(relBase = "", flat = []) {
     }
 
     const ext = path.posix.extname(e.name).toLowerCase();
-    if (![".md", ".html", ".pdf"].includes(ext) || e.name === "index.html") continue;
+    if (![".md", ".html", ".pdf"].includes(ext)) continue; // No exclude for index.*
     const st = await fs.stat(absPath);
     let raw, pdfData, title;
     if (ext === ".pdf") {
@@ -78,6 +77,7 @@ async function collectFiles(relBase = "", flat = []) {
     const mtime = dateFromName(e.name) ?? st.mtimeMs;
     const excerpt = extractExcerpt(raw, ext);
     const tags = extractTags(raw, ext, pdfData);
+    const baseName = e.name.toLowerCase().replace(ext, '').trim();
 
     flat.push({
       type: "file",
@@ -85,41 +85,23 @@ async function collectFiles(relBase = "", flat = []) {
       title,
       path: rel,
       ext,
-      pinned: rel.startsWith("pinned/"),
       mtime,
       excerpt,
-      tags
+      tags,
+      isIndex: baseName === "index",
+      isPinned: baseName === "pinned"
     });
   }
   return flat;
 }
 
-async function detectSections() {
-  const topEntries = await fs.readdir(ROOT, { withFileTypes: true });
-  const sections = [];
-  for (const e of topEntries) {
-    if (!e.isDirectory() || e.name.startsWith(".")) continue;
-    const indexPath = path.join(ROOT, e.name, "index.html");
-    let isStatic = false;
-    try {
-      await fs.access(indexPath);
-      isStatic = true;
-    } catch {}
-    // Check if dynamic (has content files) - but since flat collects them, infer from flat later
-    sections.push({ name: e.name, isStatic });
-  }
-  return sections.sort((a, b) => a.name.localeCompare(b.name)); // Alpha sort
-}
-
 (async () => {
   try {
     const flat = await collectFiles();
-    const sections = await detectSections();
-    // Filter sections to those with content or static
-    const activeSections = sections.filter(s => s.isStatic || flat.some(f => f.path.split("/")[0] === s.name));
+    const sections = [...new Set(flat.map(f => f.path.split("/")[0]))].sort();
     const allTags = [...new Set(flat.flatMap(f => f.tags))].sort();
-    await fs.writeFile(OUT, JSON.stringify({ flat, sections: activeSections, tags: allTags }, null, 2));
-    console.log(`index.json built: ${flat.length} files, ${activeSections.length} sections (${activeSections.filter(s => s.isStatic).length} static), ${allTags.length} tags.`);
+    await fs.writeFile(OUT, JSON.stringify({ flat, sections, tags: allTags }, null, 2));
+    console.log(`index.json built: ${flat.length} files, ${sections.length} sections, ${allTags.length} tags.`);
   } catch (e) {
     console.error("Build failed:", e);
     process.exit(1);
