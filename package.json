@@ -1,6 +1,6 @@
 {
   "name": "the-fold-within",
-  "version": "2.9.0",
+  "version": "2.9.1",
   "dependencies": {
     "pdf-parse": "^1.1.1"
   }
