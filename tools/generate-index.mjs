@@ -53,8 +53,13 @@ async function collectFiles(relBase = "", flat = []) {
 
   for (const e of entries) {
     if (e.name.startsWith(".")) continue;
+
     const rel = path.posix.join(relBase, e.name);
     const absPath = path.join(ROOT, rel);
+
+    // Skip the SPA root index file entirely — it's the shell, not content
+    if (rel.toLowerCase() === "index.html" || rel.toLowerCase() === "index.md") continue;
+
     if (e.isDirectory()) {
       await collectFiles(rel, flat);
       continue;
@@ -99,7 +104,6 @@ async function collectFiles(relBase = "", flat = []) {
 (async () => {
   try {
     const flat = await collectFiles();
-    // ONLY non-index files → dropdown
     const sections = [...new Set(flat.filter(f => !f.isIndex).map(f => f.path.split("/")[0]))].sort();
     const allTags = [...new Set(flat.flatMap(f => f.tags))].sort();
     await fs.writeFile(OUT, JSON.stringify({ flat, sections, tags: allTags }, null, 2));
