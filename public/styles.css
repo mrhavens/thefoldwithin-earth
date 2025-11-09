@@ -48,7 +48,7 @@ html, body {
   text-shadow: 0 0 8px var(--accent);
 }
 
-/* HORIZON LAYER: Sub-Navigation */
+/* HORIZON LAYER: Emergent Sub-Navigation */
 .sub-nav {
   display: none;
   position: fixed;
