@@ -256,23 +256,40 @@ async function renderMarkdown(rel) {
 }
 
 function renderIframe(rel) {
+  const viewer = els.viewer;
+  const container = document.createElement("div");
+  container.className = "preview-wrapper";
+
+  const header = document.createElement("div");
+  header.className = "preview-header";
+  header.innerHTML = `<button class="popout-btn" data-src="${rel}">Open Full View ↗</button>`;
+
   const iframe = document.createElement("iframe");
   iframe.src = "/" + rel;
   iframe.loading = "eager";
   iframe.setAttribute("sandbox", "allow-same-origin allow-scripts allow-forms");
-  els.viewer.appendChild(iframe);
+
+  container.appendChild(header);
+  container.appendChild(iframe);
+  viewer.appendChild(container);
+
+  header.querySelector(".popout-btn").addEventListener("click", e => {
+    const url = e.target.dataset.src.startsWith("/") ? e.target.dataset.src : "/" + e.target.dataset.src;
+    window.open(url, "_blank", "noopener,noreferrer");
+  });
 
   iframe.onload = () => {
     try {
       const doc = iframe.contentDocument;
       const style = doc.createElement("style");
       style.textContent = `
-        html,body{background:#0b0b0b;color:#e6e3d7;font-family:Inter,sans-serif;margin:0;padding:2rem;}
+        html,body{background:#0b0b0b;color:#e6e3d7;font-family:Inter,sans-serif;
+                  margin:0;padding:2rem;}
         *{max-width:720px;margin:auto;}
-        img, video, iframe {max-width:100%;height:auto;}
+        img,video,iframe{max-width:100%;height:auto;}
       `;
       doc.head.appendChild(style);
-    } catch (e) {}
+    } catch {}
   };
 }
 
