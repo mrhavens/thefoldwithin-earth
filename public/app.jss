@@ -17,12 +17,12 @@ const els = {
 let indexData = null;
 let sidebarOpen = false;
 let currentParent = null;
-let indexFiles = null;
+let indexFiles = null; // Cached
 
 async function init() {
   try {
     indexData = await (await fetch("index.json")).json();
-    indexFiles = indexData.flat.filter(f => f.isIndex);
+    indexFiles = indexData.flat.filter(f => f.isIndex); // Cache
     populateNav();
     populateSections();
     populateTags();
@@ -92,7 +92,7 @@ function wireUI() {
     if (els.sectionSelect.value !== "all") loadDefaultForSection(els.sectionSelect.value);
   });
 
-  [els.tagSelect, els.sortSelect, els.searchMode].forEach(el => el.addEventListener("change", renderList));
+  [els.tagSelect, els.sortNou, els.searchMode].forEach(el => el.addEventListener("change", renderList));
   els.searchBox.addEventListener("input", renderList);
 
   els.content.addEventListener("click", (e) => {
@@ -143,6 +143,7 @@ function loadDefaultForSection(section) {
   location.hash = `#/${pinned.path}`;
 }
 
+// NESTED HORIZON: Deep-Aware Sub-Navigation
 function renderSubNav(parent) {
   const subnav = els.subNav;
   subnav.innerHTML = "";
@@ -167,6 +168,7 @@ async function handleHash() {
   els.viewer.innerHTML = "";
   const rel = location.hash.replace(/^#\//, "");
   const parts = rel.split("/").filter(Boolean);
+
   const currentParentPath = parts.slice(0, -1).join("/") || parts[0] || null;
 
   if (currentParentPath !== currentParent) {
@@ -184,6 +186,7 @@ async function handleHash() {
 
   if (rel.endsWith('/')) {
     const currentPath = parts.join("/");
+
     const indexFile = indexFiles.find(f => {
       const dir = f.path.split("/").slice(0, -1).join("/");
       return dir === currentPath;
@@ -196,7 +199,7 @@ async function handleHash() {
           const html = marked.parse(src || `# ${currentPath.split("/").pop()}\n\nNo content yet.`);
           els.viewer.innerHTML = `<article class="markdown">${html}</article>`;
         } else {
-          await renderIframe("/" + indexFile.path);
+          await renderIframe("/" + indexFile.path);  // Now uses Harmonizer
         }
       } catch (e) {
         els.viewer.innerHTML = `<h1>${currentPath.split("/").pop()}</h1><p>No content yet.</p>`;
@@ -210,7 +213,8 @@ async function handleHash() {
         els.viewer.innerHTML = `<h1>${currentPath.split("/").pop()}</h1><p>No content yet.</p>`;
       }
     }
-  } else {
+  } 
+  else {
     const file = indexData.flat.find(f => f.path === rel);
     if (!file) {
       els.viewer.innerHTML = "<h1>404</h1><p>Not found.</p>";
@@ -225,13 +229,14 @@ async function renderMarkdown(rel) {
   els.viewer.innerHTML = `<article class="markdown">${marked.parse(src || "# Untitled")}</article>`;
 }
 
-// === HARMONIZER ENGINE ===
+// === HARMONIZER ENGINE CORE ===
 async function renderIframe(rel) {
   const mode = await detectHarmonizerMode(rel);
   if (mode === 'full') return renderIframeFull(rel);
   return renderIframeHarmonized(rel, mode);
 }
 
+// Detect <meta name="harmonizer" content="...">
 async function detectHarmonizerMode(rel) {
   try {
     const res = await fetch(rel);
@@ -243,20 +248,23 @@ async function detectHarmonizerMode(rel) {
   }
 }
 
+// Harmonized loader (safe/enhanced)
 async function renderIframeHarmonized(rel, mode = 'safe') {
   try {
     const res = await fetch(rel);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     let html = await res.text();
 
+    // Strip scripts and styles
     if (mode === 'safe') {
       html = html
         .replace(/<head[^>]*>[\s\S]*?<\/head>/gi, "")
         .replace(/<script[\s\S]*?<\/script>/gi, "")
         .replace(/<style[\s\S]*?<\/style>/gi, "");
     } else if (mode === 'enhanced') {
+      // Allow YouTube/SoundCloud embeds
       html = html
-        .replace(/<script(?![^>]+(youtube|soundcloud|player)).*?<\/script>/gi, "")
+        .replace(/<script(?![^>]+(youtube\.com|soundcloud\.com|player)).*?<\/script>/gi, "")
         .replace(/<style[\s\S]*?<\/style>/gi, "");
     }
 
@@ -265,7 +273,7 @@ async function renderIframeHarmonized(rel, mode = 'safe') {
 
     els.viewer.innerHTML = `
       <div class="harmonizer-header">
-        <button class="popout-btn" data-src="${rel}">Open Original</button>
+        <button class="popout-btn" data-src="${rel}">↗ Open Original</button>
       </div>
       <article class="harmonized">${bodyContent}</article>
     `;
@@ -278,10 +286,11 @@ async function renderIframeHarmonized(rel, mode = 'safe') {
   }
 }
 
+// Full mode: preserve original script behavior inside sandbox
 function renderIframeFull(rel) {
   els.viewer.innerHTML = `
     <div class="harmonizer-header">
-      <button class="popout-btn" data-src="${rel}">Open Original</button>
+      <button class="popout-btn" data-src="${rel}">↗ Open Original</button>
     </div>
     <iframe src="${rel}" sandbox="allow-scripts allow-same-origin allow-popups allow-forms" style="width:100%;height:calc(100vh - var(--topbar-h) - var(--subnav-h));border:none;"></iframe>
   `;
@@ -289,6 +298,7 @@ function renderIframeFull(rel) {
   btn.addEventListener("click", e => window.open(e.target.dataset.src, "_blank"));
 }
 
+// Harmonizer aesthetic pass
 function applyHarmonizerStyles() {
   const el = document.querySelector(".harmonized");
   if (!el) return;
@@ -298,6 +308,7 @@ function applyHarmonizerStyles() {
     node.style.fontFamily = "'Inter', system-ui, sans-serif";
   });
 }
+// === END HARMONIZER ===
 
 function renderDefault() {
   const defaultSection = indexData.sections.includes("posts") ? "posts" : (indexData.sections[0] || null);

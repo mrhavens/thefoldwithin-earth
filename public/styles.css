@@ -195,23 +195,13 @@ body.sidebar-open #sidebar { transform: translateX(0); }
 .viewer > * {
   width: 100%;
   margin: 0;
-  padding: 3rem 4vw;
+  padding: 0;
   animation: fadeIn .4s ease-out;
 }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-.viewer iframe {
-  flex: 1;
-  width: 100vw;
-  min-height: 100vh;
-  border: none;
-  border-radius: 0;
-  margin: 0;
-  display: block;
 }
 
 /* HARMONIZER HEADER */
@@ -266,4 +256,16 @@ body.sidebar-open #sidebar { transform: translateX(0); }
   margin: 2rem auto;
   max-width: 100%;
   height: auto;
+  border-radius: var(--radius);
+}
+
+.harmonized a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.harmonized a:hover {
+  text-shadow: 0 0 6px var(--accent);
 }
