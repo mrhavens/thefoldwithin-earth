@@ -75,7 +75,6 @@ async function collectFiles(relBase = "", flat = []) {
       title = parseTitle(raw, ext) || e.name.replace(new RegExp(`\\${ext}$`), "").trim();
     }
 
-    // Priority: birthtime → mtime → filename
     const ctime = st.birthtimeMs || st.mtimeMs || dateFromName(e.name) || st.mtimeMs;
     const mtime = dateFromName(e.name) ?? st.mtimeMs;
 
@@ -91,7 +90,7 @@ async function collectFiles(relBase = "", flat = []) {
       mtime,
       excerpt: extractExcerpt(raw, ext),
       tags: extractTags(raw, ext, pdfData),
-      isIndex: baseName.startsWith("index."),  // index.md, index.html, index.pdf
+      isIndex: baseName.startsWith("index."),
       isPinned: baseName.startsWith("pinned.")
     });
   }
