@@ -265,11 +265,31 @@ function renderIframe(rel) {
       const doc = iframe.contentDocument;
       const style = doc.createElement("style");
       style.textContent = `
-        html,body{background:#0b0b0b;color:#e6e3d7;font-family:Inter,sans-serif;
-                  margin:0;padding:2rem;}
-        *{max-width:720px;margin:auto;}
-        img,video,iframe{max-width:100%;height:auto;}
-      `;
+  html,body{
+    background:#0b0b0b;
+    color:#e6e3d7;
+    font-family:Inter,sans-serif;
+    margin:0;
+    padding:3vh 6vw;
+    line-height:1.8;
+  }
+  body{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    min-height:100vh;
+  }
+  *{
+    max-width:960px;
+    width:100%;
+  }
+  img,video,iframe{
+    max-width:100%;
+    height:auto;
+    border-radius:8px;
+  }
+`;
       doc.head.appendChild(style);
     } catch {}
   };
