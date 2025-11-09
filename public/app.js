@@ -16,11 +16,13 @@ const els = {
 
 let indexData = null;
 let sidebarOpen = false;
-let currentParentSection = null;
+let currentParent = null;
+let indexFiles = null; // Cached
 
 async function init() {
   try {
     indexData = await (await fetch("index.json")).json();
+    indexFiles = indexData.flat.filter(f => f.isIndex); // Cache
     populateNav();
     populateSections();
     populateTags();
@@ -141,7 +143,7 @@ function loadDefaultForSection(section) {
   location.hash = `#/${pinned.path}`;
 }
 
-// HORIZON LAYER: Emergent Sub-Navigation
+// NESTED HORIZON: Deep-Aware Sub-Navigation
 function renderSubNav(parent) {
   const subnav = els.subNav;
   subnav.innerHTML = "";
@@ -162,33 +164,36 @@ function renderSubNav(parent) {
   });
 }
 
-// CORE FIX: RENDER INDEX AT CURRENT LEVEL
 async function handleHash() {
   els.viewer.innerHTML = "";
   const rel = location.hash.replace(/^#\//, "");
-  const parts = rel.split("/").filter(Boolean); // e.g., ["about"], ["about", "Mark"]
+  const parts = rel.split("/").filter(Boolean); // e.g., ["about", "Mark"]
 
-  let parentSection = null;
-  if (parts.length >= 1) {
-    parentSection = parts[0];
+  // Determine current depth parent for subnav
+  const currentParentPath = parts.slice(0, -1).join("/") || parts[0] || null;
+
+  if (currentParentPath !== currentParent) {
+    currentParent = currentParentPath;
+    renderSubNav(currentParent);
   }
 
-  // Update subnav if parent changed
-  if (parentSection !== currentParentSection) {
-    currentParentSection = parentSection;
-    renderSubNav(parentSection);
+  // Sync sidebar section to top-level
+  const topSection = parts[0] || null;
+  if (topSection && indexData.sections.includes(topSection)) {
+    els.sectionSelect.value = topSection;
+    renderList();
   }
 
   if (!rel) return renderDefault();
 
   // CASE: Trailing slash → render index at *current* level
   if (rel.endsWith('/')) {
-    const currentPath = parts.join("/"); // "about" or "about/Mark"
-    const expectedIndexPath = currentPath + "/";
+    const currentPath = parts.join("/");
 
-    const indexFile = indexData.flat.find(f =>
-      f.path.startsWith(expectedIndexPath) && f.isIndex
-    );
+    const indexFile = indexFiles.find(f => {
+      const dir = f.path.split("/").slice(0, -1).join("/");
+      return dir === currentPath;
+    });
 
     if (indexFile) {
       try {
@@ -224,10 +229,14 @@ async function handleHash() {
         els.viewer.innerHTML = `<h1>${currentPath.split("/").pop()}</h1><p>No content yet.</p>`;
       }
     } else {
-      // No index → show list of children or fallback
-      els.sectionSelect.value = parentSection;
-      renderList();
-      loadDefaultForSection(parentSection);
+      // No index → show children or fallback
+      if (topSection) {
+        els.sectionSelect.value = topSection;
+        renderList();
+        loadDefaultForSection(topSection);
+      } else {
+        els.viewer.innerHTML = `<h1>${currentPath.split("/").pop()}</h1><p>No content yet.</p>`;
+      }
     }
   } 
   // CASE: Direct file
