@@ -46,7 +46,7 @@ html, body {
 }
 
 .primary-nav a:hover {
-  text-shadow: 0 0 8px var(--accent);
+  text-shadow: 0 0 10px var(--accent);
 }
 
 /* === SUBNAV === */
@@ -90,7 +90,7 @@ html, body {
 }
 
 .sub-nav a:hover {
-  text-shadow: 0 0 6px var(--accent);
+  text-shadow: 0 0 8px var(--accent);
 }
 
 /* === SIDEBAR === */
@@ -300,4 +300,10 @@ body.sidebar-open #sidebar { transform: translateX(0); }
   text-align: center;
   margin: 1.5rem 0;
   letter-spacing: 0.2em;
+  animation: fadeEllipsis 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes fadeEllipsis {
+  from { opacity: 0.3; letter-spacing: 0.15em; }
+  to { opacity: 0.6; letter-spacing: 0.25em; }
 }

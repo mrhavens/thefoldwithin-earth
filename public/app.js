@@ -1,292 +1,309 @@
-/**
- * app.js – v3.3.2 PRECISION LAYOUT
- * High-coherence, readable, maintainable.
- * No hacks. No surgery. Only truth.
- * Now with preview spacing precision.
- */
+:root {
+  --bg: #0b0b0b;
+  --fg: #e6e3d7;
+  --accent: #e0b84b;
+  --topbar-h: 56px;
+  --subnav-h: 44px;
+  --transition: .3s ease;
+  --radius: 8px;
+}
 
-const els = {
-  menuBtn: document.getElementById("menuBtn"),
-  primaryNav: document.getElementById("primaryNav"),
-  subNav: document.getElementById("subNav"),
-  sectionSelect: document.getElementById("sectionSelect"),
-  tagSelect: document.getElementById("tagSelect"),
-  sortSelect: document.getElementById("sortSelect"),
-  searchMode: document.getElementById("searchMode"),
-  searchBox: document.getElementById("searchBox"),
-  postList: document.getElementById("postList"),
-  viewer: document.getElementById("viewer"),
-  content: document.getElementById("content"),
-  toggleControls: document.getElementById("toggleControls"),
-  filterPanel: document.getElementById("filterPanel")
-};
+* { box-sizing: border-box; }
 
-let indexData = null;
-let sidebarOpen = false;
-let currentParent = null;
-let indexFiles = null; // Cached index files
+html, body {
+  margin: 0; padding: 0; height: 100%;
+  background: var(--bg); color: var(--fg);
+  font-family: 'Inter', system-ui, sans-serif;
+  line-height: 1.6;
+}
 
-// === INITIALIZATION ===
-async function init() {
-  try {
-    indexData = await (await fetch("index.json")).json();
-    indexFiles = indexData.flat.filter(f => f.isIndex);
-    populateNav();
-    populateSections();
-    populateTags();
-    wireUI();
-    renderList();
-    handleHash();
-    window.addEventListener("hashchange", handleHash);
-  } catch (e) {
-    els.viewer.innerHTML = "<h1>Error</h1><p>Failed to load site data.</p>";
+/* === TOPBAR & NAV === */
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: var(--topbar-h); display: flex; align-items: center;
+  background: #111; border-bottom: 1px solid #222;
+  padding: 0 1rem; z-index: 1000; gap: 1.5rem;
+  overflow: hidden;
+}
+
+#menuBtn {
+  background: none; border: 0; color: var(--accent);
+  font-size: 1.4rem; cursor: pointer; font-weight: bold;
+  line-height: 1; padding: 0; margin: 0;
+  min-width: 2.5rem;
+}
+
+.primary-nav {
+  display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: center;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.primary-nav a {
+  color: var(--accent); text-decoration: none;
+  font-weight: 600; font-size: 1.1rem;
+  transition: all var(--transition);
+}
+
+.primary-nav a:hover {
+  text-shadow: 0 0 10px var(--accent);
+}
+
+/* === SUBNAV === */
+.sub-nav {
+  display: none;
+  position: fixed;
+  top: var(--topbar-h);
+  left: 0; right: 0;
+  height: var(--subnav-h);
+  background: #0e0e0e;
+  border-bottom: 1px solid #222;
+  padding: 0 1rem;
+  gap: 1rem;
+  overflow-x: auto;
+  white-space: nowrap;
+  z-index: 950;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: opacity var(--transition), transform var(--transition);
+}
+
+.sub-nav.visible {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+  animation: fadeSlideDown .3s ease forwards;
+}
+
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.sub-nav a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all var(--transition);
+}
+
+.sub-nav a:hover {
+  text-shadow: 0 0 8px var(--accent);
+}
+
+/* === SIDEBAR === */
+#sidebar {
+  position: fixed; top: calc(var(--topbar-h) + var(--subnav-h)); left: 0;
+  width: 300px; bottom: 0; overflow: auto;
+  background: #111; border-right: 1px solid #222;
+  transform: translateX(-100%); transition: transform var(--transition);
+  z-index: 900; padding: 1rem;
+}
+
+body.sidebar-open #sidebar { transform: translateX(0); }
+
+.sidebar-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 1rem; padding-bottom: .5rem; border-bottom: 1px solid #222;
+}
+
+.sidebar-header h3 {
+  margin: 0; font-size: 1.1rem; color: var(--accent);
+}
+
+.toggle-btn {
+  background: none; border: 1px solid #333; color: var(--fg);
+  padding: .25rem .5rem; border-radius: var(--radius);
+  font-size: .8rem; cursor: pointer;
+}
+
+#postListSection { margin-bottom: 1rem; }
+
+#postList {
+  list-style: none; margin: 0; padding: 0;
+}
+
+#postList li {
+  margin: .75rem 0; padding: .5rem 0;
+  border-bottom: 1px dashed #222;
+  transition: color var(--transition);
+}
+
+#postList a {
+  color: var(--fg); text-decoration: none; font-weight: 500;
+  display: block;
+}
+
+#postList a:hover { color: var(--accent); }
+
+#postList small {
+  display: block; font-size: .8rem; color: #888; margin-top: .25rem;
+}
+
+.filter-panel {
+  background: #0a0a0a; border: 1px solid #222;
+  border-radius: var(--radius); padding: .75rem;
+  margin-top: 1rem;
+}
+
+.filter-panel summary {
+  cursor: pointer; font-weight: 600; color: var(--accent);
+  margin-bottom: .5rem; user-select: none;
+}
+
+.filter-controls {
+  display: flex; flex-direction: column; gap: .75rem;
+}
+
+.filter-controls label {
+  font-size: .85rem; color: var(--accent); margin-bottom: .25rem;
+}
+
+.filter-controls select, .filter-controls input {
+  background: #111; color: var(--fg); border: 1px solid #333;
+  padding: .5rem; border-radius: var(--radius); font-size: .9rem;
+}
+
+.filter-controls select[multiple] {
+  height: 80px;
+}
+
+.content {
+  margin-top: calc(var(--topbar-h) + var(--subnav-h)); margin-left: 0;
+  transition: margin-left var(--transition), margin-top var(--transition);
+  min-height: calc(100vh - var(--topbar-h) - var(--subnav-h));
+  padding: 0;
+}
+
+@media (min-width: 1024px) {
+  #sidebar { transform: translateX(0); top: calc(var(--topbar-h) + var(--subnav-h)); }
+  .content { margin-left: 300px; }
+}
+
+/* === VIEWER – BREATHING FIELD === */
+.viewer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: background 1s ease;
+}
+
+.viewer:hover {
+  background: radial-gradient(circle at center, #111 0%, #0b0b0b 80%);
+}
+
+.viewer > * {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  animation: fadeIn .4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* === PREVIEW + PORTAL === */
+.preview-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.5rem 1rem;
+  background: rgba(224, 184, 75, 0.08);
+  border-bottom: 1px solid #333;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.portal-btn {
+  background: none;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  border-radius: 6px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.portal-btn:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.preview-content {
+  padding: 3rem 4vw;
+  max-width: 90ch;
+  margin: auto;
+  line-height: 1.7;
+  color: var(--fg);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.preview-content * {
+  background: transparent !important;
+  color: inherit !important;
+  font-family: inherit !important;
+}
+
+.preview-content img,
+.preview-content video,
+.preview-content iframe {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  display: block;
+}
+
+.preview-content a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.preview-content a:hover {
+  text-shadow: 0 0 6px var(--accent);
+}
+
+/* === PREVIEW SPACING FIX === */
+
+/* Remove top margin from the first visible child */
+.preview-content > *:first-child {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Consistent bottom rhythm for the last visible element */
+.preview-content > *:last-child {
+  margin-bottom: 3rem;
+}
+
+/* Responsive typography scaling for mobile preview */
+@media (max-width: 768px) {
+  .preview-content {
+    padding: 2rem 6vw;
+    line-height: 1.65;
   }
 }
 
-// === NAVIGATION ===
-function populateNav() {
-  els.primaryNav.innerHTML = '<a href="#/">Home</a>';
-  const navSections = [...new Set(
-    indexData.flat
-      .filter(f => f.isIndex && f.path.split("/").length > 1)
-      .map(f => f.path.split("/")[0])
-  )].sort();
-  navSections.forEach(s => {
-    els.primaryNav.innerHTML += `<a href="#/${s}/">${s.charAt(0).toUpperCase() + s.slice(1)}</a>`;
-  });
+/* Ellipsis alignment fix */
+.preview-content p:empty::before {
+  content: "...";
+  color: var(--accent);
+  opacity: 0.6;
+  display: block;
+  text-align: center;
+  margin: 1.5rem 0;
+  letter-spacing: 0.2em;
+  animation: fadeEllipsis 1.2s ease-in-out infinite alternate;
 }
 
-function populateSections() {
-  els.sectionSelect.innerHTML = '<option value="all">All Sections</option>';
-  indexData.sections.forEach(s => {
-    const opt = document.createElement("option");
-    opt.value = s; opt.textContent = s;
-    els.sectionSelect.appendChild(opt);
-  });
-
-  const defaultSection = indexData.sections.includes("posts") ? "posts" : indexData.sections[0];
-  if (defaultSection) els.sectionSelect.value = defaultSection;
+@keyframes fadeEllipsis {
+  from { opacity: 0.3; letter-spacing: 0.15em; }
+  to { opacity: 0.6; letter-spacing: 0.25em; }
 }
-
-function populateTags() {
-  indexData.tags.forEach(t => {
-    const opt = document.createElement("option");
-    opt.value = t; opt.textContent = t;
-    els.tagSelect.appendChild(opt);
-  });
-}
-
-// === UI WIRING ===
-function wireUI() {
-  els.menuBtn.addEventListener("click", () => {
-    sidebarOpen = !sidebarOpen;
-    document.body.classList.toggle("sidebar-open", sidebarOpen);
-  });
-
-  els.toggleControls.addEventListener("click", () => {
-    const open = els.filterPanel.open;
-    els.filterPanel.open = !open;
-    els.toggleControls.textContent = open ? "Filters" : "Hide";
-  });
-
-  els.sectionSelect.addEventListener("change", () => {
-    renderList();
-    if (els.sectionSelect.value !== "all") loadDefaultForSection(els.sectionSelect.value);
-  });
-
-  [els.tagSelect, els.sortSelect, els.searchMode].forEach(el => el.addEventListener("change", renderList));
-  els.searchBox.addEventListener("input", renderList);
-
-  // Close sidebar on content click (mobile)
-  els.content.addEventListener("click", (e) => {
-    if (window.innerWidth < 1024 && document.body.classList.contains("sidebar-open")) {
-      if (!e.target.closest("#sidebar")) {
-        document.body.classList.remove("sidebar-open");
-        sidebarOpen = false;
-      }
-    }
-  });
-}
-
-// === LIST RENDERING ===
-function renderList() {
-  const section = els.sectionSelect.value;
-  const tags = Array.from(els.tagSelect.selectedOptions).map(o => o.value.toLowerCase());
-  const sort = els.sortSelect.value;
-  const mode = els.searchMode.value;
-  const query = els.searchBox.value.toLowerCase();
-
-  let posts = indexData.flat.filter(p => !p.isIndex);
-  if (section !== "all") posts = posts.filter(p => p.path.split('/')[0] === section);
-  if (tags.length) posts = posts.filter(p => tags.every(t => p.tags.includes(t)));
-  if (query) {
-    posts = posts.filter(p => {
-      const text = mode === "content" ? p.title + " " + p.excerpt : p.title;
-      return text.toLowerCase().includes(query);
-    });
-  }
-  posts.sort((a, b) => sort === "newest" ? b.mtime - a.mtime : a.mtime - b.mtime);
-
-  els.postList.innerHTML = posts.length ? "" : "<li>No posts found.</li>";
-  posts.forEach(p => {
-    const li = document.createElement("li");
-    const pin = p.isPinned ? "Star " : "";
-    const time = new Date(p.ctime).toLocaleDateString();
-    li.innerHTML = `<a href="#/${p.path}">${pin}${p.title}</a><small>${time}</small>`;
-    els.postList.appendChild(li);
-  });
-}
-
-function loadDefaultForSection(section) {
-  const posts = indexData.flat.filter(p => p.path.split('/')[0] === section && !p.isIndex);
-  if (!posts.length) {
-    els.viewer.innerHTML = `<h1>${section}</h1><p>No content yet.</p>`;
-    return;
-  }
-  const pinned = posts.find(p => p.isPinned) || posts.sort((a,b) => b.mtime - a.mtime)[0];
-  location.hash = `#/${pinned.path}`;
-}
-
-// === SUBNAV (NESTED HORIZON) ===
-function renderSubNav(parent) {
-  const subnav = els.subNav;
-  subnav.innerHTML = "";
-  subnav.classList.remove("visible");
-
-  if (!parent || !indexData.hierarchies?.[parent]) return;
-
-  const subs = indexData.hierarchies[parent];
-  subs.forEach(child => {
-    const link = document.createElement("a");
-    link.href = `#/${parent}/${child}/`;
-    link.textContent = child.charAt(0).toUpperCase() + child.slice(1);
-    subnav.appendChild(link);
-  });
-
-  requestAnimationFrame(() => subnav.classList.add("visible"));
-}
-
-// === HASH ROUTING ===
-async function handleHash() {
-  els.viewer.innerHTML = "";
-  const rel = location.hash.replace(/^#\//, "");
-  const parts = rel.split("/").filter(Boolean);
-  const currentParentPath = parts.slice(0, -1).join("/") || parts[0] || null;
-
-  if (currentParentPath !== currentParent) {
-    currentParent = currentParentPath;
-    renderSubNav(currentParent);
-  }
-
-  const topSection = parts[0] || null;
-  if (topSection && indexData.sections.includes(topSection)) {
-    els.sectionSelect.value = topSection;
-    renderList();
-  }
-
-  if (!rel) return renderDefault();
-
-  if (rel.endsWith('/')) {
-    const currentPath = parts.join("/");
-    const indexFile = indexFiles.find(f => {
-      const dir = f.path.split("/").slice(0, -1).join("/");
-      return dir === currentPath;
-    });
-
-    if (indexFile) {
-      if (indexFile.ext === ".md") {
-        await renderMarkdown(indexFile.path);
-      } else {
-        await renderIframe("/" + indexFile.path);
-      }
-    } else {
-      if (topSection) loadDefaultForSection(topSection);
-      else els.viewer.innerHTML = `<h1>${currentPath.split("/").pop()}</h1><p>No content yet.</p>`;
-    }
-  } else {
-    const file = indexData.flat.find(f => f.path === rel);
-    if (!file) {
-      els.viewer.innerHTML = "<h1>404</h1><p>Not found.</p>";
-      return;
-    }
-    file.ext === ".md" ? await renderMarkdown(file.path) : await renderIframe("/" + file.path);
-  }
-}
-
-async function renderMarkdown(rel) {
-  const src = await fetch(rel).then(r => r.ok ? r.text() : "");
-  els.viewer.innerHTML = `<article class="markdown">${marked.parse(src || "# Untitled")}</article>`;
-}
-
-// === PREVIEW + PORTAL ENGINE ===
-async function renderIframe(rel) {
-  const preview = await generatePreview(rel);
-  const portalBtn = `<button class="portal-btn" data-src="${rel}">Open Full Experience</button>`;
-
-  els.viewer.innerHTML = `
-    <div class="preview-header">${portalBtn}</div>
-    <article class="preview-content">${preview}</article>
-  `;
-
-  els.viewer.querySelector(".portal-btn").addEventListener("click", e => {
-    window.open(e.target.dataset.src, "_blank", "noopener,noreferrer");
-  });
-}
-
-async function generatePreview(rel) {
-  try {
-    const res = await fetch(rel);
-    if (!res.ok) throw new Error();
-    const html = await res.text();
-
-    let content = html.match(/<body[^>]*>([\s\S]*)<\/body>/i)?.[1] || html;
-
-    // Strip dangerous/interactive elements
-    content = content
-      .replace(/<script[\s\S]*?<\/script>/gi, "")
-      .replace(/<style[\s\S]*?<\/style>/gi, "")
-      .replace(/<link[^>]*rel=["']stylesheet["'][^>]*>/gi, "")
-      .replace(/\s+(on\w+)=["'][^"']*["']/gi, "")
-      .replace(/\s+style=["'][^"']*["']/gi, "");
-
-    // Normalize whitespace and strip blank nodes
-    content = content.replace(/^\s+|\s+$/g, '').replace(/(\n\s*){2,}/g, '\n');
-
-    // Remove stray <br> or empty paragraph tags that create phantom space
-    content = content.replace(/<p>\s*<\/p>/gi, '').replace(/<br\s*\/?>/gi, '');
-
-    const div = document.createElement("div");
-    div.innerHTML = content;
-    trimPreview(div, 3, 3000); // depth, char limit
-
-    return div.innerHTML || `<p>Empty content.</p>`;
-  } catch {
-    return `<p>Preview unavailable. <a href="${rel}" target="_blank" rel="noopener">Open directly</a>.</p>`;
-  }
-}
-
-function trimPreview(el, maxDepth, charLimit, depth = 0, chars = 0) {
-  if (depth > maxDepth || chars > charLimit) {
-    el.innerHTML = "...";
-    return;
-  }
-  for (const child of [...el.children]) {
-    trimPreview(child, maxDepth, charLimit, depth + 1, chars + child.textContent.length);
-    if (chars > charLimit) child.remove();
-  }
-}
-
-// === DEFAULT VIEW ===
-function renderDefault() {
-  const defaultSection = indexData.sections.includes("posts") ? "posts" : indexData.sections[0];
-  if (defaultSection) {
-    els.sectionSelect.value = defaultSection;
-    renderList();
-    loadDefaultForSection(defaultSection);
-  } else {
-    els.viewer.innerHTML = "<h1>Welcome</h1><p>Add content to begin.</p>";
-  }
-}
-
-// === START ===
-init();
