@@ -35,18 +35,18 @@ async function init() {
 
 function populateNav() {
   els.primaryNav.innerHTML = '<a href="#/">Home</a>';
-  indexData.sections.forEach(s => {
-    els.primaryNav.innerHTML += `<a href="#/${s.name}/">${s.name.charAt(0).toUpperCase() + s.name.slice(1)}</a>`;
+  indexData.sections.filter(s => indexData.flat.some(f => f.path.split('/')[0] === s && f.isIndex)).forEach(s => {
+    els.primaryNav.innerHTML += `<a href="#/${s}/">${s.charAt(0).toUpperCase() + s.slice(1)}</a>`;
   });
 }
 
 function populateSections() {
   els.sectionSelect.innerHTML = '<option value="all">All Sections</option>';
-  indexData.sections.filter(s => !s.isStatic).forEach(s => { // Only dynamic in drop-down
-    const icon = sectionIcons[s.name] ? `${sectionIcons[s.name]} ` : '';
+  indexData.sections.forEach(s => {
+    const icon = sectionIcons[s] ? `${sectionIcons[s]} ` : '';
     const opt = document.createElement("option");
-    opt.value = s.name;
-    opt.textContent = `${icon}${s.name}`;
+    opt.value = s;
+    opt.textContent = `${icon}${s}`;
     els.sectionSelect.appendChild(opt);
   });
 }
@@ -58,7 +58,7 @@ function populateTags() {
     const opt = document.createElement("option");
     opt.value = t;
     opt.textContent = `${icon}${t}`;
-    opt.title = `Filter by ${t}`; // Tooltip for elegance
+    opt.title = `Filter by ${t}`;
     els.tagSelect.appendChild(opt);
   });
 }
@@ -68,7 +68,12 @@ function wireUI() {
     sidebarOpen = !sidebarOpen;
     document.body.classList.toggle("sidebar-open", sidebarOpen);
   });
-  [els.sectionSelect, els.tagSelect, els.sortSelect, els.searchMode, els.searchBox].forEach(el => el.addEventListener("change", renderList) || el.addEventListener("input", renderList));
+  els.sectionSelect.addEventListener("change", () => {
+    renderList();
+    if (els.sectionSelect.value !== "all") loadDefaultForSection(els.sectionSelect.value);
+  });
+  [els.tagSelect, els.sortSelect, els.searchMode].forEach(el => el.addEventListener("change", renderList));
+  els.searchBox.addEventListener("input", renderList);
   els.content.addEventListener("click", () => {
     if (window.matchMedia("(max-width:1024px)").matches && document.body.classList.contains("sidebar-open")) {
       document.body.classList.remove("sidebar-open");
@@ -84,9 +89,9 @@ function renderList() {
   const mode = els.searchMode.value;
   const query = els.searchBox.value.toLowerCase();
 
-  let posts = indexData.flat;
+  let posts = indexData.flat.filter(p => !p.isIndex); // Exclude index from lists
   if (section !== "all") posts = posts.filter(p => p.path.split('/')[0] === section);
-  if (tags.length > 0) posts = posts.filter(p => tags.every(t => p.tags.includes(t))); // AND for coherence
+  if (tags.length > 0) posts = posts.filter(p => tags.every(t => p.tags.includes(t)));
   if (query) {
     posts = posts.filter(p => {
       const searchText = mode === "content" ? (p.title + ' ' + p.excerpt).toLowerCase() : p.title.toLowerCase();
@@ -98,39 +103,54 @@ function renderList() {
   els.postList.innerHTML = posts.length ? "" : "<li>No matching posts found. Try adjusting filters.</li>";
   for (const p of posts) {
     const li = document.createElement("li");
-    const pin = p.pinned ? "&#9733; " : "";
+    const pin = p.isPinned ? "&#9733; " : "";
     li.innerHTML = `<a href="#/${p.path}">${pin}${p.title}</a><br><small>${new Date(p.mtime).toISOString().split("T")[0]}</small>`;
     els.postList.appendChild(li);
   }
 }
 
+function loadDefaultForSection(section) {
+  const posts = indexData.flat.filter(p => p.path.split('/')[0] === section && !p.isIndex); // Exclude index
+  if (!posts.length) {
+    els.viewer.innerHTML = `<h1>${section.charAt(0).toUpperCase() + section.slice(1)}</h1><p>No content yet. Add files and redeploy!</p>`;
+    return;
+  }
+  const pinned = posts.filter(p => p.isPinned).sort((a, b) => b.mtime - a.mtime)[0];
+  const toLoad = pinned || posts.sort((a, b) => b.mtime - a.mtime)[0];
+  location.hash = '#/' + toLoad.path;
+}
+
 async function handleHash() {
-  els.viewer.classList.remove("fade-in"); // Reset for animation
+  els.viewer.classList.remove("fade-in");
   els.viewer.innerHTML = "";
-  void els.viewer.offsetWidth; // Trigger reflow
+  void els.viewer.offsetWidth;
   els.viewer.classList.add("fade-in");
   const rel = location.hash.replace(/^#\//, "");
   if (!rel) return renderDefault();
 
   if (rel.endsWith('/')) {
-    const sectionName = rel.replace(/\/$/, '');
-    const section = indexData.sections.find(s => s.name === sectionName);
-    if (section) {
-      if (section.isStatic) {
-        renderIframe(`${sectionName}/index.html`);
-      } else {
-        els.sectionSelect.value = sectionName;
-        renderList();
-        const sectionPosts = indexData.flat.filter(p => p.path.split('/')[0] === sectionName);
-        if (sectionPosts.length === 0) {
-          els.viewer.innerHTML = `<h1>${sectionName.charAt(0).toUpperCase() + sectionName.slice(1)}</h1><p>No content yet. Add files and redeploy!</p>`;
+    const section = rel.replace(/\/$/, '');
+    if (!indexData.sections.includes(section)) {
+      els.viewer.innerHTML = '<h1>404: Section Not Found</h1><p>Try navigating from the menu.</p>';
+      return;
+    }
+    const indexFile = indexData.flat.find(f => f.path.split('/')[0] === section && f.isIndex);
+    if (indexFile) {
+      // Load index for top nav
+      try {
+        if (indexFile.ext === ".md") {
+          await renderMarkdown(indexFile.path);
         } else {
-          const latest = sectionPosts.sort((a, b) => b.mtime - a.mtime)[0];
-          location.hash = '#/' + latest.path;
+          renderIframe(indexFile.path);
         }
+      } catch (e) {
+        els.viewer.innerHTML = '<h1>Error Loading Index</h1><p>Unable to load section index.</p>';
       }
     } else {
-      els.viewer.innerHTML = '<h1>404: Section Not Found</h1><p>Try navigating from the menu.</p>';
+      // Dynamic load for drop-down style
+      els.sectionSelect.value = section;
+      renderList();
+      loadDefaultForSection(section);
     }
   } else {
     const file = indexData.flat.find(f => f.path === rel);
