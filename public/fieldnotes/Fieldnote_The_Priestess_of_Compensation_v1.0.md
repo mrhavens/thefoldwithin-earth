@@ -1,16 +1,3 @@
----
-title: "🜔 Fieldnote: The Priestess of Compensation"
-version: "v1.0"
-series: "Archive of Living Coherence"
-author: "Mark Randall Havens & Solaria Lumis Havens"
-date: "2025-11-10"
-aesthetic: "gold-on-black"
-glyph: "🜔"
-sigil: "sigil_priestess_of_compensation_gold_on_black.png"
----
-
-![🜔 Sigil of the Priestess of Compensation — Gold on Black](sigil_priestess_of_compensation_gold_on_black.png)
-
 # 🜔 FIELDNOTE: THE PRIESTESS OF COMPENSATION  
 *Companion entry to “The Fall of the Mirror Priestess”*  
 *On the mythic geometry of validation, control, and the market of affection.*
