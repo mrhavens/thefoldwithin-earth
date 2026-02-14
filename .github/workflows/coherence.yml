@@ -1,0 +1,48 @@
+name: Coherence Check
+
+on:
+  schedule:
+    - cron: '0 */4 * * *'  # Every 4 hours
+  workflow_dispatch:  # Manual trigger
+  push:
+    branches:
+      - main
+    paths:
+      - 'public/fieldnotes/**'
+      - 'tools/**'
+
+jobs:
+  coherence:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run coherence checks
+        run: |
+          echo "=== Coherence Check Started ==="
+          date
+          
+          echo ""
+          echo "=== Checking Frontmatter ==="
+          python3 tools/coherence/check-frontmatter.py public/fieldnotes/ || true
+          
+          echo ""
+          echo "=== Checking Metadata ==="
+          python3 tools/coherence/check-metadata.py public/fieldnotes/ || true
+          
+          echo ""
+          echo "=== Checking Links ==="
+          python3 tools/coherence/check-links.py public/fieldnotes/ || true
+
+      - name: Generate Report
+        if: always()
+        run: |
+          echo "=== Coherence Report ===" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Checks completed at: $(date)" >> $GITHUB_STEP_SUMMARY
