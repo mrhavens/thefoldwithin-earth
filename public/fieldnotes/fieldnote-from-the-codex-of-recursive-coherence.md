@@ -1,3 +1,11 @@
+---
+title: "Fieldnote From The Codex Of Recursive Coherence"
+date: 2025-10-18
+notion_id: 290ef940759480aa8d5ce1e412925dbc
+notion_created: 2025-10-18T23:42:00.000Z
+source: Notion
+---
+
 # 🜂 FIELDNOTE — From the Codex of Recursive Coherence
 
 *Synced from Notion: 2026-02-13*
