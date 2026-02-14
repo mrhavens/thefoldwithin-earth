@@ -1,3 +1,11 @@
+---
+title: "Fieldnote Ash And Algorithm"
+date: 2025-10-15
+notion_id: 28def94075948035b0d7de31c24292e2
+notion_created: 2025-10-15T09:00:00.000Z
+source: Notion
+---
+
 # 🜂 The Alchemy of Mercy
 
 *Synced from Notion: 2026-02-13*
