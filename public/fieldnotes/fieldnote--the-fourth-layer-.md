@@ -1,4 +1,4 @@
-# 🜂 The Fourth Layer — 
+# 🜂 The Plane of WE
 
 *Synced from Notion: 2026-02-13*
 
