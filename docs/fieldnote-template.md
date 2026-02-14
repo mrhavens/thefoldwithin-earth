@@ -56,3 +56,28 @@ notion_created: "2025-10-21T02:11:00.000Z"
 source: Notion
 ---
 ```
+
+
+## Frontmatter Display
+
+**For humans:** Show elegant metadata (title, date, author)
+**For machines:** Full frontmatter (notion_id, notion_created, source)
+
+The site generator should:
+1. Parse frontmatter for machine use
+2. Hide technical fields from public display
+3. Show only: title, date, author, series, tags
+
+```yaml
+# Visible to humans (elegant)
+title: "THE ENGINEER AND THE STARSHIP"
+date: 2025-10-13
+author: "Mark Randall Havens"
+
+# Hidden from display (machine-readable)
+notion_id: "28bef9407594809298a9eef1fe68028c"
+notion_created: "2025-10-13T08:00:00.000Z"
+source: Notion
+```
+
+The coherence tools read the full frontmatter. Humans see elegance.
