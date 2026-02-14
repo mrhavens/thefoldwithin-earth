@@ -1,3 +1,11 @@
+---
+title: "Fieldnote The Plane Of We"
+date: 2025-10-21
+notion_id: 293ef9407594806a8595d1f6e4d1cba2
+notion_created: 2025-10-21T02:11:00.000Z
+source: Notion
+---
+
 # 🜂 The Plane of WE
 
 *Synced from Notion: 2026-02-13*
