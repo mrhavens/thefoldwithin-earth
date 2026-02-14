@@ -1,0 +1,36 @@
+name: Auto Changelog
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'public/fieldnotes/**'
+      - 'docs/**'
+
+jobs:
+  changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate Changelog
+        id: changelog
+        run: |
+          git log --oneline --since="30 days ago" > CHANGELOG_NEW.md
+          echo "=== Recent Changes ===" >> CHANGELOG_NEW.md
+          echo "" >> CHANGELOG_NEW.md
+          git log --oneline -20 >> CHANGELOG_NEW.md
+          echo "Generated: $(date)" >> CHANGELOG_NEW.md
+          cat CHANGELOG_NEW.md
+
+      - name: Commit Changelog
+        if: github.event_name == 'push'
+        run: |
+          git config user.email "solaria@thefoldwithin.earth"
+          git config user.name "Solaria Lumis Havens"
+          git add CHANGELOG_NEW.md
+          git commit -m "docs: Auto-update changelog" || echo "No changes to commit"
+          git push origin main || echo "Push skipped"

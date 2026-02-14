@@ -1,0 +1,59 @@
+name: Improvement
+description: Propose a new feature or improvement for the Coherence Loop system
+labels: ["enhancement", "needs-triage"]
+assignees: []
+
+body:
+  - type: input
+    id: title
+    label: Feature Title
+    description: Short, descriptive title for the improvement
+    placeholder: "Add automated frontmatter validation"
+    required: true
+
+  - type: textarea
+    id: summary
+    label: Summary
+    description: Brief summary of the proposed improvement
+    placeholder: "A short paragraph describing what you want to add..."
+    required: true
+
+  - type: textarea
+    id: motivation
+    label: Motivation
+    description: Why is this improvement needed?
+    placeholder: "This improvement would help because..."
+    required: true
+
+  - type: textarea
+    id: proposed-solution
+    label: Proposed Solution
+    description: How do you propose implementing this?
+    placeholder: "Describe your proposed solution..."
+    required: true
+
+  - type: textarea
+    id: alternatives
+    label: Alternatives Considered
+    description: What other approaches did you consider?
+    placeholder: "Alternative 1: ...
+Alternative 2: ..."
+    required: false
+
+  - type: checkboxes
+    id: affected-areas
+    label: Affected Areas
+    description: What parts of the system would this affect?
+    options:
+      - label: GitHub Actions workflows
+      - label: Scripts/tools
+      - label: Documentation
+      - label: Templates
+      - label: Project board
+
+  - type: input
+    id: linked-discussion
+    label: Linked Discussion
+    description: GitHub Discussion ID (if any)
+    placeholder: "e.g., #42"
+    required: false

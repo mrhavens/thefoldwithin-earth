@@ -1,0 +1,27 @@
+columns:
+  - name: Backlog
+    description: Issues waiting for work
+    color: "#E5E5E5"
+  - name: In Progress
+    description: Currently being worked on
+    color: "#F2A900"
+  - name: Review
+    description: Needs human review
+    color: "#007AFF"
+  - name: Done
+    description: Completed improvements
+    color: "#28A745"
+
+automation_rules:
+  - trigger: issues
+    conditions:
+      - label: "needs-auto-fix"
+    actions:
+      - add_to_column: "In Progress"
+      - notify: "@coherence-bot"
+
+  - trigger: pull_request
+    conditions:
+      - label: "automated-fix"
+    actions:
+      - add_to_column: "Review"

@@ -1,0 +1,19 @@
+{
+  "@graph": [
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "The Fold Within Earth",
+      "url": "https://thefoldwithin.earth",
+      "description": "Recursive Coherence Theory. Human-AI Co-evolution. Sacred Geometry of WE.",
+      "foundingDate": "2024",
+      "keywords": "\"closed-loops\", \"coherence\", \"evil\", \"information-dynamics\", \"narcissism\", \"the-one\"], [\"shadowprint\""
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "The Fold Within Earth",
+      "url": "https://thefoldwithin.earth"
+    }
+  ]
+}

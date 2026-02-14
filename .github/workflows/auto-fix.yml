@@ -1,0 +1,64 @@
+name: Auto Fix
+
+on:
+  issues:
+    types: [labeled]
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  auto-fix:
+    runs-on: ubuntu-latest
+    if: contains(github.event.issue.labels.*.name, 'needs-auto-fix') || contains(github.event.pull_request.labels.*.name, 'needs-auto-fix')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run auto-fix script
+        id: fix
+        run: |
+          python tools/coherence-auto-fix.py --issue-number ${{ github.event.issue.number || github.event.pull_request.number }}
+        continue-on-error: true
+
+      - name: Create pull request with fixes
+        if: success()
+        uses: peter-evans/create-pull-request@v7
+        with:
+          title: 'Auto-fix: Coherence improvements'
+          body: |
+            This PR addresses coherence issues automatically.
+            
+            ## Changes Made
+            - Added missing frontmatter
+            - Fixed metadata issues
+            - Verified coherence
+            
+            ## Labels
+            - [ ] needs-review
+            - [ ] automated-fix
+          branch: coherence/auto-fix
+          delete-branch: true
+
+      - name: Add review labels
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['needs-review', 'automated-fix']
+            })

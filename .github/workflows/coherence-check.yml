@@ -1,0 +1,72 @@
+name: Coherence Check
+
+on:
+  schedule:
+    - cron: '0 */4 * * *'  # Every 4 hours
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  coherence-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          npm install
+          pip install PyYAML requests beautifulsoup4
+
+      - name: Run index generator
+        run: node tools/generate-index.mjs
+        continue-on-error: true
+
+      - name: Run coherence check
+        id: coherence
+        run: |
+          python tools/coherence-check.py --output coherence-report.json
+        continue-on-error: true
+
+      - name: Upload coherence report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coherence-report
+          path: coherence-report.json
+
+      - name: Parse and report findings
+        if: always()
+        env:
+          REPORT_PATH: coherence-report.json
+        run: |
+          python .github/scripts/report-findings.py
+
+      - name: Create issue for critical failures
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '[Coherence] Critical validation failure',
+              body: 'The coherence check encountered critical failures. Please review the workflow logs.',
+              labels: ['bug', 'critical', 'needs-review']
+            })

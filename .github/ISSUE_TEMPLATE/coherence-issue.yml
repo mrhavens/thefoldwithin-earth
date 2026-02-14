@@ -1,0 +1,69 @@
+name: Coherence Issue
+description: Report a coherence issue with the website
+labels: ["bug", "enhancement", "metadata", "frontmatter"]
+assignees: []
+
+body:
+  - type: dropdown
+    id: error-type
+    label: Error Type
+    description: What type of coherence issue are you reporting?
+    options:
+      - frontmatter-missing
+      - frontmatter-invalid
+      - metadata-missing
+      - metadata-invalid
+      - broken-link
+      - missing-file
+      - validation-error
+      - other
+    required: true
+
+  - type: input
+    id: location
+    label: Location
+    description: File path or URL where the issue was found
+    placeholder: "e.g., content/fieldnotes/2024-01-15-example.md"
+    required: true
+
+  - type: dropdown
+    id: severity
+    label: Severity
+    description: How severe is this issue?
+    options:
+      - critical
+      - high
+      - medium
+      - low
+      - cosmetic
+    required: true
+
+  - type: textarea
+    id: description
+    label: Description
+    description: Detailed description of the issue
+    placeholder: "Describe what you found and expected behavior..."
+    required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    label: Steps to Reproduce
+    description: How can we reproduce this issue?
+    placeholder: "1. Navigate to...
+2. Click on...
+3. Observe..."
+    required: false
+
+  - type: input
+    id: expected-value
+    label: Expected Value
+    description: What should the correct value be?
+    placeholder: "The expected frontmatter..."
+    required: false
+
+  - type: input
+    id: actual-value
+    label: Actual Value
+    description: What is the current (incorrect) value?
+    placeholder: "The actual frontmatter..."
+    required: false

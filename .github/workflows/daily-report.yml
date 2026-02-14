@@ -1,0 +1,110 @@
+name: Daily Report
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Daily at midnight UTC
+  workflow_dispatch:
+    inputs:
+      debug:
+        description: 'Run in debug mode (no posts)'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: read
+  issues: write
+  discussions: write
+  projects: write
+
+jobs:
+  daily-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          npm install
+          pip install PyYAML requests
+
+      - name: Run coherence check
+        id: coherence
+        run: |
+          python tools/coherence-check.py --output coherence-report.json
+
+      - name: Generate daily report
+        id: report
+        run: |
+          python .github/scripts/generate-daily-report.py
+
+      - name: Post to GitHub Discussion
+        if: github.event.inputs.debug != 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('daily-report.md', 'utf8');
+            
+            // Create or update discussion
+            github.rest.graphql(`
+              mutation {
+                createDiscussion(input: {
+                  repositoryId: "${{ github.event.repository.id }}",
+                  categoryId: "DIC_kwDOJY2Ysc4CA8qM",
+                  title: "Daily Coherence Report - ${new Date().toISOString().split('T')[0]}",
+                  body: ${JSON.stringify(report)}
+                }) {
+                  discussion {
+                    id
+                  }
+                }
+              }
+            `)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update Project board
+        if: github.event.inputs.debug != 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = JSON.parse(fs.readFileSync('daily-report.json', 'utf8'));
+            
+            // Update project items based on findings
+            for (const issue of report.newIssues) {
+              github.rest.graphql(`
+                mutation {
+                  addProjectV2DraftIssue(input: {
+                    projectId: "${{ secrets.PROJECT_ID }}",
+                    title: "${issue.title}",
+                    body: "${issue.body}"
+                  }) {
+                    item {
+                      id
+                    }
+                  }
+                }
+              `)
+            }
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Save report artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: daily-report
+          path: |
+            daily-report.json
+            daily-report.md

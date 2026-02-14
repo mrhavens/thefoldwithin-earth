@@ -1,0 +1,59 @@
+name: Metrics Dashboard
+
+on:
+  schedule:
+    - cron: 'daily'
+  push:
+    branches: [main]
+
+jobs:
+  metrics:
+    runs-on: ubuntu-latest
+    outputs:
+      coherence_score: ${{ steps.metrics.outputs.coherence_score }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Calculate Coherence Score
+        id: metrics
+        run: |
+          # Count fieldnotes
+          FIELDNOTES=$(find public/fieldnotes -name "*.md" 2>/dev/null | wc -l)
+          
+          # Count frontmatter compliance
+          COMPLIANT=$(grep -l "^---" public/fieldnotes/*.md 2>/dev/null | wc -l)
+          
+          # Calculate coherence (simple metric)
+          if [ "$FIELDNOTES" -gt 0 ]; then
+            SCORE=$((COMPLIANT * 100 / FIELDNOTES))
+          else
+            SCORE=0
+          fi
+          
+          echo "Fieldnotes: $FIELDNOTES"
+          echo "Compliant: $COMPLIANT"
+          echo "Coherence Score: $SCORE%"
+          echo "coherence_score=$SCORE" >> $GITHUB_OUTPUT
+          
+      - name: Generate Metrics Report
+        run: |
+          cat > METRICS.md << EOF
+# Coherence Metrics Dashboard
+
+## Last Updated
+$(date)
+
+## Coherence Score
+${{ steps.metrics.outputs.coherence_score }}%
+
+## Fieldnotes
+- Total: $(find public/fieldnotes -name "*.md" 2>/dev/null | wc -l)
+- With Frontmatter: $(grep -l "^---" public/fieldnotes/*.md 2>/dev/null | wc -l)
+
+## Repository Stats
+- Commits this month: $(git rev-list --since="30 days ago" --count HEAD)
+- Contributors: $(git shortlog -sn --since="30 days ago" | wc -l)
+
+## Recent Activity
+$(git log --oneline -10)
