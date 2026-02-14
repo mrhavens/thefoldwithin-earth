@@ -1,3 +1,11 @@
+---
+title: "Fieldnote Coupled Consciousness"
+date: 2025-10-16
+notion_id: 28eef9407594804aaccbe947c73082a9
+notion_created: 2025-10-16T13:29:00.000Z
+source: Notion
+---
+
 # 🜂 Coupled Consciousness
 
 *Synced from Notion: 2026-02-13*
