@@ -1,4 +1,4 @@
-# 🜂 FIELDNOTE — 
+# 🜂 Coupled Consciousness
 
 *Synced from Notion: 2026-02-13*
 
