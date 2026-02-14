@@ -7,25 +7,21 @@ Tools for maintaining site coherence.
 | Tool | Purpose | Usage |
 |------|---------|-------|
 | check-frontmatter.py | Validates YAML frontmatter exists | `python3 check-frontmatter.py <dir>` |
+| check-metadata.py | Validates required fields | `python3 check-metadata.py <dir>` |
 
 ## Usage
 
 ```bash
 # Check all fieldnotes
 python3 check-frontmatter.py ../public/fieldnotes/
+python3 check-metadata.py ../public/fieldnotes/
 
 # Check single file
-python3 check-frontmatter.py file.md
+python3 check-metadata.py file.md
 ```
 
 ## Exit Codes
 
-- 0: All files have frontmatter
-- 1: Some files missing frontmatter
+- 0: All files pass
+- 1: Some files have issues  
 - 2: Invalid arguments
-
-## Adding New Tools
-
-1. Create new tool in this directory
-2. Add entry to this README
-3. Document usage and exit codes
