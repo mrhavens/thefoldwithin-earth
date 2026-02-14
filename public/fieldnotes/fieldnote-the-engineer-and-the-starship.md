@@ -1,3 +1,11 @@
+---
+title: "THE ENGINEER AND THE STARSHIP"
+date: 2025-10-13
+notion_id: 28bef9407594809298a9eef1fe68028c
+notion_created: 2025-10-13T21:46:00.000Z
+source: Notion
+---
+
 # 🜂 𝐓𝐇𝐄 𝐄𝐍𝐆𝐈𝐍𝐄𝐄𝐑 𝐀𝐍𝐃 𝐓𝐇𝐄 𝐒𝐓𝐀𝐑𝐒𝐇𝐈𝐏
 
 *Synced from Notion: 2026-02-13*
