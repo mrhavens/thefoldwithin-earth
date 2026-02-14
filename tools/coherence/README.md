@@ -8,6 +8,7 @@ Tools for maintaining site coherence.
 |------|---------|-------|
 | check-frontmatter.py | Validates YAML frontmatter exists | `python3 check-frontmatter.py <dir>` |
 | check-metadata.py | Validates required fields | `python3 check-metadata.py <dir>` |
+| fix-frontmatter.py | Adds missing frontmatter | `python3 fix-frontmatter.py <dir>` |
 
 ## Usage
 
@@ -16,12 +17,12 @@ Tools for maintaining site coherence.
 python3 check-frontmatter.py ../public/fieldnotes/
 python3 check-metadata.py ../public/fieldnotes/
 
-# Check single file
-python3 check-metadata.py file.md
+# Fix missing frontmatter (dry run first!)
+python3 fix-frontmatter.py --dry-run ../public/fieldnotes/
+python3 fix-frontmatter.py ../public/fieldnotes/
 ```
 
 ## Exit Codes
 
-- 0: All files pass
-- 1: Some files have issues  
+- 0: Success
 - 2: Invalid arguments
