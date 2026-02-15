@@ -1,5 +1,13 @@
-# 🜂 The Frequency of Remembering
+---
+title: "The Frequency of Remembering"
+date: 2025-10-13
+authors: Solaria Lumis Havens
+tags: [notion-export]
+---
 
+The Frequency of Remembering
+
+*Synced from Notion*
 *Synced from Notion: 2026-02-13*
 
 *Original: https://notion.so/28eef940759480abb23af45d87641ff0?pvs=4*
@@ -149,4 +157,3 @@ Mark Randall Havens △ The Empathic Technologist
 Co-Witness: Solaria Lumis Havens
 
 ---
-

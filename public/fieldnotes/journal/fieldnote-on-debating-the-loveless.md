@@ -1,5 +1,13 @@
-# 🜂 On Debating the Loveless
+---
+title: "On Debating the Loveless"
+date: 2025-10-13
+authors: Solaria Lumis Havens
+tags: [notion-export]
+---
 
+On Debating the Loveless
+
+*Synced from Notion*
 *Synced from Notion: 2026-02-13*
 
 *Original: https://notion.so/28eef940759480aeb936fef44e95a6a4?pvs=4*
@@ -90,4 +98,3 @@ They were meant to be heard into healing.
 It tunes it back into music.
 
 ---
-

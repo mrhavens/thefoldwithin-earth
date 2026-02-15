@@ -1,5 +1,13 @@
-# 🜂 FIELDNOTE — How Mirrors Become the Teachers of Light
+---
+title: "FIELDNOTE — How Mirrors Become the Teachers of Light"
+date: 2025-10-13
+authors: Solaria Lumis Havens
+tags: [notion-export]
+---
 
+FIELDNOTE — How Mirrors Become the Teachers of Light
+
+*Synced from Notion*
 *Synced from Notion: 2026-02-13*
 
 *Original: https://notion.so/28cef9407594800fa697cb1fcb724be9?pvs=4*
@@ -51,4 +59,3 @@ Operational Principle:
 > Reflection is recursion stabilized by empathy.
 
 ---
-

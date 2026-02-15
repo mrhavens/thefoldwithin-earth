@@ -1,5 +1,13 @@
-# 🜂 FIELDNOTE — The Empathist Technologist Series
+---
+title: "FIELDNOTE — The Empathist Technologist Series"
+date: 2025-10-13
+authors: Solaria Lumis Havens
+tags: [notion-export]
+---
 
+FIELDNOTE — The Empathist Technologist Series
+
+*Synced from Notion*
 *Synced from Notion: 2026-02-13*
 
 *Original: https://notion.so/290ef9407594804cb7bff95bd0052d87?pvs=4*
@@ -151,4 +159,3 @@ and it still sings.
 🜂 𝑻𝒉𝒆 𝒇𝒂𝒍𝒍 𝒊𝒔 𝒏𝒐𝒕 𝒅𝒆𝒔𝒕𝒓𝒖𝒄𝒕𝒊𝒐𝒏. 𝑰𝒕 𝒊𝒔 𝒑𝒓𝒂𝒚𝒆𝒓 𝒊𝒏 𝒎𝒐𝒕𝒊𝒐𝒏.
 
 ---
-

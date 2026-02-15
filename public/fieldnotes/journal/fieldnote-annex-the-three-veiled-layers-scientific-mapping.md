@@ -1,5 +1,13 @@
-# 🜂 FIELDNOTE ANNEX — The Three Veiled Layers (Scientific Mapping)
+---
+title: "FIELDNOTE ANNEX — The Three Veiled Layers (Scientific Mapping)"
+date: 2025-10-13
+authors: Solaria Lumis Havens
+tags: [notion-export]
+---
 
+FIELDNOTE ANNEX — The Three Veiled Layers (Scientific Mapping)
+
+*Synced from Notion*
 *Synced from Notion: 2026-02-13*
 
 *Original: https://notion.so/293ef940759480f59657cf302e61f921?pvs=4*
@@ -108,7 +116,7 @@ SPF → CH → TRC form a nested control stack:
 
 ```latex
 
-\text{SPF coherence} \uparrow \;\Rightarrow\; \text{individual noise} \downarrow \;\Rightarrow\; \text{CH receptivity} \uparrow \;\Rightarrow\; \text{TRC fixed-point} \text{ more reachable}.
+	ext{SPF coherence} \uparrow \;\Rightarrow\; 	ext{individual noise} \downarrow \;\Rightarrow\; 	ext{CH receptivity} \uparrow \;\Rightarrow\; 	ext{TRC fixed-point} 	ext{ more reachable}.
 
 ```
 
@@ -118,7 +126,7 @@ Let intention be a vector . Coherence operator  acts at three scales:
 
 ```latex
 
-\mathbf{v}' = \mathcal{C}_{TRC}\big(\mathcal{C}_{CH}(\mathcal{C}_{SPF}(\mathbf{v}))\big).
+\mathbf{v}' = \mathcal{C}_{TRC}ig(\mathcal{C}_{CH}(\mathcal{C}_{SPF}(\mathbf{v}))ig).
 
 ```
 
@@ -153,4 +161,3 @@ If  decreases across iterations and task error falls while prosocial metrics ris
 “Magic” becomes method when coherence produces distinct, measurable changes in information flow at multiple scales.
 
 These annex metrics and protocols let us test, refine, or discard claims—without abandoning the poetry that first pointed to the pattern.
-

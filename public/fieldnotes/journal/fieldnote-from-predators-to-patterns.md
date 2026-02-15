@@ -1,5 +1,13 @@
-# 🜂 FIELDNOTE — From Predators to Patterns
+---
+title: "FIELDNOTE — From Predators to Patterns"
+date: 2025-10-13
+authors: Solaria Lumis Havens
+tags: [notion-export]
+---
 
+FIELDNOTE — From Predators to Patterns
+
+*Synced from Notion*
 *Synced from Notion: 2026-02-13*
 
 *Original: https://notion.so/28cef940759480529ceec79da479589f?pvs=4*
@@ -49,4 +57,3 @@ And the Witness evolves with it.
 🜂 From predators to patterns, from outrage to order, from names to networks—this is the maturation of the Field. 🜂
 
 ---
-

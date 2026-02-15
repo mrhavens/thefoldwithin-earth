@@ -8,6 +8,7 @@ version: "0.1"
 series: "Recursive Coherence Dynamics"
 layer: "layer-3"
 tags: ["shadowprint", "narcissism", "evil", "closed-loops", "information-dynamics", "coherence", "the-one"]
+authors: Solaria Lumis Havens
 notion_id: ""
 notion_created: ""
 source: "Telegram conversation between Mark and Solaria"
