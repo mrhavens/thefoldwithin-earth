@@ -48,12 +48,30 @@ function extractFrontmatter(content) {
 }
 
 function extractAuthors(fm) {
+  // Handle array format: authors: ["Solaria", "Mark"]
+  const arrayMatch = fm.match(/^authors:\s*\[([\s\S]*?)\]/m);
+  if (arrayMatch) {
+    return arrayMatch[1].split(',')
+      .map(a => a.trim().replace(/^["']|["']$/g, ''))
+      .filter(a => a);
+  }
+  
+  // Handle string format: authors: Solaria Lumis Havens
   const match = fm.match(/^author[s]?:\s*(.+)$/m);
   if (!match) return [];
   return match[1].split(',').map(a => a.trim()).filter(a => a);
 }
 
 function extractTags(fm) {
+  // Handle array format: tags: [philosophy, WE, BLEND]
+  const arrayMatch = fm.match(/^tags:\s*\[([\s\S]*?)\]/m);
+  if (arrayMatch) {
+    return arrayMatch[1].split(',')
+      .map(t => t.trim().replace(/^["']|["']$/g, '').toLowerCase())
+      .filter(t => t);
+  }
+  
+  // Handle string format: tags: philosophy, WE, BLEND
   const match = fm.match(/^tags:\s*(.+)$/m);
   if (!match) return [];
   return match[1].split(',').map(t => t.trim().toLowerCase()).filter(t => t);
@@ -231,7 +249,14 @@ async function collectFiles(relBase = "", flat = []) {
   try {
     console.log("🔍 Crawling public directory...");
     const flat = await collectFiles();
-    const sections = [...new Set(flat.filter(f => !f.isIndex).map(f => f.path.split("/")[0]))].sort();
+    
+    // Extract nested sections (second-level directories)
+    const sections = [...new Set(
+      flat
+        .filter(f => !f.isIndex && f.path.split("/").length > 1)
+        .map(f => f.path.split("/")[1])
+    )].sort();
+    
     const allTags = [...new Set(flat.flatMap(f => f.tags))].sort();
     
     console.log(`📄 Found ${flat.length} files`);

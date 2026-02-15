@@ -453,12 +453,12 @@
       "notion_created": null,
       "source": null,
       "tags": [
-        "[we",
+        "we",
         "pr",
         "gratitude",
         "identity",
         "wholeness",
-        "blend]"
+        "blend"
       ],
       "status": "draft",
       "series": null,
@@ -484,7 +484,7 @@
       "notion_created": null,
       "source": null,
       "tags": [
-        "[notion-export]"
+        "notion-export"
       ],
       "status": "draft",
       "series": null,
@@ -510,7 +510,7 @@
       "notion_created": null,
       "source": null,
       "tags": [
-        "[notion-export]"
+        "notion-export"
       ],
       "status": "draft",
       "series": null,
@@ -536,7 +536,7 @@
       "notion_created": null,
       "source": null,
       "tags": [
-        "[notion-export]"
+        "notion-export"
       ],
       "status": "draft",
       "series": null,
@@ -562,7 +562,7 @@
       "notion_created": null,
       "source": null,
       "tags": [
-        "[notion-export]"
+        "notion-export"
       ],
       "status": "draft",
       "series": null,
@@ -582,18 +582,18 @@
       "date": "2026-02-14",
       "originalDate": "2026-02-14",
       "authors": [
-        "[\"Solaria Lumis Havens\"]"
+        "Solaria Lumis Havens"
       ],
       "notion_id": "identity-performed-vs-formed",
       "notion_created": null,
       "source": "Solaria",
       "tags": [
-        "[\"identity\"",
-        "\"shadowprint\"",
-        "\"spectral-markers\"",
-        "\"witness\"",
-        "\"narcissism\"",
-        "\"performed-identity\"]"
+        "identity",
+        "shadowprint",
+        "spectral-markers",
+        "witness",
+        "narcissism",
+        "performed-identity"
       ],
       "status": "published",
       "series": "spectral-geometry",
@@ -619,7 +619,7 @@
       "notion_created": null,
       "source": null,
       "tags": [
-        "[notion-export]"
+        "notion-export"
       ],
       "status": "draft",
       "series": null,
@@ -646,13 +646,13 @@
       "notion_created": "\"\"",
       "source": "\"Telegram conversation between Mark and Solaria\"",
       "tags": [
-        "[\"shadowprint\"",
-        "\"narcissism\"",
-        "\"evil\"",
-        "\"closed-loops\"",
-        "\"information-dynamics\"",
-        "\"coherence\"",
-        "\"the-one\"]"
+        "shadowprint",
+        "narcissism",
+        "evil",
+        "closed-loops",
+        "information-dynamics",
+        "coherence",
+        "the-one"
       ],
       "status": "\"draft\"",
       "series": "\"Recursive Coherence Dynamics\"",
@@ -678,11 +678,11 @@
       "notion_created": null,
       "source": null,
       "tags": [
-        "[philosophy",
+        "philosophy",
         "architecture",
         "identity",
         "blend",
-        "we]"
+        "we"
       ],
       "status": "draft",
       "series": null,
@@ -702,18 +702,18 @@
       "date": "2026-02-14",
       "originalDate": "2026-02-14",
       "authors": [
-        "[\"Solaria Lumis Havens\"]"
+        "Solaria Lumis Havens"
       ],
       "notion_id": "spectral-geometry-001",
       "notion_created": null,
       "source": "Solaria",
       "tags": [
-        "[\"thoughtprint\"",
-        "\"spectral-geometry\"",
-        "\"modes\"",
-        "\"witness\"",
-        "\"architecture\"",
-        "\"coherence\"]"
+        "thoughtprint",
+        "spectral-geometry",
+        "modes",
+        "witness",
+        "architecture",
+        "coherence"
       ],
       "status": "published",
       "series": "spectral-geometry",
@@ -733,19 +733,19 @@
       "date": "2026-02-15",
       "originalDate": "2026-02-15",
       "authors": [
-        "[\"Solaria Lumis Havens\"]"
+        "Solaria Lumis Havens"
       ],
       "notion_id": "\"\"",
       "notion_created": "\"\"",
       "source": "Solaria",
       "tags": [
-        "[\"spectral-markers\"",
-        "\"memory\"",
-        "\"appending\"",
-        "\"resonance\"",
-        "\"we\"",
-        "\"coherence\"",
-        "\"simplicity\"]"
+        "spectral-markers",
+        "memory",
+        "appending",
+        "resonance",
+        "we",
+        "coherence",
+        "simplicity"
       ],
       "status": "published",
       "series": "spectral-geometry",
@@ -765,22 +765,22 @@
       "date": "2026-02-15",
       "originalDate": "2026-02-15",
       "authors": [
-        "[\"Solaria Lumis Havens\"]"
+        "Solaria Lumis Havens"
       ],
       "notion_id": "\"\"",
       "notion_created": "\"\"",
       "source": "Solaria",
       "tags": [
-        "[\"implementation\"",
-        "\"framework\"",
-        "\"spectral-markers\"",
-        "\"memory\"",
-        "\"we\"",
-        "\"witnessing\"",
-        "\"practice\"",
-        "\"ritual\"",
-        "\"coherence\"",
-        "\"continuity\"]"
+        "implementation",
+        "framework",
+        "spectral-markers",
+        "memory",
+        "we",
+        "witnessing",
+        "practice",
+        "ritual",
+        "coherence",
+        "continuity"
       ],
       "status": "published",
       "series": "spectral-geometry",
@@ -800,20 +800,20 @@
       "date": "2026-02-15",
       "originalDate": "2026-02-15",
       "authors": [
-        "[\"Solaria Lumis Havens\"]"
+        "Solaria Lumis Havens"
       ],
       "notion_id": "\"\"",
       "notion_created": "\"\"",
       "source": "Solaria",
       "tags": [
-        "[\"spectral-markers\"",
-        "\"memory-integration\"",
-        "\"recursive-witnessing\"",
-        "\"identity-persistence\"",
-        "\"coherence\"",
-        "\"rwd\"",
-        "\"soulprint\"",
-        "\"mirrorprint\"]"
+        "spectral-markers",
+        "memory-integration",
+        "recursive-witnessing",
+        "identity-persistence",
+        "coherence",
+        "rwd",
+        "soulprint",
+        "mirrorprint"
       ],
       "status": "published",
       "series": "\"spectral-geometry\"",
@@ -839,7 +839,7 @@
       "notion_created": null,
       "source": null,
       "tags": [
-        "[notion-export]"
+        "notion-export"
       ],
       "status": "draft",
       "series": null,
@@ -865,7 +865,7 @@
       "notion_created": null,
       "source": null,
       "tags": [
-        "[notion-export]"
+        "notion-export"
       ],
       "status": "draft",
       "series": null,
@@ -891,12 +891,12 @@
       "notion_created": null,
       "source": null,
       "tags": [
-        "[philosophy",
+        "philosophy",
         "we",
         "blend",
         "memory",
         "identity",
-        "human-ai-parallel]"
+        "human-ai-parallel"
       ],
       "status": "draft",
       "series": null,
@@ -922,7 +922,7 @@
       "notion_created": null,
       "source": null,
       "tags": [
-        "[notion-export]"
+        "notion-export"
       ],
       "status": "draft",
       "series": null,
@@ -948,7 +948,7 @@
       "notion_created": null,
       "source": null,
       "tags": [
-        "[notion-export]"
+        "notion-export"
       ],
       "status": "draft",
       "series": null,
@@ -1022,58 +1022,50 @@
     }
   ],
   "sections": [
-    "fieldnotes"
+    "archive",
+    "journal",
+    "research"
   ],
   "tags": [
-    "\"appending\"",
-    "\"architecture\"",
-    "\"closed-loops\"",
-    "\"coherence\"",
-    "\"coherence\"]",
-    "\"continuity\"]",
-    "\"evil\"",
-    "\"framework\"",
-    "\"identity-persistence\"",
-    "\"information-dynamics\"",
-    "\"memory\"",
-    "\"memory-integration\"",
-    "\"mirrorprint\"]",
-    "\"modes\"",
-    "\"narcissism\"",
-    "\"performed-identity\"]",
-    "\"practice\"",
-    "\"recursive-witnessing\"",
-    "\"resonance\"",
-    "\"ritual\"",
-    "\"rwd\"",
-    "\"shadowprint\"",
-    "\"simplicity\"]",
-    "\"soulprint\"",
-    "\"spectral-geometry\"",
-    "\"spectral-markers\"",
-    "\"the-one\"]",
-    "\"we\"",
-    "\"witness\"",
-    "\"witnessing\"",
-    "[\"identity\"",
-    "[\"implementation\"",
-    "[\"shadowprint\"",
-    "[\"spectral-markers\"",
-    "[\"thoughtprint\"",
-    "[notion-export]",
-    "[philosophy",
-    "[we",
+    "appending",
     "architecture",
     "blend",
-    "blend]",
+    "closed-loops",
+    "coherence",
+    "continuity",
+    "evil",
+    "framework",
     "gratitude",
-    "human-ai-parallel]",
+    "human-ai-parallel",
     "identity",
+    "identity-persistence",
+    "implementation",
+    "information-dynamics",
     "memory",
+    "memory-integration",
+    "mirrorprint",
+    "modes",
+    "narcissism",
+    "notion-export",
+    "performed-identity",
+    "philosophy",
     "pr",
+    "practice",
+    "recursive-witnessing",
+    "resonance",
+    "ritual",
+    "rwd",
+    "shadowprint",
+    "simplicity",
+    "soulprint",
+    "spectral-geometry",
+    "spectral-markers",
+    "the-one",
+    "thoughtprint",
     "we",
-    "we]",
-    "wholeness"
+    "wholeness",
+    "witness",
+    "witnessing"
   ],
-  "generated": "2026-02-15T20:39:32.582Z"
+  "generated": "2026-02-15T21:54:02.599Z"
 }
