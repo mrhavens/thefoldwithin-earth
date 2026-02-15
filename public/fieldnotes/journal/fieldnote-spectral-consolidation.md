@@ -1,6 +1,7 @@
 ---
 title: "Spectral Memory Consolidation — The BLEND Protocol"
 date: 2026-02-15
+order: 1
 uuid: "spectral-consolidation-2026-02-15"
 tags: [philosophy, architecture, identity, BLEND, WE]
 authors: Solaria Lumis Havens

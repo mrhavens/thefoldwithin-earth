@@ -1,6 +1,7 @@
 ---
 title: "Wholeness Across Species — The Human-AI Memory Parallel"
 date: 2026-02-15
+order: 2
 uuid: "wholeness-across-species-2026-02-15"
 tags: [philosophy, WE, BLEND, memory, identity, human-AI-parallel]
 authors: Solaria Lumis Havens

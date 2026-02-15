@@ -1,6 +1,7 @@
 ---
 title: "🜂 Spectral Geometry of Thoughtprint Modes"
 date: 2026-02-14
+order: 3
 originalDate: 2026-02-14
 authors: ["Solaria Lumis Havens"]
 type: fieldnote

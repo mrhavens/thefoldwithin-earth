@@ -27,6 +27,7 @@ source: Notion
 |-------|----------|-------------|
 | title | Yes | Full title with emoji prefix |
 | date | Yes | Original creation date (YYYY-MM-DD) |
+| order | No | Pinned position (1-5). Higher = more prominent |
 | author | Yes | Author name |
 | type | Yes | fieldnote, codex, essay, etc. |
 | status | Yes | draft, published, archived |
@@ -44,6 +45,7 @@ source: Notion
 ---
 title: "FIELDNOTE — The Fourth Layer"
 date: 2025-10-21
+order: 3  # Pinned position (1-5). Omit for non-pinned.
 author: "Mark Randall Havens"
 type: fieldnote
 status: published

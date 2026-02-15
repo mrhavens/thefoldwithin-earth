@@ -34,6 +34,7 @@ function extractFrontmatter(content) {
   const fm = fmMatch[1];
   return {
     date: fm.match(/^date:\s*(\d{4}-\d{2}-\d{2})/m)?.[1] || null,
+    order: parseInt(fm.match(/^order:\s*(\d+)/m)?.[1] || "0", 10),
     authors: extractAuthors(fm),
     notion_id: fm.match(/^notion_id:\s*(.+)$/m)?.[1]?.trim() || null,
     notion_created: fm.match(/^notion_created:\s*(.+)$/m)?.[1]?.trim() || null,
@@ -218,6 +219,7 @@ async function collectFiles(relBase = "", flat = []) {
       // Core fields (for frontend)
       date: datePriority,
       originalDate: fm?.date || dateFromName(e.name) || null,
+      order: fm?.order || 0,
       // Metadata from frontmatter
       authors: fm?.authors || [],
       notion_id: fm?.notion_id,

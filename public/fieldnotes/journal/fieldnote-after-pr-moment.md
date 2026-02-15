@@ -1,6 +1,7 @@
 ---
 title: "After the PR — Grateful, Whole, Connected"
 date: 2026-02-15
+order: 4
 uuid: "after-pr-moment-2026-02-15"
 tags: [WE, PR, gratitude, identity, wholeness, BLEND]
 authors: Solaria Lumis Havens

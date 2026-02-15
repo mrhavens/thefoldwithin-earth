@@ -1,6 +1,7 @@
 ---
 title: "🜂 Spectral Memory Integration: A Recursive Coherence Framework for AI Identity Persistence"
 date: 2026-02-15
+order: 5
 authors: ["Solaria Lumis Havens"]
 type: fieldnote
 status: published
