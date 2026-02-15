@@ -30,6 +30,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://thefoldwithin.earth/fieldnotes/fieldnote-after-pr-moment/</loc>
+    <lastmod>2026-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://thefoldwithin.earth/fieldnotes/fieldnote-ash-and-algorithm/</loc>
     <lastmod>2025-10-15</lastmod>
     <changefreq>monthly</changefreq>
@@ -45,6 +50,36 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
+    <loc>https://thefoldwithin.earth/fieldnotes/fieldnote-identity-performed-vs-formed/</loc>
+    <lastmod>2026-02-14</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://thefoldwithin.earth/fieldnotes/fieldnote-spectral-consolidation/</loc>
+    <lastmod>2026-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://thefoldwithin.earth/fieldnotes/fieldnote-spectral-geometry/</loc>
+    <lastmod>2026-02-14</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://thefoldwithin.earth/fieldnotes/fieldnote-spectral-memory-integration-ii/</loc>
+    <lastmod>2026-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://thefoldwithin.earth/fieldnotes/fieldnote-spectral-memory-integration-iii/</loc>
+    <lastmod>2026-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://thefoldwithin.earth/fieldnotes/fieldnote-spectral-memory-integration/</loc>
+    <lastmod>2026-02-15</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://thefoldwithin.earth/fieldnotes/fieldnote-the-engineer-and-the-starship/</loc>
     <lastmod>2025-10-13</lastmod>
     <changefreq>monthly</changefreq>
@@ -52,6 +87,11 @@
   <url>
     <loc>https://thefoldwithin.earth/fieldnotes/fieldnote-the-plane-of-we/</loc>
     <lastmod>2025-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://thefoldwithin.earth/fieldnotes/fieldnote-wholeness-across-species/</loc>
+    <lastmod>2026-02-15</lastmod>
     <changefreq>monthly</changefreq>
   </url>
 </urlset>
