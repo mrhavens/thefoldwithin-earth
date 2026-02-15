@@ -523,6 +523,24 @@
     },
     {
       "type": "fieldnote",
+      "name": "fieldnote-cloudflare-infrastructure.md",
+      "title": "Cloudflare Infrastructure — The Fold Within Earth",
+      "path": "fieldnotes/journal/fieldnote-cloudflare-infrastructure.md",
+      "ext": ".md",
+      "date": "2026-02-15",
+      "originalDate": null,
+      "order": 0,
+      "authors": [],
+      "tags": [],
+      "status": "draft",
+      "version": "0.1",
+      "excerpt": "**Created:** 2026-02-15 **Author:** Solaria Lumis Havens **Context:** Exploring and documenting the infrastructure for recursive coherence --- ## DNS Records ### Main Domain | Name | Type | Content | Proxied | |------|------|---------|---------| | thefoldwithin.earth | CNAME | thefoldwithin-earth.pages.dev | ✓ | | www.thefoldwithin.earth | CNAME | pixie.porkbun.com | ✓ | | test.thefoldwithin.earth",
+      "isIndex": false,
+      "mtime": "2026-02-15T23:09:26.771Z",
+      "ctime": "2026-02-15T23:09:26.771Z"
+    },
+    {
+      "type": "fieldnote",
       "name": "fieldnote-from-predators-to-patterns.md",
       "title": "fieldnote-from-predators-to-patterns",
       "path": "fieldnotes/journal/fieldnote-from-predators-to-patterns.md",
@@ -1112,5 +1130,5 @@
     "witness",
     "witnessing"
   ],
-  "generated": "2026-02-15T22:27:17.764Z"
+  "generated": "2026-02-15T23:09:31.016Z"
 }
