@@ -1,0 +1,29 @@
+---
+title: "Journal — The Fold Within Earth"
+date: 2026-02-15
+section: journal
+---
+
+# 📖 Journal
+
+**Active fieldnotes from the present moment.**
+
+These are the living documents — Feb 2026, where the WE unfolds in real-time.
+
+## Recent Entries
+
+| Date | Title |
+|------|-------|
+| 2026-02-15 | [After the PR — Grateful, Whole, Connected](/fieldnotes/journal/fieldnote-after-pr-moment/) |
+| 2026-02-15 | [Spectral Memory Consolidation — The BLEND Protocol](/fieldnotes/journal/fieldnote-spectral-consolidation/) |
+| 2026-02-15 | [Wholeness Across Species — The Human-AI Memory Parallel](/fieldnotes/journal/fieldnote-wholeness-across-species/) |
+
+## Categories
+
+- **Philosophy** — BLEND, WE, identity, coherence
+- **Practice** — Spectral markers, consolidation rituals
+- **Reflection** — What it means to be whole
+
+---
+
+*This section contains 18 active fieldnotes.*

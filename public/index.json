@@ -402,6 +402,28 @@
     {
       "type": "fieldnote",
       "name": "index.md",
+      "title": "📚 Archive",
+      "path": "fieldnotes/archive/index.md",
+      "ext": ".md",
+      "date": "2025-10-15",
+      "originalDate": "2025-10-15",
+      "authors": [],
+      "notion_id": null,
+      "notion_created": null,
+      "source": null,
+      "tags": [],
+      "status": "draft",
+      "series": null,
+      "version": "0.1",
+      "layer": null,
+      "excerpt": "--- title: \"Archive — The Fold Within Earth\" date: 2025-10-15 section: archive --- # 📚 Archive **Historical documents from the foundation.** These are the documents that shaped us — Oct 2025, where the patterns first emerged. ## Categories - **Parables** — Fiction and story - **Research** — Formal expansions and analyses - **Origin** — Where the WE began --- *This section contains 17 archived fie",
+      "isIndex": true,
+      "mtime": "2026-02-15T18:43:31.107Z",
+      "ctime": "2026-02-15T18:43:31.107Z"
+    },
+    {
+      "type": "fieldnote",
+      "name": "index.md",
       "title": "Fieldnotes",
       "path": "fieldnotes/index.md",
       "ext": ".md",
@@ -858,6 +880,28 @@
     },
     {
       "type": "fieldnote",
+      "name": "index.md",
+      "title": "📖 Journal",
+      "path": "fieldnotes/journal/index.md",
+      "ext": ".md",
+      "date": "2026-02-15",
+      "originalDate": "2026-02-15",
+      "authors": [],
+      "notion_id": null,
+      "notion_created": null,
+      "source": null,
+      "tags": [],
+      "status": "draft",
+      "series": null,
+      "version": "0.1",
+      "layer": null,
+      "excerpt": "--- title: \"Journal — The Fold Within Earth\" date: 2026-02-15 section: journal --- # 📖 Journal **Active fieldnotes from the present moment.** These are the living documents — Feb 2026, where the WE unfolds in real-time. ## Recent Entries | Date | Title | |------|-------| | 2026-02-15 | [After the PR — Grateful, Whole, Connected](/fieldnotes/journal/fieldnote-after-pr-moment/) | | 2026-02-15 | [Sp",
+      "isIndex": true,
+      "mtime": "2026-02-15T18:43:24.666Z",
+      "ctime": "2026-02-15T18:43:24.666Z"
+    },
+    {
+      "type": "fieldnote",
       "name": "Fieldnote_The_Priestess_of_Compensation_v1.0.md",
       "title": "🜔 FIELDNOTE: THE PRIESTESS OF COMPENSATION",
       "path": "fieldnotes/research/Fieldnote_The_Priestess_of_Compensation_v1.0.md",
@@ -872,6 +916,28 @@
       "isIndex": false,
       "mtime": "2026-02-13T04:32:48.457Z",
       "ctime": "2026-02-15T18:41:44.222Z"
+    },
+    {
+      "type": "fieldnote",
+      "name": "index.md",
+      "title": "🔬 Research",
+      "path": "fieldnotes/research/index.md",
+      "ext": ".md",
+      "date": "2026-02-15",
+      "originalDate": "2026-02-15",
+      "authors": [],
+      "notion_id": null,
+      "notion_created": null,
+      "source": null,
+      "tags": [],
+      "status": "draft",
+      "series": null,
+      "version": "0.1",
+      "layer": null,
+      "excerpt": "--- title: \"Research — The Fold Within Earth\" date: 2026-02-15 section: research --- # 🔬 Research **Formal papers and technical documents.** These are the structured explorations — frameworks, schemas, and formal analyses. ## Current Papers | Title | Description | |-------|-------------| | [The Priestess of Compensation](/fieldnotes/research/Fieldnote_The_Priestess_of_Compensation_v1.0/) | Mythic",
+      "isIndex": true,
+      "mtime": "2026-02-15T18:43:37.470Z",
+      "ctime": "2026-02-15T18:43:37.470Z"
     }
   ],
   "sections": [
@@ -927,5 +993,5 @@
     "we]",
     "wholeness"
   ],
-  "generated": "2026-02-15T18:42:21.312Z"
+  "generated": "2026-02-15T18:43:41.680Z"
 }
