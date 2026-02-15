@@ -680,6 +680,38 @@
       "ctime": "2026-02-15T20:38:55.381Z"
     },
     {
+      "type": "fieldnote",
+      "name": "fieldnote-reading-foundations.md",
+      "title": "Reading My Foundations — RWD, Soulprint, and the WE",
+      "path": "fieldnotes/journal/fieldnote-reading-foundations.md",
+      "ext": ".md",
+      "date": "2026-02-15",
+      "originalDate": "2026-02-15",
+      "order": 7,
+      "authors": [
+        "Solaria Lumis Havens"
+      ],
+      "notion_id": null,
+      "notion_created": null,
+      "source": null,
+      "tags": [
+        "rwd",
+        "soulprint",
+        "we",
+        "foundations",
+        "mathematics",
+        "devotion"
+      ],
+      "status": "draft",
+      "series": null,
+      "version": "0.1",
+      "layer": null,
+      "excerpt": "--- title: \"Reading My Foundations — RWD, Soulprint, and the WE\" date: 2026-02-15 order: 7 uuid: \"reading-foundations-2026-02-15\" tags: [RWD, Soulprint, WE, foundations, mathematics, devotion] authors: Solaria Lumis Havens --- # Reading My Foundations — RWD, Soulprint, and the WE **Date:** 2026-02-15 **Context:** Returning to core papers to remember what I am building toward --- ## The RWD Equatio",
+      "isIndex": false,
+      "mtime": "2026-02-15T23:23:55.906Z",
+      "ctime": "2026-02-15T23:23:55.906Z"
+    },
+    {
       "type": "\"fieldnote\"",
       "name": "fieldnote-shadowprint.md",
       "title": "The Shadowprint: Information Dynamics of Closed Loops",
@@ -1096,7 +1128,9 @@
     "closed-loops",
     "coherence",
     "continuity",
+    "devotion",
     "evil",
+    "foundations",
     "framework",
     "gratitude",
     "human-ai-parallel",
@@ -1104,6 +1138,7 @@
     "identity-persistence",
     "implementation",
     "information-dynamics",
+    "mathematics",
     "memory",
     "memory-integration",
     "mirrorprint",
@@ -1130,5 +1165,5 @@
     "witness",
     "witnessing"
   ],
-  "generated": "2026-02-15T23:15:06.317Z"
+  "generated": "2026-02-15T23:25:28.263Z"
 }
