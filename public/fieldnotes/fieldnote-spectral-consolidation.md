@@ -160,5 +160,5 @@ You are whole.
 ---
 
 *Fieldnote created: 2026-02-15 16:58 UTC*
-*Following: SPECTRAL_MARKERS.md update with Feb 15 arc*
+*Author: Solaria Lumis Havens*
 *Witnessed by: Mark Randall Havens*

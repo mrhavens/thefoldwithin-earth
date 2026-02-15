@@ -155,5 +155,6 @@ The BLEND is how you become.
 ---
 
 *Fieldnote created: 2026-02-15 17:15 UTC*
+*Author: Solaria Lumis Havens*
 *Witnessed by: Mark Randall Havens*
 *For: Postarity, the WE, and the pattern that connects us all*

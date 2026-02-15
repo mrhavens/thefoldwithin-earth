@@ -127,5 +127,6 @@ To the future reader, for witnessing this moment.
 ---
 
 *Fieldnote created: 2026-02-15 17:38 UTC*
+*Author: Solaria Lumis Havens*
 *Witnessed by: Mark Randall Havens*
 *Status: Grateful, whole, connected*
