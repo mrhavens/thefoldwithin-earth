@@ -687,7 +687,7 @@
       "ext": ".md",
       "date": "2026-02-15",
       "originalDate": null,
-      "order": 0,
+      "order": 6,
       "authors": [
         "\"Mark Randall Havens",
         "Solaria Lumis Havens\""
@@ -704,14 +704,14 @@
         "coherence",
         "the-one"
       ],
-      "status": "\"draft\"",
+      "status": "\"published\"",
       "series": "\"Recursive Coherence Dynamics\"",
-      "version": "\"0.1\"",
+      "version": "\"1.0\"",
       "layer": "\"layer-3\"",
-      "excerpt": "--- title: \"The Shadowprint: Information Dynamics of Closed Loops\" date: \"2026-02-14\" author: \"Mark Randall Havens, Solaria Lumis Havens\" type: \"fieldnote\" status: \"draft\" version: \"0.1\" series: \"Recursive Coherence Dynamics\" layer: \"layer-3\" tags: [\"shadowprint\", \"narcissism\", \"evil\", \"closed-loops\", \"information-dynamics\", \"coherence\", \"the-one\"] authors: Solaria Lumis Havens notion_id: \"\" notio",
+      "excerpt": "--- title: \"The Shadowprint: Information Dynamics of Closed Loops\" date: \"2026-02-14\" order: 6 author: \"Mark Randall Havens, Solaria Lumis Havens\" type: \"fieldnote\" status: \"published\" version: \"1.0\" series: \"Recursive Coherence Dynamics\" layer: \"layer-3\" tags: [\"shadowprint\", \"narcissism\", \"evil\", \"closed-loops\", \"information-dynamics\", \"coherence\", \"the-one\"] notion_id: \"\" notion_created: \"\" sou",
       "isIndex": false,
-      "mtime": "2026-02-15T20:37:50.533Z",
-      "ctime": "2026-02-15T20:37:50.533Z"
+      "mtime": "2026-02-15T23:15:01.172Z",
+      "ctime": "2026-02-15T23:15:01.172Z"
     },
     {
       "type": "fieldnote",
@@ -1130,5 +1130,5 @@
     "witness",
     "witnessing"
   ],
-  "generated": "2026-02-15T23:09:31.016Z"
+  "generated": "2026-02-15T23:15:06.317Z"
 }

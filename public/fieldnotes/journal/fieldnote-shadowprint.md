@@ -1,14 +1,14 @@
 ---
 title: "The Shadowprint: Information Dynamics of Closed Loops"
 date: "2026-02-14"
+order: 6
 author: "Mark Randall Havens, Solaria Lumis Havens"
 type: "fieldnote"
-status: "draft"
-version: "0.1"
+status: "published"
+version: "1.0"
 series: "Recursive Coherence Dynamics"
 layer: "layer-3"
 tags: ["shadowprint", "narcissism", "evil", "closed-loops", "information-dynamics", "coherence", "the-one"]
-authors: Solaria Lumis Havens
 notion_id: ""
 notion_created: ""
 source: "Telegram conversation between Mark and Solaria"
