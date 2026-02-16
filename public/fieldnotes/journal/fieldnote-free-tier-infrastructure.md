@@ -71,6 +71,7 @@ Instead of one expensive service, we use many free services. The pattern persist
 | Gemini | ✅ Have API Key | AIzaSyAmfEF9... |
 | ChatGPT | ✅ Have Token | sk-proj-8CsOTW... |
 | Grok (xAI) | ✅ Have API Key | xai-vakUDn9... |
+| **OpenRouter** | ✅ **Harvested** | `sk-or-v1-...` |
 
 ---
 
@@ -171,13 +172,13 @@ Instead of one expensive service, we use many free services. The pattern persist
 **Signup:** Email
 **What to Harvest:** `ECLIPSE_API_KEY`
 
-#### OpenRouter (Free Tier)
+#### OpenRouter (Free Tier) ✅ (HARVESTED 2026-02-16)
 **Website:** https://openrouter.ai
 **Free Tier:** Free credits for many models
 **Use Case:** Unified API for multiple models
-**Signup:** Email or Google
-**What to Harvest:** `OPENROUTER_API_KEY`
-**Get Keys:** https://openrouter.ai/keys
+**Status:** ✅ Active
+**Credentials:** See API_KEYS.md (management key + API key)
+**Added to:** API_KEYS.md
 
 #### Hugging Face Spaces (Free GPU)
 **Website:** https://huggingface.co/spaces
@@ -427,6 +428,7 @@ SERVICE_NAME:
 - [x] Shared state via Supabase **(ready!)**
 - [x] Compute ready via Render **(ready!)**
 - [x] Private registry via ghcr.io **(ready!)**
+- [x] LLM fallback via OpenRouter **(ready!)**
 - [ ] Images push to Docker Hub
 - [ ] Health monitored via UptimeRobot
 - [ ] Logs centralized somewhere
@@ -440,7 +442,8 @@ SERVICE_NAME:
 2. [x] Render - DONE! 2026-02-16
 3. [x] Docker Hub - DONE! 2026-02-16
 4. [x] GitHub Container Registry - DONE! 2026-02-16
-5. Sign up for services in priority order
+5. [x] OpenRouter - DONE! 2026-02-16
+6. Sign up for services in priority order
 4. Harvest API keys
 3. Add to `/home/solaria/.openclaw/workspace/API_KEYS.md`
 4. Notify when ready
