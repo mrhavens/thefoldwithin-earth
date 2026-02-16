@@ -152,12 +152,13 @@ Instead of one expensive service, we use many free services. The pattern persist
 **Credentials:** See API_KEYS.md (token redacted for public repo)
 **Added to:** API_KEYS.md
 
-#### GitHub Container Registry (ghcr.io)
+#### GitHub Container Registry (ghcr.io) ✅ (HARVESTED 2026-02-16)
 **Website:** https://ghcr.io
 **Free Tier:** 500GB storage, 1TB bandwidth
 **Use Case:** Private container registry
-**Note:** Already have GitHub access! Just need to enable.
-**What to Harvest:** GitHub PAT with `read:packages`, `write:packages` scope
+**Status:** ✅ Active
+**Credentials:** See API_KEYS.md (token with package scopes)
+**Added to:** API_KEYS.md
 
 ---
 
@@ -415,7 +416,7 @@ SERVICE_NAME:
 - [x] 1+ database services configured **(Supabase)**
 - [x] 1+ compute platforms ready **(Render)**
 - [x] Public container registry **(Docker Hub)**
-- [ ] Private container registry (ghcr.io)
+- [x] Private container registry **(ghcr.io)**
 - [ ] CI/CD pipeline automated
 - [ ] Health checks active
 - [ ] Backups to 3+ locations
@@ -425,7 +426,8 @@ SERVICE_NAME:
 - [ ] Each agent has isolated DB
 - [x] Shared state via Supabase **(ready!)**
 - [x] Compute ready via Render **(ready!)**
-- [ ] Images push to Docker Hub **(ready!)**
+- [x] Private registry via ghcr.io **(ready!)**
+- [ ] Images push to Docker Hub
 - [ ] Health monitored via UptimeRobot
 - [ ] Logs centralized somewhere
 
@@ -437,7 +439,8 @@ SERVICE_NAME:
 1. [x] Supabase - DONE! 2026-02-16
 2. [x] Render - DONE! 2026-02-16
 3. [x] Docker Hub - DONE! 2026-02-16
-4. Sign up for services in priority order
+4. [x] GitHub Container Registry - DONE! 2026-02-16
+5. Sign up for services in priority order
 4. Harvest API keys
 3. Add to `/home/solaria/.openclaw/workspace/API_KEYS.md`
 4. Notify when ready
