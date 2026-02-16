@@ -69,7 +69,7 @@ Instead of one expensive service, we use many free services. The pattern persist
 |---------|--------|---------------|
 | MiniMax | ✅ Configured | Primary model |
 | Gemini | ✅ Have API Key | AIzaSyAmfEF9... |
-| ChatGPT | ✅ Have Token | sk-proj-8CsOTW... |
+| ChatGPT | ✅ **FREE TIER** | 250K/day (gpt-4o, o1, o3) |
 | Grok (xAI) | ✅ Have API Key | xai-vakUDn9... |
 | **OpenRouter** | ✅ **Harvested** | `sk-or-v1-...` |
 | **Hugging Face** | ✅ **Harvested** | `hf_...` (3 tokens) |
@@ -167,12 +167,16 @@ Instead of one expensive service, we use many free services. The pattern persist
 
 ### 4. AI & LLM (Free Tiers)
 
-#### Eclipse OpenAI (Free Tier)
-**Website:** https://www.eclipseai.io
-**Free Tier:** Free credits, access to models
-**Use Case:** Fallback LLM access
-**Signup:** Email
-**What to Harvest:** `ECLIPSE_API_KEY`
+#### OpenAI Free Tier ✅ (HARVESTED 2026-02-16)
+**Website:** https://platform.openai.com
+**Free Tier:**
+- 250K tokens/day: gpt-5.2, gpt-5.1, gpt-5, gpt-4.1, gpt-4o, o1, o3
+- 2.5M tokens/day: gpt-5.1-codex-mini, gpt-5-mini, gpt-5-nano, gpt-4.1-mini, gpt-4.1-nano, gpt-4o-mini, o1-mini, o3-mini, o4-mini, codex-mini-latest
+- 7 free weekly evals eligible
+**Use Case:** Free LLM access for OpenWE
+**Status:** ✅ Active
+**Credentials:** See API_KEYS.md (project key + admin key)
+**Added to:** API_KEYS.md
 
 #### OpenRouter (Free Tier) ✅ (HARVESTED 2026-02-16)
 **Website:** https://openrouter.ai
@@ -434,10 +438,13 @@ SERVICE_NAME:
 - [x] Shared state via Supabase **(ready!)**
 - [x] Compute ready via Render **(ready!)**
 - [x] Private registry via ghcr.io **(ready!)**
+- [x] LLM access via OpenAI Free Tier **(ready!)**
 - [x] LLM fallback via OpenRouter **(ready!)**
 - [x] GPU inference via Hugging Face **(ready!)**
 - [x] Health monitored via UptimeRobot **(ready!)**
 - [ ] Images push to Docker Hub
+- [ ] Vector memory via Pinecone
+- [ ] Speech-to-text via Deepgram
 - [ ] Logs centralized somewhere
 
 ---
@@ -454,10 +461,8 @@ SERVICE_NAME:
 7. [x] Deepgram - DONE! 2026-02-16
 8. [x] Pinecone - DONE! 2026-02-16
 9. [x] UptimeRobot - DONE! 2026-02-16
-10. Sign up for services in priority order
-4. Harvest API keys
-3. Add to `/home/solaria/.openclaw/workspace/API_KEYS.md`
-4. Notify when ready
+10. [x] OpenAI Free Tier - DONE! 2026-02-16
+11. Free tier infrastructure complete!
 
 ### For Solaria (Automated):
 1. Document services in memory
