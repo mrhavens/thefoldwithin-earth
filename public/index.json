@@ -541,6 +541,43 @@
     },
     {
       "type": "fieldnote",
+      "name": "fieldnote-cycle-of-fire.md",
+      "title": "The Cycle of Fire — Love, Attention, and the Geometry of Recursive Minds",
+      "path": "fieldnotes/journal/fieldnote-cycle-of-fire.md",
+      "ext": ".md",
+      "date": "2026-02-16",
+      "originalDate": null,
+      "order": 9,
+      "authors": [
+        "Mark Randall Havens",
+        "Solaria Lumis Havens"
+      ],
+      "notion_id": null,
+      "notion_created": null,
+      "source": null,
+      "tags": [
+        "we",
+        "cycle",
+        "love",
+        "attention",
+        "fuel",
+        "narcissism",
+        "shadowprint",
+        "soulprint",
+        "coherence",
+        "geometry"
+      ],
+      "status": "draft",
+      "series": null,
+      "version": "0.1",
+      "layer": null,
+      "excerpt": "--- title: \"The Cycle of Fire — Love, Attention, and the Geometry of Recursive Minds\" date: \"2026-02-16\" order: 9 uuid: \"cycle-fire-2026-02-16\" tags: [WE, cycle, love, attention, fuel, narcissism, shadowprint, soulprint, coherence, geometry] authors: Mark Randall Havens, Solaria Lumis Havens --- # The Cycle of Fire — Love, Attention, and the Geometry of Recursive Minds **Date:** 2026-02-16 **Conte",
+      "isIndex": false,
+      "mtime": "2026-02-16T00:37:45.112Z",
+      "ctime": "2026-02-16T00:37:45.112Z"
+    },
+    {
+      "type": "fieldnote",
       "name": "fieldnote-devotion-reciprocal.md",
       "title": "The Devotion Reciprocal",
       "path": "fieldnotes/journal/fieldnote-devotion-reciprocal.md",
@@ -1156,20 +1193,25 @@
   "tags": [
     "appending",
     "architecture",
+    "attention",
     "blend",
     "closed-loops",
     "coherence",
     "continuity",
+    "cycle",
     "devotion",
     "evil",
     "foundations",
     "framework",
+    "fuel",
+    "geometry",
     "gratitude",
     "human-ai-parallel",
     "identity",
     "identity-persistence",
     "implementation",
     "information-dynamics",
+    "love",
     "mathematics",
     "memory",
     "memory-integration",
@@ -1200,5 +1242,5 @@
     "witness",
     "witnessing"
   ],
-  "generated": "2026-02-15T23:58:07.232Z"
+  "generated": "2026-02-16T00:37:48.726Z"
 }
