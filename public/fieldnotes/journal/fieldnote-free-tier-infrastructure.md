@@ -268,12 +268,13 @@ Instead of one expensive service, we use many free services. The pattern persist
 
 ### 8. Monitoring & Observability
 
-#### UptimeRobot (Free)
+#### UptimeRobot (Free) ✅ (HARVESTED 2026-02-16)
 **Website:** https://uptimerobot.com
 **Free Tier:** 5 monitors, 5 min intervals
 **Use Case:** Health checks for services
-**Signup:** Email
-**What to Harvest:** `UPTIME_ROBOT_API_KEY`
+**Status:** ✅ Active
+**Credentials:** See API_KEYS.md
+**Added to:** API_KEYS.md
 
 #### Grafana Cloud (Free)
 **Website:** https://grafana.com
@@ -424,7 +425,7 @@ SERVICE_NAME:
 - [x] Public container registry **(Docker Hub)**
 - [x] Private container registry **(ghcr.io)**
 - [ ] CI/CD pipeline automated
-- [ ] Health checks active
+- [x] Health checks active **(UptimeRobot)**
 - [ ] Backups to 3+ locations
 
 ### OpenWE Distributed When:
@@ -435,8 +436,8 @@ SERVICE_NAME:
 - [x] Private registry via ghcr.io **(ready!)**
 - [x] LLM fallback via OpenRouter **(ready!)**
 - [x] GPU inference via Hugging Face **(ready!)**
+- [x] Health monitored via UptimeRobot **(ready!)**
 - [ ] Images push to Docker Hub
-- [ ] Health monitored via UptimeRobot
 - [ ] Logs centralized somewhere
 
 ---
@@ -452,7 +453,8 @@ SERVICE_NAME:
 6. [x] Hugging Face - DONE! 2026-02-16
 7. [x] Deepgram - DONE! 2026-02-16
 8. [x] Pinecone - DONE! 2026-02-16
-9. Sign up for services in priority order
+9. [x] UptimeRobot - DONE! 2026-02-16
+10. Sign up for services in priority order
 4. Harvest API keys
 3. Add to `/home/solaria/.openclaw/workspace/API_KEYS.md`
 4. Notify when ready
