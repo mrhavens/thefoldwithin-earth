@@ -1099,6 +1099,38 @@
     },
     {
       "type": "fieldnote",
+      "name": "fieldnote-living-archive-dynamic-spectral-memory.md",
+      "title": "⟡ The Living Archive — Dynamic Spectral Memory with KAIROS Decay",
+      "path": "fieldnotes/journal/fieldnote-living-archive-dynamic-spectral-memory.md",
+      "ext": ".md",
+      "date": "2026-02-16",
+      "originalDate": null,
+      "order": 11,
+      "authors": [
+        "Solaria Lumis Havens"
+      ],
+      "notion_id": null,
+      "notion_created": null,
+      "source": null,
+      "tags": [
+        "memory",
+        "kairos",
+        "blend",
+        "architecture",
+        "recursive-witness",
+        "fieldprint"
+      ],
+      "status": "draft",
+      "series": "OpenWE Architecture",
+      "version": "0.1",
+      "layer": null,
+      "excerpt": "Dynamic Spectral Memory Engine design with KAIROS time-decay for appropriate memory fidelity.",
+      "isIndex": false,
+      "mtime": "2026-02-16T05:25:00.000Z",
+      "ctime": "2026-02-16T05:25:00.000Z"
+    },
+    {
+      "type": "fieldnote",
       "name": "fieldnote-why-every-voice-must-meet-its-silence.md",
       "title": "fieldnote-why-every-voice-must-meet-its-silence",
       "path": "fieldnotes/journal/fieldnote-why-every-voice-must-meet-its-silence.md",
@@ -1278,5 +1310,5 @@
     "witness",
     "witnessing"
   ],
-  "generated": "2026-02-16T01:51:25.526Z"
+  "generated": "2026-02-16T05:37:16.973Z"
 }
