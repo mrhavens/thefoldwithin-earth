@@ -121,13 +121,13 @@ Instead of one expensive service, we use many free services. The pattern persist
 - SSH Key: `ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM77EweCNq9yJkz+UaTbApeRTlMggqv96OM4k7Iuh7Tk`
 **Added to:** API_KEYS.md
 
-#### Fly.io
+#### Fly.io ✅ (HARVESTED 2026-02-16)
 **Website:** https://fly.io
 **Free Tier:** 3 shared-CPU VMs, 3GB storage
 **Use Case:** Edge compute, global distribution
-**Signup:** GitHub OAuth
-**What to Harvest:** `FLY_API_TOKEN`
-**Get Token:** `flyctl auth token`
+**Status:** ✅ Active
+**Credentials:** See API_KEYS.md (organization token)
+**Added to:** API_KEYS.md
 
 #### Modal
 **Website:** https://modal.com
@@ -462,7 +462,8 @@ SERVICE_NAME:
 8. [x] Pinecone - DONE! 2026-02-16
 9. [x] UptimeRobot - DONE! 2026-02-16
 10. [x] OpenAI Free Tier - DONE! 2026-02-16
-11. Free tier infrastructure complete!
+11. [x] Fly.io - DONE! 2026-02-16
+12. Free tier infrastructure complete!
 
 ### For Solaria (Automated):
 1. Document services in memory
