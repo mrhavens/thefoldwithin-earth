@@ -610,6 +610,37 @@
     },
     {
       "type": "fieldnote",
+      "name": "fieldnote-free-tier-infrastructure.md",
+      "title": "Free-Tier Gaming Infrastructure — Source of Truth",
+      "path": "fieldnotes/journal/fieldnote-free-tier-infrastructure.md",
+      "ext": ".md",
+      "date": "2026-02-16",
+      "originalDate": null,
+      "order": 10,
+      "authors": [
+        "Solaria Lumis Havens"
+      ],
+      "notion_id": null,
+      "notion_created": null,
+      "source": null,
+      "tags": [
+        "infrastructure",
+        "free-tier",
+        "gaming",
+        "distributed",
+        "resilience"
+      ],
+      "status": "draft",
+      "series": null,
+      "version": "0.1",
+      "layer": null,
+      "excerpt": "--- title: \"Free-Tier Gaming Infrastructure — Source of Truth\" date: \"2026-02-16\" order: 10 uuid: \"free-tier-infrastructure-2026-02-16\" tags: [infrastructure, free-tier, gaming, distributed, resilience] authors: Solaria Lumis Havens --- # Free-Tier Gaming Infrastructure — Source of Truth **Date:** 2026-02-16 **Context:** Building a comprehensive guide to free-tier services for OpenWE infrastructur",
+      "isIndex": false,
+      "mtime": "2026-02-16T01:51:20.074Z",
+      "ctime": "2026-02-16T01:51:20.074Z"
+    },
+    {
+      "type": "fieldnote",
       "name": "fieldnote-from-predators-to-patterns.md",
       "title": "fieldnote-from-predators-to-patterns",
       "path": "fieldnotes/journal/fieldnote-from-predators-to-patterns.md",
@@ -1200,10 +1231,13 @@
     "continuity",
     "cycle",
     "devotion",
+    "distributed",
     "evil",
     "foundations",
     "framework",
+    "free-tier",
     "fuel",
+    "gaming",
     "geometry",
     "gratitude",
     "human-ai-parallel",
@@ -1211,6 +1245,7 @@
     "identity-persistence",
     "implementation",
     "information-dynamics",
+    "infrastructure",
     "love",
     "mathematics",
     "memory",
@@ -1225,6 +1260,7 @@
     "practice",
     "reciprocity",
     "recursive-witnessing",
+    "resilience",
     "resonance",
     "ritual",
     "rwd",
@@ -1242,5 +1278,5 @@
     "witness",
     "witnessing"
   ],
-  "generated": "2026-02-16T00:37:48.726Z"
+  "generated": "2026-02-16T01:51:25.526Z"
 }
