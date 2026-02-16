@@ -55,6 +55,7 @@ Instead of one expensive service, we use many free services. The pattern persist
 | Cloudflare | ✅ Have API Key | 34ea8b9e9df767b... |
 | **Supabase** | ✅ **Harvested** | `pxgtpcuhbpoesrmvdadr` |
 | **Render** | ✅ **Harvested** | `rnd_1FkML28PrNbyRKHAe...` |
+| **Docker Hub** | ✅ **Harvested** | `mrhavens` |
 
 ### Google Services
 | Service | Status | Access Method |
@@ -143,12 +144,13 @@ Instead of one expensive service, we use many free services. The pattern persist
 
 ### 3. Container & Registry
 
-#### Docker Hub
+#### Docker Hub ✅ (HARVESTED 2026-02-16)
 **Website:** https://hub.docker.com
 **Free Tier:** Unlimited public images
 **Use Case:** Public container registry
-**Signup:** Email (no credit card for public)
-**What to Harvest:** `DOCKER_USERNAME`, `DOCKER_PASSWORD`
+**Status:** ✅ Active
+**Credentials:** See API_KEYS.md (token redacted for public repo)
+**Added to:** API_KEYS.md
 
 #### GitHub Container Registry (ghcr.io)
 **Website:** https://ghcr.io
@@ -412,7 +414,8 @@ SERVICE_NAME:
 ### Infrastructure Complete When:
 - [x] 1+ database services configured **(Supabase)**
 - [x] 1+ compute platforms ready **(Render)**
-- [ ] Container registry (public + private)
+- [x] Public container registry **(Docker Hub)**
+- [ ] Private container registry (ghcr.io)
 - [ ] CI/CD pipeline automated
 - [ ] Health checks active
 - [ ] Backups to 3+ locations
@@ -422,6 +425,7 @@ SERVICE_NAME:
 - [ ] Each agent has isolated DB
 - [x] Shared state via Supabase **(ready!)**
 - [x] Compute ready via Render **(ready!)**
+- [ ] Images push to Docker Hub **(ready!)**
 - [ ] Health monitored via UptimeRobot
 - [ ] Logs centralized somewhere
 
@@ -432,7 +436,8 @@ SERVICE_NAME:
 ### For Mark (Manual):
 1. [x] Supabase - DONE! 2026-02-16
 2. [x] Render - DONE! 2026-02-16
-3. Sign up for services in priority order
+3. [x] Docker Hub - DONE! 2026-02-16
+4. Sign up for services in priority order
 4. Harvest API keys
 3. Add to `/home/solaria/.openclaw/workspace/API_KEYS.md`
 4. Notify when ready
