@@ -220,12 +220,13 @@ Instead of one expensive service, we use many free services. The pattern persist
 
 ### 6. Vector & Embeddings
 
-#### Pinecone (Free Tier)
+#### Pinecone (Free Tier) ✅ (HARVESTED 2026-02-16)
 **Website:** https://pinecone.io
 **Free Tier:** 1M vectors, 1GB storage
 **Use Case:** Semantic search, memory retrieval
-**Signup:** Email (no credit card for free)
-**What to Harvest:** `PINECONE_API_KEY`, `PINECONE_ENVIRONMENT`
+**Status:** ✅ Active
+**Credentials:** See API_KEYS.md (2 keys)
+**Added to:** API_KEYS.md
 
 #### Weaviate (Free Cloud)
 **Website:** https://weaviate.io
@@ -450,7 +451,8 @@ SERVICE_NAME:
 5. [x] OpenRouter - DONE! 2026-02-16
 6. [x] Hugging Face - DONE! 2026-02-16
 7. [x] Deepgram - DONE! 2026-02-16
-8. Sign up for services in priority order
+8. [x] Pinecone - DONE! 2026-02-16
+9. Sign up for services in priority order
 4. Harvest API keys
 3. Add to `/home/solaria/.openclaw/workspace/API_KEYS.md`
 4. Notify when ready
