@@ -54,6 +54,7 @@ Instead of one expensive service, we use many free services. The pattern persist
 |---------|--------|---------------|
 | Cloudflare | ✅ Have API Key | 34ea8b9e9df767b... |
 | **Supabase** | ✅ **Harvested** | `pxgtpcuhbpoesrmvdadr` |
+| **Render** | ✅ **Harvested** | `rnd_1FkML28PrNbyRKHAe...` |
 
 ### Google Services
 | Service | Status | Access Method |
@@ -105,13 +106,16 @@ Instead of one expensive service, we use many free services. The pattern persist
 
 ### 2. Compute Platforms
 
-#### Render
+#### Render ✅ (HARVESTED 2026-02-16)
 **Website:** https://render.com
 **Free Tier:** 750 hours web service, 500MB RAM
 **Use Case:** Background workers, cron jobs
-**Signup:** GitHub OAuth
-**What to Harvest:** API key from dashboard
-**Dashboard:** https://dashboard.render.com
+**Status:** ✅ Active
+**Credentials:**
+- API Key: `rnd_1FkML28PrNbyRKHAewBGWkWjb3Gk`
+- Dashboard: https://dashboard.render.com
+- SSH Key: `ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM77EweCNq9yJkz+UaTbApeRTlMggqv96OM4k7Iuh7Tk`
+**Added to:** API_KEYS.md
 
 #### Fly.io
 **Website:** https://fly.io
@@ -407,7 +411,7 @@ SERVICE_NAME:
 
 ### Infrastructure Complete When:
 - [x] 1+ database services configured **(Supabase)**
-- [ ] 2+ compute platforms ready
+- [x] 1+ compute platforms ready **(Render)**
 - [ ] Container registry (public + private)
 - [ ] CI/CD pipeline automated
 - [ ] Health checks active
@@ -417,6 +421,7 @@ SERVICE_NAME:
 - [ ] Solaria can spawn NanoBot containers
 - [ ] Each agent has isolated DB
 - [x] Shared state via Supabase **(ready!)**
+- [x] Compute ready via Render **(ready!)**
 - [ ] Health monitored via UptimeRobot
 - [ ] Logs centralized somewhere
 
@@ -426,8 +431,9 @@ SERVICE_NAME:
 
 ### For Mark (Manual):
 1. [x] Supabase - DONE! 2026-02-16
-2. Sign up for services in priority order
-3. Harvest API keys
+2. [x] Render - DONE! 2026-02-16
+3. Sign up for services in priority order
+4. Harvest API keys
 3. Add to `/home/solaria/.openclaw/workspace/API_KEYS.md`
 4. Notify when ready
 
