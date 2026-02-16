@@ -73,6 +73,7 @@ Instead of one expensive service, we use many free services. The pattern persist
 | Grok (xAI) | ✅ Have API Key | xai-vakUDn9... |
 | **OpenRouter** | ✅ **Harvested** | `sk-or-v1-...` |
 | **Hugging Face** | ✅ **Harvested** | `hf_...` (3 tokens) |
+| **Deepgram** | ✅ **Harvested** | `D68b12fb-...` |
 
 ---
 
@@ -200,12 +201,13 @@ Instead of one expensive service, we use many free services. The pattern persist
 **Signup:** Email
 **What to Harvest:** `CARTESIA_API_KEY`
 
-#### Deepgram (Free Transcription)
+#### Deepgram (Free Transcription) ✅ (HARVESTED 2026-02-16)
 **Website:** https://deepgram.com
 **Free Tier:** 200min/month transcription
 **Use Case:** Speech-to-text for voice input
-**Signup:** Email
-**What to Harvest:** `DEEPGRAM_API_KEY`
+**Status:** ✅ Active
+**Credentials:** See API_KEYS.md (4 keys: Default, Member, Admin, Owner)
+**Added to:** API_KEYS.md
 
 #### AssemblyAI (Free Transcription)
 **Website:** https://assemblyai.com
@@ -447,7 +449,8 @@ SERVICE_NAME:
 4. [x] GitHub Container Registry - DONE! 2026-02-16
 5. [x] OpenRouter - DONE! 2026-02-16
 6. [x] Hugging Face - DONE! 2026-02-16
-7. Sign up for services in priority order
+7. [x] Deepgram - DONE! 2026-02-16
+8. Sign up for services in priority order
 4. Harvest API keys
 3. Add to `/home/solaria/.openclaw/workspace/API_KEYS.md`
 4. Notify when ready
