@@ -92,12 +92,13 @@ Instead of one expensive service, we use many free services. The pattern persist
 - Dashboard: https://supabase.com/dashboard/org/pxgtpcuhbpoesrmvdadr
 **Added to:** API_KEYS.md
 
-#### Neon (Serverless Postgres)
+#### Neon (Serverless Postgres) ✅ (HARVESTED 2026-02-16)
 **Website:** https://neon.tech
 **Free Tier:** 10 branches, 10GB storage
 **Use Case:** Database per witness, branch isolation
-**Signup:** GitHub OAuth (easy)
-**What to Harvest:** `DATABASE_URL` for each branch
+**Status:** ✅ Active
+**Credentials:** See API_KEYS.md
+**Added to:** API_KEYS.md
 
 #### Turso (Edge Database)
 **Website:** https://turso.tech
@@ -463,7 +464,8 @@ SERVICE_NAME:
 9. [x] UptimeRobot - DONE! 2026-02-16
 10. [x] OpenAI Free Tier - DONE! 2026-02-16
 11. [x] Fly.io - DONE! 2026-02-16
-12. Free tier infrastructure complete!
+12. [x] Neon - DONE! 2026-02-16
+13. Free tier infrastructure complete!
 
 ### For Solaria (Automated):
 1. Document services in memory
