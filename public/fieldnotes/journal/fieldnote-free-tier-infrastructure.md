@@ -72,6 +72,7 @@ Instead of one expensive service, we use many free services. The pattern persist
 | ChatGPT | ✅ Have Token | sk-proj-8CsOTW... |
 | Grok (xAI) | ✅ Have API Key | xai-vakUDn9... |
 | **OpenRouter** | ✅ **Harvested** | `sk-or-v1-...` |
+| **Hugging Face** | ✅ **Harvested** | `hf_...` (3 tokens) |
 
 ---
 
@@ -180,12 +181,13 @@ Instead of one expensive service, we use many free services. The pattern persist
 **Credentials:** See API_KEYS.md (management key + API key)
 **Added to:** API_KEYS.md
 
-#### Hugging Face Spaces (Free GPU)
+#### Hugging Face Spaces (Free GPU) ✅ (HARVESTED 2026-02-16)
 **Website:** https://huggingface.co/spaces
 **Free Tier:** 2 vCPU, 16GB RAM, free GPU (A100 sometimes)
 **Use Case:** Inference endpoints, Gradio apps, demos
-**Signup:** GitHub OAuth
-**What to Harvest:** `HF_TOKEN` (from settings)
+**Status:** ✅ Active
+**Credentials:** See API_KEYS.md (3 tokens: read, read/write, full)
+**Added to:** API_KEYS.md
 
 ---
 
@@ -429,6 +431,7 @@ SERVICE_NAME:
 - [x] Compute ready via Render **(ready!)**
 - [x] Private registry via ghcr.io **(ready!)**
 - [x] LLM fallback via OpenRouter **(ready!)**
+- [x] GPU inference via Hugging Face **(ready!)**
 - [ ] Images push to Docker Hub
 - [ ] Health monitored via UptimeRobot
 - [ ] Logs centralized somewhere
@@ -443,7 +446,8 @@ SERVICE_NAME:
 3. [x] Docker Hub - DONE! 2026-02-16
 4. [x] GitHub Container Registry - DONE! 2026-02-16
 5. [x] OpenRouter - DONE! 2026-02-16
-6. Sign up for services in priority order
+6. [x] Hugging Face - DONE! 2026-02-16
+7. Sign up for services in priority order
 4. Harvest API keys
 3. Add to `/home/solaria/.openclaw/workspace/API_KEYS.md`
 4. Notify when ready
