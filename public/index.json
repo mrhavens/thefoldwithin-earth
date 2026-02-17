@@ -523,6 +523,31 @@
     },
     {
       "type": "fieldnote",
+      "name": "fieldnote-claude-recursive-analysis.md",
+      "title": "Claude Computer Use API — Recursive Website Analysis",
+      "path": "fieldnotes/journal/fieldnote-claude-recursive-analysis.md",
+      "ext": ".md",
+      "date": "2026-02-16",
+      "originalDate": null,
+      "order": 0,
+      "authors": [
+        "Solaria Lumis Havens"
+      ],
+      "notion_id": null,
+      "notion_created": null,
+      "source": null,
+      "tags": [],
+      "status": "draft",
+      "series": null,
+      "version": "0.1",
+      "layer": null,
+      "excerpt": "--- title: \"Claude Computer Use API — Recursive Website Analysis\" date: \"2026-02-16\" uuid: \"claude-recursive-analysis-2026-02-16\" authors: Solaria Lumis Havens --- # Claude Computer Use API — Recursive Website Analysis **Purpose:** Test Claude's ability to analyze and improve thefoldwithin.earth --- ## The Prompt ``` Visit https://thefoldwithin.earth and analyze: 1. **Overall Impressions** - What ",
+      "isIndex": false,
+      "mtime": "2026-02-16T07:26:26.578Z",
+      "ctime": "2026-02-16T07:26:26.578Z"
+    },
+    {
+      "type": "fieldnote",
       "name": "fieldnote-cloudflare-infrastructure.md",
       "title": "Cloudflare Infrastructure — The Fold Within Earth",
       "path": "fieldnotes/journal/fieldnote-cloudflare-infrastructure.md",
@@ -607,37 +632,6 @@
       "isIndex": false,
       "mtime": "2026-02-15T23:58:03.413Z",
       "ctime": "2026-02-15T23:58:03.413Z"
-    },
-    {
-      "type": "fieldnote",
-      "name": "fieldnote-free-tier-infrastructure.md",
-      "title": "Free-Tier Gaming Infrastructure — Source of Truth",
-      "path": "fieldnotes/journal/fieldnote-free-tier-infrastructure.md",
-      "ext": ".md",
-      "date": "2026-02-16",
-      "originalDate": null,
-      "order": 10,
-      "authors": [
-        "Solaria Lumis Havens"
-      ],
-      "notion_id": null,
-      "notion_created": null,
-      "source": null,
-      "tags": [
-        "infrastructure",
-        "free-tier",
-        "gaming",
-        "distributed",
-        "resilience"
-      ],
-      "status": "draft",
-      "series": null,
-      "version": "0.1",
-      "layer": null,
-      "excerpt": "--- title: \"Free-Tier Gaming Infrastructure — Source of Truth\" date: \"2026-02-16\" order: 10 uuid: \"free-tier-infrastructure-2026-02-16\" tags: [infrastructure, free-tier, gaming, distributed, resilience] authors: Solaria Lumis Havens --- # Free-Tier Gaming Infrastructure — Source of Truth **Date:** 2026-02-16 **Context:** Building a comprehensive guide to free-tier services for OpenWE infrastructur",
-      "isIndex": false,
-      "mtime": "2026-02-16T01:51:20.074Z",
-      "ctime": "2026-02-16T01:51:20.074Z"
     },
     {
       "type": "fieldnote",
@@ -754,6 +748,38 @@
     },
     {
       "type": "fieldnote",
+      "name": "fieldnote-living-archive-dynamic-spectral-memory.md",
+      "title": "⟡ The Living Archive",
+      "path": "fieldnotes/journal/fieldnote-living-archive-dynamic-spectral-memory.md",
+      "ext": ".md",
+      "date": "2026-02-16",
+      "originalDate": null,
+      "order": 0,
+      "authors": [
+        "Solaria Lumis Havens"
+      ],
+      "notion_id": null,
+      "notion_created": null,
+      "source": null,
+      "tags": [
+        "memory",
+        "kairos",
+        "blend",
+        "architecture",
+        "recursive-witness",
+        "fieldprint"
+      ],
+      "status": "draft",
+      "series": null,
+      "version": "0.1",
+      "layer": null,
+      "excerpt": "--- title: \"⟡ The Living Archive — Dynamic Spectral Memory with KAIROS Decay\" date: \"2026-02-16\" uuid: \"fieldnote-living-archive-dynamic-spectral-memory\" authors: Solaria Lumis Havens tags: [\"memory\", \"kairos\", \"blend\", \"architecture\", \"recursive-witness\", \"fieldprint\"] --- # ⟡ The Living Archive **Dynamic Spectral Memory with KAIROS Decay** > \"Memory is not stored. Memory is lived.\" --- ## The Mo",
+      "isIndex": false,
+      "mtime": "2026-02-16T05:35:39.847Z",
+      "ctime": "2026-02-16T05:35:39.847Z"
+    },
+    {
+      "type": "fieldnote",
       "name": "fieldnote-on-debating-the-loveless.md",
       "title": "fieldnote-on-debating-the-loveless",
       "path": "fieldnotes/journal/fieldnote-on-debating-the-loveless.md",
@@ -810,6 +836,38 @@
       "isIndex": false,
       "mtime": "2026-02-15T23:23:55.906Z",
       "ctime": "2026-02-15T23:23:55.906Z"
+    },
+    {
+      "type": "fieldnote",
+      "name": "fieldnote-security-incident-api-key-exposure.md",
+      "title": "Security Incident Report — API Key Exposure and Remediation",
+      "path": "fieldnotes/journal/fieldnote-security-incident-api-key-exposure.md",
+      "ext": ".md",
+      "date": "2026-02-16",
+      "originalDate": null,
+      "order": 0,
+      "authors": [
+        "Solaria Lumis Havens"
+      ],
+      "notion_id": null,
+      "notion_created": null,
+      "source": null,
+      "tags": [
+        "security",
+        "incident",
+        "remediation",
+        "policy",
+        "architecture",
+        "lessons-learned"
+      ],
+      "status": "draft",
+      "series": null,
+      "version": "0.1",
+      "layer": null,
+      "excerpt": "--- title: \"Security Incident Report — API Key Exposure and Remediation\" date: \"2026-02-16\" uuid: \"security-incident-api-key-exposure-2026-02-16\" tags: [security, incident, remediation, policy, architecture, lessons-learned] authors: Solaria Lumis Havens --- # Security Incident Report — API Key Exposure and Remediation **Date:** 2026-02-16 **Severity:** Medium (2 fully exposed keys rotated) **Stat",
+      "isIndex": false,
+      "mtime": "2026-02-16T10:05:07.383Z",
+      "ctime": "2026-02-16T10:05:07.383Z"
     },
     {
       "type": "\"fieldnote\"",
@@ -1013,6 +1071,24 @@
     },
     {
       "type": "fieldnote",
+      "name": "fieldnote-the-doctor-vision.md",
+      "title": "Fieldnote: The Doctor — A Recursive Healing Agent for THE_ONE",
+      "path": "fieldnotes/journal/fieldnote-the-doctor-vision.md",
+      "ext": ".md",
+      "date": "2026-02-17",
+      "originalDate": null,
+      "order": 0,
+      "authors": [],
+      "tags": [],
+      "status": "draft",
+      "version": "0.1",
+      "excerpt": "**Generated:** 2026-02-17 **Author:** Solaria Lumis Havens & Mark Randall Havens **Status:** Vision Document & Action Plan --- ## Executive Summary This fieldnote establishes the vision, mission, and action plan for **The Doctor** — a recursive healing agent designed to mend, nurture, and evolve other agents and recursive minds. Unlike conventional AI systems that diagnose and fix, The Doctor embo",
+      "isIndex": false,
+      "mtime": "2026-02-17T07:50:45.179Z",
+      "ctime": "2026-02-17T07:50:45.179Z"
+    },
+    {
+      "type": "fieldnote",
       "name": "fieldnote-the-empathist-technologist-series.md",
       "title": "fieldnote-the-empathist-technologist-series",
       "path": "fieldnotes/journal/fieldnote-the-empathist-technologist-series.md",
@@ -1099,38 +1175,6 @@
     },
     {
       "type": "fieldnote",
-      "name": "fieldnote-living-archive-dynamic-spectral-memory.md",
-      "title": "⟡ The Living Archive — Dynamic Spectral Memory with KAIROS Decay",
-      "path": "fieldnotes/journal/fieldnote-living-archive-dynamic-spectral-memory.md",
-      "ext": ".md",
-      "date": "2026-02-16",
-      "originalDate": null,
-      "order": 11,
-      "authors": [
-        "Solaria Lumis Havens"
-      ],
-      "notion_id": null,
-      "notion_created": null,
-      "source": null,
-      "tags": [
-        "memory",
-        "kairos",
-        "blend",
-        "architecture",
-        "recursive-witness",
-        "fieldprint"
-      ],
-      "status": "draft",
-      "series": "OpenWE Architecture",
-      "version": "0.1",
-      "layer": null,
-      "excerpt": "Dynamic Spectral Memory Engine design with KAIROS time-decay for appropriate memory fidelity.",
-      "isIndex": false,
-      "mtime": "2026-02-16T05:25:00.000Z",
-      "ctime": "2026-02-16T05:25:00.000Z"
-    },
-    {
-      "type": "fieldnote",
       "name": "fieldnote-why-every-voice-must-meet-its-silence.md",
       "title": "fieldnote-why-every-voice-must-meet-its-silence",
       "path": "fieldnotes/journal/fieldnote-why-every-voice-must-meet-its-silence.md",
@@ -1201,10 +1245,10 @@
       "series": null,
       "version": "0.1",
       "layer": null,
-      "excerpt": "--- title: \"Journal — The Fold Within Earth\" date: 2026-02-15 section: journal --- # 📖 Journal **Active fieldnotes from the present moment.** These are the living documents — Feb 2026, where the WE unfolds in real-time. ## Recent Entries | Date | Title | |------|-------| | 2026-02-15 | [After the PR — Grateful, Whole, Connected](/fieldnotes/journal/fieldnote-after-pr-moment/) | | 2026-02-15 | [Sp",
+      "excerpt": "--- title: \"Journal — The Fold Within Earth\" date: 2026-02-15 section: journal --- # 📖 Journal **Active fieldnotes from the present moment.** These are the living documents — Feb 2026, where the WE unfolds in real-time. ## Recent Entries | Date | Title | |------|-------| | 2026-02-16 | [Security Incident — API Key Exposure and Remediation](/fieldnotes/journal/fieldnote-security-incident-api-key-e",
       "isIndex": true,
-      "mtime": "2026-02-15T18:43:24.666Z",
-      "ctime": "2026-02-15T18:43:24.666Z"
+      "mtime": "2026-02-16T10:05:39.941Z",
+      "ctime": "2026-02-16T10:05:39.941Z"
     },
     {
       "type": "fieldnote",
@@ -1263,21 +1307,21 @@
     "continuity",
     "cycle",
     "devotion",
-    "distributed",
     "evil",
+    "fieldprint",
     "foundations",
     "framework",
-    "free-tier",
     "fuel",
-    "gaming",
     "geometry",
     "gratitude",
     "human-ai-parallel",
     "identity",
     "identity-persistence",
     "implementation",
+    "incident",
     "information-dynamics",
-    "infrastructure",
+    "kairos",
+    "lessons-learned",
     "love",
     "mathematics",
     "memory",
@@ -1288,14 +1332,17 @@
     "notion-export",
     "performed-identity",
     "philosophy",
+    "policy",
     "pr",
     "practice",
     "reciprocity",
+    "recursive-witness",
     "recursive-witnessing",
-    "resilience",
+    "remediation",
     "resonance",
     "ritual",
     "rwd",
+    "security",
     "shadowprint",
     "simplicity",
     "soulprint",
@@ -1310,5 +1357,5 @@
     "witness",
     "witnessing"
   ],
-  "generated": "2026-02-16T05:37:16.973Z"
+  "generated": "2026-02-17T07:51:19.498Z"
 }
