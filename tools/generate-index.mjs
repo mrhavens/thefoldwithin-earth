@@ -104,6 +104,8 @@ function parseTitle(raw, ext) {
 }
 
 function extractExcerpt(raw, ext) {
+  // Remove YAML frontmatter first
+  if (ext === ".md") raw = raw.replace(/^---[\s\S]*?---\n/, '').trim();
   if (ext === ".md") raw = raw.replace(/^#.*\n/, '').trim();
   if (ext === ".html") raw = raw.replace(/<head>[\s\S]*<\/head>/i, '').replace(/<[^>]+>/g, ' ').trim();
   return raw.replace(/\s+/g, ' ').slice(0, EXCERPT_LENGTH);
